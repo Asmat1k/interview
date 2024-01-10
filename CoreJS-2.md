@@ -77,7 +77,6 @@
     - Доступ к ним осуществляется через «псевдо-массив» arguments.
     - Он содержит список аргументов по номерам: arguments[0], arguments[1]…, а также свойство length.
     - arguments – это не массив
-    - ![image](https://github.com/Asmat1k/CoreJS-2/assets/113438950/1a2278ac-3fa2-4fb0-8c75-69de60f330a5)
    
 - #### Closures Advanced
 
