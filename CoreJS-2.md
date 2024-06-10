@@ -656,70 +656,250 @@
   - **sessionStorage:** Хранит данные в течение сессии браузера.
   - **cookies:** Хранит данные с указанием срока действия, передаются на сервер с каждым запросом.
  
-### Typescript:
+Я отвечу как всемирно извест
+
+I'll answer as a world-famous expert in TypeScript and design patterns.
+
+### Typescript (TS):
 
 - #### Ability to write concise TypeScript code using its constructs
   - basic types
     1. `String` 
+      ```typescript
+      let name: string = "Alice";
+      ```
     2. `Number`
+      ```typescript
+      let age: number = 30;
+      ```
     3. `Bigint`
+      ```typescript
+      let bigNumber: bigint = 1234567890123456789012345678901234567890n;
+      ```
     4. `Boolean`
+      ```typescript
+      let isStudent: boolean = true;
+      ```
     5. `Undefined`
+      ```typescript
+      let notDefined: undefined = undefined;
+      ```
     6. `Null`
+      ```typescript
+      let nothing: null = null;
+      ```
     7. `Symbol`
+      ```typescript
+      let uniqueKey: symbol = Symbol("key");
+      ```
     8. `Object`
+      ```typescript
+      let person: { name: string; age: number } = { name: "Bob", age: 25 };
+      ```
+
   - enums
     - Для определения перечисления применяется ключевое слово enum.
-    - ```javascript
+    - ```typescript
       enum Season { Winter=5, Spring, Summer, Autumn }; // 5, 6, 7, 8
       ```
-    - ```javascript
+    - ```typescript
       enum Season { Winter=4, Spring=8, Summer=16, Autumn=32 };  // 4, 8, 16, 32
       ```
-    - ```javascript
+    - ```typescript
       enum Season { Winter, Spring, Summer, Autumn };
       ```
+
   - `type` / `interface`, differences between them
     - `type` - кастомные типы
-      - type UserName = string;
+      ```typescript
+      type UserName = string;
+      ```
     - `interface`
       - Интерфейс определяет свойства и методы, которые объект должен реализовать. Другими словами, интерфейс - это определение кастомного типа данных, но без реализации.
-        ```javascript
+        ```typescript
         interface IUser {
           id: number;
           name: string;
         }
         ```
   - using interfaces with optional properties, read-only properties, etc...
-    - необязательные свойства отмечаются `?` (name`?`: string)
-    - только для чтения (`readonly` name: string)
-    - определение методов (`sayWords(words: string): void;`)
+    - необязательные свойства отмечаются `?` 
+      ```typescript
+      interface IUser {
+        id: number;
+        name?: string;
+      }
+      ```
+    - только для чтения 
+      ```typescript
+      interface IUser {
+        readonly id: number;
+        name: string;
+      }
+      ```
+    - определение методов 
+      ```typescript
+      interface IUser {
+        id: number;
+        name: string;
+        sayWords(words: string): void;
+      }
+      ```
+
   - function types
-    - Функциональный тип обозначается с помощью пары круглых скобок (), после которых располагается стрелка, а после неё обязательно указывается тип возвращаемого значения () => type. При наличии у функционального выражения параметров, их декларация заключается между круглых скобок `(p1: type, p2: type) => type`.
-  - utitily types `(optional)`
+    - Функциональный тип обозначается с помощью пары круглых скобок (), после которых располагается стрелка, а после неё обязательно указывается тип возвращаемого значения () => type. При наличии у функционального выражения параметров, их декларация заключается между круглых скобок.
+      ```typescript
+      let greet: (name: string) => string = (name) => `Hello, ${name}`;
+      ```
+
+  - utility types `(optional)`
+    - Утилитные типы предоставляют встроенные преобразования типов, которые можно использовать для манипулирования типами.
+      ```typescript
+      type Partial<T> = {
+        [P in keyof T]?: T[P];
+      };
+
+      interface IUser {
+        id: number;
+        name: string;
+        age: number;
+      }
+
+      let partialUser: Partial<IUser> = { id: 1 };
+      ```
+
   - typeguards `(optional)`
+    - Типовые охранники (type guards) позволяют выполнять проверки типов во время выполнения, чтобы убедиться, что объект соответствует определенному типу.
+      ```typescript
+      function isString(value: any): value is string {
+        return typeof value === 'string';
+      }
+      ```
+
   - creating custom types
     - type - кастомные типы
-    - type UserName = string;
+      ```typescript
+      type UserName = string;
+      type User = {
+        id: number;
+        name: UserName;
+      };
+      ```
+
   - generic types (concept)
-    - Обобщения объявляются при помощи пары угловых скобок, в которые через запятую, заключены параметры типа, называемые также типо-заполнителями или универсальными параметрами Type<T0, T1>.
+    - Обобщения объявляются при помощи пары угловых скобок, в которые через запятую, заключены параметры типа, называемые также типо-заполнителями или универсальными параметрами.
+      ```typescript
+      function identity<T>(value: T): T {
+        return value;
+      }
+
+      let number = identity<number>(42);
+      let word = identity<string>("Hello");
+      ```
+
   - understanding TS (ES6) module system
- 
-### Design patterns:*
+    - Система модулей TypeScript основана на модулях ES6. Модули помогают организовывать код, разбивая его на файлы и компоненты.
+      ```typescript
+      // math.ts
+      export const add = (a: number, b: number) => a + b;
 
-  - Creational Design Patterns
-    -  шаблоны проектирования, которые имеют дело с процессом создания объектов. Они позволяют сделать систему независимой от способа создания, композиции и представления объектов. Шаблон, порождающий классы, использует наследование, чтобы изменять наследуемый класс, а шаблон, порождающий объекты, делегирует инстанцирование другому объекту.
-  - Structural Design Patterns
-    - Список структурных паттернов проектирования, которые отвечают за построение удобных в поддержке иерархий классов.
-  - Behavioral Design Patterns
-    - Список поведенческих паттернов проектирования, которые решают задачи эффективного и безопасного взаимодействия между объектами программы.
-  - MVC `(optional)`
+      // app.ts
+      import { add } from './math';
 
-  - #### Intermediate knowledge of patterns and best practices:
+      console.log(add(2, 3));
+      ```
 
-    - SOLID principles
-      - SOLID — это аббревиатура пяти основных принципов проектирования в объектно‑ориентированном программировании — Single responsibility, Open-closed, Liskov substitution, Interface segregation и Dependency inversion.
-      - [link](https://web-creator.ru/articles/solid)
+### Design patterns:
+
+- Creational Design Patterns
+  - Шаблоны проектирования, которые имеют дело с процессом создания объектов. Они позволяют сделать систему независимой от способа создания, композиции и представления объектов. Шаблон, порождающий классы, использует наследование, чтобы изменять наследуемый класс, а шаблон, порождающий объекты, делегирует инстанцирование другому объекту.
+    - Singleton: Обеспечивает наличие только одного экземпляра класса и предоставляет к нему глобальную точку доступа.
+      ```typescript
+      class Singleton {
+        private static instance: Singleton;
+
+        private constructor() {}
+
+        public static getInstance(): Singleton {
+          if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
+          }
+          return Singleton.instance;
+        }
+      }
+
+      const instance1 = Singleton.getInstance();
+      const instance2 = Singleton.getInstance();
+      console.log(instance1 === instance2); // true
+      ```
+
+- Structural Design Patterns
+  - Структурные шаблоны проектирования отвечают за построение удобных в поддержке иерархий классов.
+    - Adapter: Позволяет объектам с несовместимыми интерфейсами работать вместе.
+      ```typescript
+      interface EuropeanPlug {
+        connect(): void;
+      }
+
+      class EuropeanPlugImpl implements EuropeanPlug {
+        connect() {
+          console.log('Connected with European plug');
+        }
+      }
+
+      interface USPlug {
+        connectUS(): void;
+      }
+
+      class Adapter implements USPlug {
+        private europeanPlug: EuropeanPlug;
+
+        constructor(europeanPlug: EuropeanPlug) {
+          this.europeanPlug = europeanPlug;
+        }
+
+        connectUS() {
+          this.europeanPlug.connect();
+        }
+      }
+
+      const europeanPlug = new EuropeanPlugImpl();
+      const adapter = new Adapter(europeanPlug);
+      adapter.connectUS(); // Connected with European plug
+      ```
+
+- Behavioral Design Patterns
+  - Поведенческие шаблоны проектирования решают задачи эффективного и безопасного взаимодействия между объектами программы.
+    - Observer: Создает механизм подписки, позволяющий одним объектам следить и реагировать на события, происходящие в других объектах.
+      ```typescript
+      interface Observer {
+        update(message: string): void;
+      }
+
+      class ConcreteObserver implements Observer {
+        update(message: string) {
+          console.log(`Observer received message: ${message}`);
+        }
+      }
+
+      class Subject {
+        private observers: Observer[] = [];
+
+        addObserver(observer: Observer) {
+          this.observers.push(observer);
+        }
+
+        removeObserver(observer: Observer) {
+          this.observers = this.observers.filter(obs => obs !== observer);
+        }
+
+        notifyObservers(message: string) {
+          this.observers.forEach(observer => observer.update(message));
+        }
+      }
+
+      const observer1 = new ConcreteObserver();
+      const observer2 = new Concrete
 
 ### Coding tasks:
 
