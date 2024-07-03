@@ -956,8 +956,14 @@
 ### Условные типы (Conditional Types)
 - это типы, способные принимать одно из двух значений, основываясь на принадлежности одного типа к другому. Условные типы семантически схожи с тернарным оператором.
 - ```ts
-  T extends U ? T1 : T2;
-  type T0<T> = T extends number ? string : boolean;
+  interface Animal {
+  live(): void;
+  }
+  interface Dog extends Animal {
+    woof(): void;
+  }
+  
+  type Example1 = Dog extends Animal ? number : string;
   ```
 
 ### Перегрузка функций (Function Overloads)
