@@ -1569,8 +1569,10 @@ console.log(set.size); // 0
 
 ```javascript
 let key = {};
+
 const metadata = new WeakMap([[key, "метаданные"]]);
 const visited = new WeakSet([key]);
+
 console.log(metadata.get(key), visited.has(key)); // "метаданные", true
 key = null; // если других ссылок нет, объект может быть собран
 ```
@@ -1588,22 +1590,28 @@ key = null; // если других ссылок нет, объект може�
 ```javascript
 const key = {};
 const map = new Map();
+
 map.set(key, "значение");
 console.log(map.get(key), map.has(key), map.size); // "значение", true, 1
 console.log(map.delete(key)); // true
+
 map.set("name", "Анна");
 map.clear();
 console.log(map.size); // 0
+
 const set = new Set([1, 1, 2]);
 set.add(3);
 console.log(set.has(2), set.size); // true, 3
 console.log(set.delete(2)); // true
+
 set.clear();
 console.log(set.size); // 0
+
 let object = {};
 const weakMap = new WeakMap([[object, "метаданные"]]);
 const weakSet = new WeakSet([object]);
 console.log(weakMap.get(object), weakSet.has(object)); // "метаданные", true
+
 object = null; // ключ теперь может быть собран; момент сборки не гарантирован
 const record = { 2: "б", 1: "а", name: "Анна" };
 console.log(Object.keys(record)); // ["1", "2", "name"]
@@ -1631,6 +1639,7 @@ const user = {
     return this.name;
   },
 };
+
 console.log(user.greet()); // "Анна"
 console.log(user.greet.call({ name: "Иван" })); // "Иван": this зависит от вызова
 ```
@@ -1690,17 +1699,21 @@ function greet(prefix, suffix) {
   "use strict";
   return `${prefix}${this.name}${suffix}`;
 }
+
 const user = { name: "Анна", greet };
 console.log(user.greet("Привет, ", "!")); // "Привет, Анна!": неявная привязка
 console.log(greet.call(user, "Привет, ", "!")); // тот же результат
 console.log(greet.apply(user, ["Привет, ", "!"])); // аргументы в массиве
+
 const bound = greet.bind(user, "Привет, ");
 console.log(bound("!")); // "Привет, Анна!"
+
 function getThis() {
   "use strict";
   return this;
 }
 console.log(getThis()); // undefined: обычный вызов в строгом режиме
+
 function User(name) {
   this.name = name;
 }
@@ -1717,10 +1730,12 @@ class User {
   constructor(name) {
     this.name = name;
   }
+
   sayHi() {
     alert(this.name);
   }
 }
+
 let user = new User("Иван");
 user.sayHi();
 ```
@@ -1760,26 +1775,34 @@ class MyClass {
 ```javascript
 class Counter {
   #value = 0; // настоящее приватное поле
+
   _label = "Счёт"; // соглашение: доступ извне технически разрешён
+
   static description = "Счётчик";
+
   increment() {
     return ++this.#value;
   }
+
   read() {
     return this.#value;
   }
 }
+
 class DoubleCounter extends Counter {
   increment() {
     super.increment();
     return super.increment();
   } // переопределение
 }
+
 const counter = new DoubleCounter();
 console.log(counter.increment(), counter.read()); // 2, 2
 console.log(DoubleCounter.description); // "Счётчик": статическое свойство наследуется
 console.log(Object.keys(Counter.prototype)); // []: методы неперечислимы
+
 // counter.#value; // SyntaxError: прямой доступ к приватному полю запрещён
+
 const Named = class {
   value = 1;
 }; // class expression
@@ -1799,12 +1822,15 @@ console.log(new Named().value); // 1
 
 ```javascript
 function Animal() {}
+
 Animal.prototype.eat = function () {
   return "Ест";
 };
+
 const rabbit = new Animal();
 console.log(Object.getPrototypeOf(rabbit) === Animal.prototype); // true
 console.log(rabbit.eat()); // "Ест": метод найден в прототипе
+
 const child = Object.create(rabbit);
 console.log(child.eat()); // "Ест": поиск проходит по цепочке
 console.log(Object.getPrototypeOf(Object.prototype)); // null
@@ -1854,7 +1880,7 @@ var promise = new Promise(function (resolve, reject) {
 });
 ```
 
-- Функция, переданная в конструкцию new Promise, называется исполнителем (`executor`). При создании Promise она выполняется синхронно; обработчики then/catch выполняются асинхронно.
+- Функция, переданная в конструкцию new Promise, называется исполнитель (`executor`). При создании Promise она выполняется синхронно; обработчики then/catch выполняются асинхронно.
 - Executor может запустить асинхронную операцию. По её завершении вызывают `resolve` или `reject`, чтобы определить результат промиса.
   - `resolve(value)` разрешает промис значением или принимает итоговое состояние thenable; это не всегда немедленный переход в fulfilled.
   - `reject(reason)` отклоняет промис с любым значением; обычно передают объект Error.
@@ -2508,10 +2534,9 @@ class ErrorBoundary extends Component {
 <input value={someValue} onChange={handleChange} />
 ```
 
-- Неуправляемые поля хранят значение в DOM; его можно прочитать при отправке формы.
+    1. Неуправляемые компоненты выглядят как обычная HTML-форма, доступ к данным которой можно получить на submit
 
 ```jsx
-import { Component } from "react";
 class Form extends Component {
   render() {
     return (
@@ -2593,7 +2618,7 @@ useEffect(() => {
 </UserContext.Provider>
 ```
 
-- `useContext(context)` — чтение значения контекста.
+    - `useContext(context)` — чтение значения контекста.
 
 - `useMemo(func, [dep])` - мемоизирует результат функции, принимает также массив зависимостей (но стоит использовать с умом, при использовании создается функция + массив зависимостей)
 - `useCallback(func, [dep])` возвращает сохранённую ссылку на функцию, пока зависимости не изменились. Создание переданного функционального выражения при рендере при этом не предотвращается.

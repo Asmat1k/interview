@@ -1,9 +1,7 @@
 # Вопросы к собеседованию: CoreJS № 1
 
 ## Основы
-
 ### Типы данных
-
 В JavaScript семь примитивных типов и тип Object; названия ниже обозначают типы, а не результат `typeof` (для `null` он равен `"object"`).
 
 1. `String`
@@ -21,18 +19,17 @@
 
 ```javascript
 const values = ["текст", 42, 42n, true, undefined, null, Symbol("id"), {}];
-console.log(values.map((value) => typeof value));
+console.log(values.map(value => typeof value));
 // ["string", "number", "bigint", "boolean", "undefined", "object", "symbol", "object"]
 console.log(null === null); // true: null — отдельный примитивный тип
 ```
 
 ### Методы Number
-
 - `.toString(base)` - возвращает число как строку, также возвращает строковое представление числа num в системе счисления.
 - `.toExponential(fractionDigits)` - возвращает строку с числом в экспоненциальной нотации с указанным количеством знаков после десятичной точки.
 - `.toFixed(digits)` - возвращает строку с числом, записанным с заданным количеством знаков после десятичной точки.
 - `.valueOf()` - возвращает примитивное значение числа.
-  Дополнительно:
+Дополнительно:
 - `isNaN(value)` - преобразует значение в число и проверяет является ли оно NaN.
 - `isFinite(value)` - преобразует аргумент в число и возвращает true, если оно является обычным числом, то есть не NaN/Infinity/-Infinity.
 - `parseInt` и `parseFloat` - они «читают» число из строки. Разбор останавливается на первом недопустимом символе; если допустимого числового начала нет, возвращается `NaN`. Функция parseInt возвращает целое число, а parseFloat возвращает число с плавающей точкой (удобно читать числа с единицей измерения).
@@ -53,7 +50,6 @@ console.log(parseInt("12px", 10), parseFloat("12.5px")); // 12, 12.5
 ```
 
 ### Методы String
-
 - `length` — свойство, содержащее длину строки в кодовых единицах UTF-16; она может отличаться от количества видимых символов.
 - `toLowerCase()`/`toUpperCase()` - смена регистра строки.
 - `split(separator)` — возвращает **массив**, разбивая строку по разделителю (строке или регулярному выражению).
@@ -63,7 +59,7 @@ console.log(parseInt("12px", 10), parseFloat("12.5px")); // 12, 12.5
 - `indexOf(searchValue)`/`lastIndexOf(searchValue)` — возвращают индекс первого / последнего вхождения подстроки или `-1`, если она не найдена.
 - `slice(start, end)` — возвращает **новую строку** от `start` включительно до `end` исключительно (по умолчанию до конца строки); отрицательные индексы отсчитываются от конца.
 - `str.substring(start [, end])` - возвращает часть строки между start и end (не включая) end. Отрицательные значения считаются равными `0`.
-  Если `start > end`, `substring()` меняет аргументы местами; `slice()` в этом случае возвращает пустую строку.
+Если `start > end`, `substring()` меняет аргументы местами; `slice()` в этом случае возвращает пустую строку.
 - `str.substr(start [, length])` — возвращает часть строки от `start` длины `length`. Метод устарел; для нового кода используйте `slice()` или `substring()`.
 - `replace(searchValue, newValue)` — возвращает **новую строку** с заменой. Строковый шаблон заменяет только первое вхождение; регулярное выражение с флагом `g` — все. Второй аргумент может быть строкой или функцией.
 - `replaceAll(searchValue, newValue)` — заменяет все найденные совпадения строкой или результатом функции и возвращает **новую строку**. Если шаблон — регулярное выражение, обязателен флаг `g`.
@@ -90,7 +86,6 @@ console.log("  а  ".trim(), "  а  ".trimStart(), "  а  ".trimEnd()); // "а",
 ```
 
 ### Template literals
-
 - Шаблонные литералы - это строковые литералы, допускающие использование выражений внутри.
 - Пример: `` `${value} is in string ${str}` `` (используются обратные кавычки).
 
@@ -105,7 +100,6 @@ console.log(`${name}: ${count + 1} сообщения`); // "Анна: 3 соо�
 ```
 
 ### Тернарный оператор
-
 - Условный (тернарный) оператор возвращает одно из двух выражений в зависимости от истинности условия; его можно использовать, например, при инициализации переменной.
 - Можно использовать несколько операторов подряд.
 - Синтаксис: условие ? если верно : если неверно.
@@ -124,8 +118,7 @@ console.log(access, category); // "Разрешён", "Взрослый"
 
 Документация: [MDN: операторы](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators), [сравнение `<`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than), [нестрогое равенство](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality), [сравнение значений](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness).
 
-### Преобразование типов данных в Boolean, String, Number
-
+### Преобразование типов данных в Boolean, String, Number:
 - Правила зависят от оператора и типов операндов; не все операторы преобразуют значения именно в `Number`:
   - `<`, `>`, `<=`, `>=` сравнивают две строки лексикографически; в других случаях применяются правила числового сравнения, включая `BigInt`.
   - Арифметические `-`, `*`, `/`, `%`, `**` и побитовые операторы работают с `Number` или `BigInt`; смешивание этих двух типов обычно вызывает `TypeError`.
@@ -145,7 +138,6 @@ console.log(null == undefined, null == 0); // true, false
 ```
 
 ### Явное преобразование типов
-
 - `String(value)` — явное преобразование в строку; `value.toString()` вызывает метод значения и недоступен у `null` и `undefined`.
 - `Number(value)` / `+value` — преобразование в число (`Number(1n)` допустимо, а `+1n` вызывает `TypeError`; преобразование `Symbol` в число также вызывает `TypeError`):
   - undefined => NaN
@@ -169,7 +161,6 @@ console.log(Boolean("false"), Boolean([]), Boolean({})); // true, true, true
 ```
 
 ### Строгое равенство (`===`)
-
 - Оператор строгого равенства `===` проверяет равенство без приведения типов. Если `a` и `b` имеют разные типы, то проверка `a === b` немедленно возвращает `false`.
 
 Документация: [MDN: операторы](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators), [сравнение `<`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than), [нестрогое равенство](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality), [сравнение значений](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness).
@@ -184,8 +175,7 @@ const user = {};
 console.log(user === user, user === {}); // true, false
 ```
 
-### Object.is()
-
+### Object.is():
 - Метод `Object.is()` не выполняет приведение типов.
 - Определяет, являются ли два значения одинаковыми. Два значения являются одинаковыми в следующих случаях:
   - оба равны `undefined`
@@ -214,8 +204,7 @@ const id = Symbol("id");
 console.log(Object.is(id, id), Object.is(1n, 1n)); // true, true
 ```
 
-### var / let / const
-
+### var / let / const:
 - **VAR**:
   - Объявления имеют область видимости функции, а вне функции — глобального скрипта или модуля. Блок `{}` сам по себе не создаёт область видимости для `var`.
   - Переменные `var` могут быть объявлены повторно или обновлены.
@@ -252,8 +241,7 @@ function demo() {
 demo();
 ```
 
-### Temporal Dead Zone (TDZ)
-
+### Temporal Dead Zone (TDZ):
 - **TDZ** — период от начала выполнения области видимости до инициализации привязки `let` / `const` / `class`.
 - Доступ к такой привязке в TDZ, в том числе через `typeof`, вызывает `ReferenceError`.
 
@@ -271,8 +259,7 @@ const value = "внешнее значение";
 }
 ```
 
-### Hoisting
-
+### Hoisting:
 - Hoisting («поднятие») — описание наблюдаемого поведения объявлений, а не физическое перемещение строк исходного кода.
 - Объявление функции позволяет вызвать её до места объявления; привязка `var` до выполнения присваивания содержит `undefined`. Присваивания не поднимаются.
 - Лексические объявления `let`, `const`, `class` затрагивают всю область видимости, но до инициализации недоступны из-за TDZ.
@@ -285,15 +272,12 @@ const value = "внешнее значение";
 console.log(value); // undefined
 console.log(sum(2, 3)); // 5
 var value = 10;
-function sum(a, b) {
-  return a + b;
-}
+function sum(a, b) { return a + b; }
 // console.log(later); // ReferenceError
 const later = 20;
 ```
 
 ### Что такое полифилы (polyfills)?
-
 - Термин **«полифил»** означает, что скрипт «заполняет» пробелы и добавляет современные функции.
 - Полифил - это фрагмент кода (обычно JavaScript), который позволяет использовать современную функциональность в более старых браузерах, которые не поддерживают ее по умолчанию.
 - Новые возможности языка могут включать встроенные функции и синтаксические конструкции. Транспилер переписывает код, преобразовывая новые синтаксические конструкции в старые. Но что касается новых встроенных функций, их нужно как-то реализовать. Полифил может реализовать отсутствующий API, если среда предоставляет нужные возможности; не любую функциональность можно полноценно воспроизвести на JavaScript.
@@ -306,18 +290,16 @@ const later = 20;
 // Учебный полифил: добавляем API, если среда не предоставляет его.
 if (!Number.isNaN) {
   Object.defineProperty(Number, "isNaN", {
-    value: function (value) {
-      return typeof value === "number" && value !== value;
-    },
+    value: function (value) { return typeof value === "number" && value !== value; },
     writable: true,
-    configurable: true,
+    configurable: true
   });
 }
+
 console.log(Number.isNaN(NaN), Number.isNaN("текст")); // true, false
 ```
 
 ## Функции
-
 - `«Function Expression»` (функциональное выражение):
   - Объявление функции в контексте какого-либо выражения, например присваивания.
   - Создаётся при вычислении выражения; доступность переменной до этого зависит от её объявления (`var`, `let` или `const`).
@@ -339,30 +321,29 @@ console.log(Number.isNaN(NaN), Number.isNaN("текст")); // true, false
 
 ```javascript
 console.log(declared(2)); // 4: Function Declaration доступна заранее
-function declared(n) {
-  return n * 2;
-}
-const expression = function (n) {
-  return n * 2;
-}; // Function Expression
-const arrow = (n) => n * 2; // Arrow Function
+
+function declared(n) { return n * 2; }
+
+const expression = function (n) { return n * 2; }; // Function Expression
+
+const arrow = n => n * 2; // Arrow Function
+
 console.log(expression(2), arrow(2)); // 4, 4
+
 const user = {
   name: "Анна",
-  greet() {
-    return (() => this.name)();
-  }, // стрелка использует this метода
+  greet() { return (() => this.name)(); } // стрелка использует this метода
 };
+
 console.log(user.greet()); // "Анна"
-function first() {
-  return (() => arguments[0])();
-}
+
+function first() { return (() => arguments[0])(); }
+
 console.log(first("аргумент")); // "аргумент": arguments внешней функции
 // new arrow(); // TypeError: стрелка не конструктор
 ```
 
 ## Встроенные методы Object
-
 - `Object.create(proto)` — создаёт объект с указанным прототипом `proto` (объектом или `null`).
 
   ```javascript
@@ -370,25 +351,21 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
   const user = Object.create(prototype);
   console.log(user.active); // true: свойство найдено в прототипе
   ```
-
 - `Object.keys()` — возвращает массив собственных перечисляемых строковых ключей объекта.
 
   ```javascript
   console.log(Object.keys({ name: "Анна", age: 25 })); // ["name", "age"]
   ```
-
 - `Object.values()` — возвращает значения собственных перечисляемых свойств со строковыми ключами.
 
   ```javascript
   console.log(Object.values({ name: "Анна", age: 25 })); // ["Анна", 25]
   ```
-
 - `Object.entries()` — возвращает массив пар `[ключ, значение]` собственных перечисляемых свойств со строковыми ключами.
 
   ```javascript
   console.log(Object.entries({ age: 25 })); // [["age", 25]]
   ```
-
 - `Object.assign(target, ...sources)` — поверхностно копирует собственные перечисляемые свойства (в том числе символьные) источников в `target` и возвращает `target`; вложенные объекты не клонируются.
 
   ```javascript
@@ -397,7 +374,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
   copy.nested.count = 2;
   console.log(source.nested.count); // 2: вложенный объект общий
   ```
-
 - `Object.freeze()` — запрещает добавление/удаление собственных свойств, изменение их конфигурации и значений свойств данных. Заморозка поверхностная: вложенные объекты не замораживаются автоматически.
 
   ```javascript
@@ -405,7 +381,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
   user.settings.dark = true; // вложенный объект не заморожен
   console.log(Reflect.set(user, "name", "Иван")); // false
   ```
-
 - `Object.seal()` — запрещает добавление и удаление собственных свойств и делает их неконфигурируемыми; значения можно менять, если свойство доступно для записи.
 
   ```javascript
@@ -414,7 +389,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
   console.log(Reflect.deleteProperty(user, "name")); // false
   console.log(Reflect.set(user, "age", 25)); // false
   ```
-
 - `Object.getPrototypeOf()` — возвращает прототип объекта (`[[Prototype]]`). Устаревший аксессор `__proto__` доступен не у всех объектов; используйте стандартный метод.
 
   ```javascript
@@ -425,7 +399,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
 Документация: [MDN: Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object), [перечисляемость и принадлежность свойств](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Enumerability_and_ownership_of_properties), [freeze](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze), [seal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal).
 
 ## Встроенные методы Array
-
 - **МУТИРУЮТ:**
   - `push(...items)` - добавляет элементы в конец.
 
@@ -434,28 +407,24 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     console.log(values.push(3)); // 3 — новая длина
     console.log(values); // [1, 2, 3]
     ```
-
   - `pop()` - извлекает элемент с конца.
 
     ```javascript
     const values = [1, 2];
     console.log(values.pop(), values); // 2, [1]
     ```
-
   - `shift()` - извлекает элемент с начала.
 
     ```javascript
     const values = [1, 2];
     console.log(values.shift(), values); // 1, [2]
     ```
-
   - `unshift(...items)` - добавляет элементы в начало.
 
     ```javascript
     const values = [2];
     console.log(values.unshift(1), values); // 2, [1, 2]
     ```
-
   - `sort(func)` - сортирует массив «на месте» и возвращает его. Без функции сравнения сортирует по строковому представлению (порядку кодовых единиц UTF-16). Чтобы сравнивать элементы как числа, то надо писать свой callback.
 
     ```javascript
@@ -463,7 +432,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     values.sort((a, b) => a - b);
     console.log(values); // [1, 2, 10]
     ```
-
   - `splice(start, deleteCount, ...items)` - изменяет содержимое массива, удаляя существующие элементы и/или добавляя новые.
 
     ```javascript
@@ -471,7 +439,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     console.log(values.splice(1, 1, 9)); // [2] — удалённые элементы
     console.log(values); // [1, 9, 3]
     ```
-
   - `reverse()` - меняет порядок следования элементов на противоположный и возвращает изменённый массив.
 
     ```javascript
@@ -488,23 +455,20 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     console.log(values.slice(1, 2)); // [2]
     console.log(values); // [1, 2, 3]
     ```
-
   - `concat(...items)` - возвращает новый массив, копирует все элементы текущего массива и добавляет к нему items. Если какой-то из items является массивом, добавляются его элементы.
 
     ```javascript
     console.log([1].concat([2, 3], 4)); // [1, 2, 3, 4]
     ```
-
   - `map(func)` - создаёт новый массив из результатов вызова func для каждого элемента.
 
     ```javascript
-    console.log([1, 2].map((n) => n * 2)); // [2, 4]
+    console.log([1, 2].map(n => n * 2)); // [2, 4]
     ```
-
   - `filter(func)` — возвращает новый массив элементов, для которых результат `func` истинен после преобразования к Boolean.
 
     ```javascript
-    console.log([1, 2, 3].filter((n) => n > 1)); // [2, 3]
+    console.log([1, 2, 3].filter(n => n > 1)); // [2, 3]
     ```
 
 - **ПОИСК И ОБРАБОТКА:**
@@ -513,53 +477,45 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     ```javascript
     console.log([1, 2, 1].indexOf(1, 1)); // 2
     ```
-
   - `includes(searchElement, fromIndex)` — возвращает `true`, если элемент найден, иначе `false`; умеет находить `NaN`.
 
     ```javascript
     console.log([NaN].includes(NaN)); // true
     ```
-
   - `lastIndexOf(searchElement, fromIndex)` — ищет справа налево и возвращает индекс последнего найденного элемента или `-1`; использует строгое равенство.
 
     ```javascript
     console.log([1, 2, 1].lastIndexOf(1)); // 2
     ```
-
   - `find(callback)` - возвращает значение первого найденного в массиве элемента, которое удовлетворяет условию, переданному в callback функции. В противном случае возвращается undefined. Callback принимает (element, index, array).
 
     ```javascript
-    console.log([1, 2, 3].find((n) => n > 1)); // 2
-    console.log([1].find((n) => n > 1)); // undefined
+    console.log([1, 2, 3].find(n => n > 1)); // 2
+    console.log([1].find(n => n > 1)); // undefined
     ```
-
   - `findIndex(callback)` — похож на `find`, но возвращает индекс элемента или `-1`, если совпадений нет.
 
     ```javascript
-    console.log([1, 2].findIndex((n) => n > 1)); // 1
-    console.log([1].findIndex((n) => n > 1)); // -1
+    console.log([1, 2].findIndex(n => n > 1)); // 1
+    console.log([1].findIndex(n => n > 1)); // -1
     ```
-
   - `reduce(callback, initialValue)` - вычисляет одно значение на основе всего массива, вызывая callback для каждого элемента и передавая промежуточный результат между вызовами.
 
     ```javascript
     console.log([1, 2, 3].reduce((sum, n) => sum + n, 0)); // 6
     ```
-
   - `some(fn)` — возвращает `true` и прекращает перебор при первом истинном результате `fn`; иначе возвращает `false` (в том числе для пустого массива).
 
     ```javascript
-    console.log([1, 2].some((n) => n > 1)); // true
+    console.log([1, 2].some(n => n > 1)); // true
     console.log([].some(Boolean)); // false
     ```
-
   - `every(fn)` — возвращает `false` и прекращает перебор при первом ложном результате `fn`; иначе возвращает `true` (в том числе для пустого массива).
 
     ```javascript
-    console.log([1, 2].every((n) => n > 0)); // true
+    console.log([1, 2].every(n => n > 0)); // true
     console.log([].every(Boolean)); // true
     ```
-
   - `arr.fill(value, start, end)` — **мутирует** массив, заполняя его значением `value` от `start` включительно до `end` исключительно; возвращает исходный массив.
 
     ```javascript
@@ -567,7 +523,6 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     values.fill(0, 1, 3);
     console.log(values); // [1, 0, 0]
     ```
-
   - `arr.copyWithin(target, start, end)` — **мутирует** массив, копируя участок от `start` включительно до `end` исключительно на позицию `target`; длина не меняется.
 
     ```javascript
@@ -575,19 +530,18 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
     values.copyWithin(0, 2, 4);
     console.log(values); // [3, 4, 3, 4]
     ```
-
   - `arr.flat(depth)` — возвращает новый массив, раскрывая вложенные массивы до заданной глубины (по умолчанию `1`). `flatMap(fn)` сначала применяет `fn`, затем раскрывает результат на один уровень.
 
     ```javascript
     console.log([1, [2, [3]]].flat()); // [1, 2, [3]]
-    console.log([1, 2].flatMap((n) => [n, n * 10])); // [1, 10, 2, 20]
+    console.log([1, 2].flatMap(n => [n, n * 10])); // [1, 10, 2, 20]
     ```
 
 - **ПЕРЕБОР:**
   - `forEach(callback)` — вызывает callback для каждого существующего элемента (пропускает пустые слоты) и возвращает `undefined`.
 
     ```javascript
-    const result = [1, 2].forEach((n) => console.log(n)); // 1, затем 2
+    const result = [1, 2].forEach(n => console.log(n)); // 1, затем 2
     console.log(result); // undefined
     ```
 
@@ -611,9 +565,7 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
 Документация: [MDN: Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), [slice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice), [some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some), [every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every), [lastIndexOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf), [flatMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap).
 
 ## Браузер
-
 ### События
-
 - События мыши:
   - `click` — активация элемента основной кнопкой мыши, касанием или клавиатурой (для поддерживающих такую активацию элементов).
   - `contextmenu` — запрос контекстного меню, обычно правой кнопкой мыши или клавишей контекстного меню.
@@ -644,26 +596,18 @@ const button = document.createElement("button");
 button.type = "button";
 button.textContent = "Нажмите";
 document.body.append(button);
-for (const type of [
-  "click",
-  "contextmenu",
-  "mouseover",
-  "mouseout",
-  "mousedown",
-  "mouseup",
-  "mousemove",
-  "focus",
-  "keydown",
-  "keyup",
-]) {
-  button.addEventListener(type, (event) => console.log(event.type));
+
+for (const type of ["click", "contextmenu", "mouseover", "mouseout", "mousedown", "mouseup", "mousemove", "focus", "keydown", "keyup"]) {
+  button.addEventListener(type, event => console.log(event.type));
 }
+
 const form = document.createElement("form");
 form.innerHTML = '<button type="submit">Отправить</button>';
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", event => {
   event.preventDefault();
   console.log("submit: форма готова к отправке");
 });
+
 document.body.append(form);
 const onReady = () => console.log("DOM готов");
 if (document.readyState === "loading") {
@@ -671,18 +615,14 @@ if (document.readyState === "loading") {
 } else {
   onReady();
 }
+
 button.style.transition = "opacity 0.2s";
-button.addEventListener("transitionend", (event) =>
-  console.log(event.propertyName),
-);
+button.addEventListener("transitionend", event => console.log(event.propertyName));
 // При потере фокуса меняется opacity; после перехода выводится "opacity".
-button.addEventListener("blur", () => {
-  button.style.opacity = "0.5";
-});
+button.addEventListener("blur", () => { button.style.opacity = "0.5"; });
 ```
 
 ## Принципы проектирования
-
 Эти принципы помогают выбирать решения при разработке; они не являются требованиями JavaScript или веб-стандартов.
 
 - `KISS` (Keep It Simple and Straightforward) - провозглашает, что следует избегать ненужной сложности.
@@ -692,9 +632,9 @@ button.addEventListener("blur", () => {
 
 ```javascript
 // KISS: простое вычисление вместо лишней иерархии классов.
-const total = (prices) => prices.reduce((sum, price) => sum + price, 0);
+const total = prices => prices.reduce((sum, price) => sum + price, 0);
 console.log(total([10, 20])); // 30
 // YAGNI: реализуем нужный формат отчёта; другие добавим при появлении задачи.
-const report = (rows) => rows.join("\n");
+const report = rows => rows.join("\n");
 console.log(report(["Продажи: 30", "Расходы: 10"]));
 ```

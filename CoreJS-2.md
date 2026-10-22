@@ -10,62 +10,62 @@
 
 - `Object.create()` используется для создания новых объектов и их привязки к прототипу существующего объекта.
 
-```javascript
-const prototype = { active: true };
-const user = Object.create(prototype);
-console.log(user.active); // true: свойство найдено в прототипе
-```
+  ```javascript
+  const prototype = { active: true };
+  const user = Object.create(prototype);
+  console.log(user.active); // true: свойство найдено в прототипе
+  ```
 
 - `Object.keys()` возвращает массив собственных перечисляемых строковых ключей объекта.
 
-```javascript
-console.log(Object.keys({ name: "Анна", age: 25 })); // ["name", "age"]
-```
+  ```javascript
+  console.log(Object.keys({ name: "Анна", age: 25 })); // ["name", "age"]
+  ```
 
 - `Object.values()` возвращает значения собственных перечисляемых свойств со строковыми ключами.
 
-```javascript
-console.log(Object.values({ name: "Анна", age: 25 })); // ["Анна", 25]
-```
+  ```javascript
+  console.log(Object.values({ name: "Анна", age: 25 })); // ["Анна", 25]
+  ```
 
 - `Object.entries()` возвращает массив пар [ключ, значение] для собственных перечисляемых свойств со строковыми ключами.
 
-```javascript
-console.log(Object.entries({ age: 25 })); // [["age", 25]]
-```
+  ```javascript
+  console.log(Object.entries({ age: 25 })); // [["age", 25]]
+  ```
 
 - `Object.assign(target, ...sources)` поверхностно копирует собственные перечисляемые строковые и символьные свойства источников в target и возвращает target.
 
-```javascript
-const source = { nested: { count: 1 } };
-const copy = Object.assign({}, source);
-copy.nested.count = 2;
-console.log(source.nested.count); // 2: вложенный объект общий
-```
+  ```javascript
+  const source = { nested: { count: 1 } };
+  const copy = Object.assign({}, source);
+  copy.nested.count = 2;
+  console.log(source.nested.count); // 2: вложенный объект общий
+  ```
 
 - `Object.freeze()` запрещает добавление и удаление собственных свойств, делает их неконфигурируемыми, а свойства данных — незаписываемыми. Заморозка поверхностная: вложенные объекты и поведение сеттеров автоматически не замораживаются.
 
-```javascript
-const user = Object.freeze({ name: "Анна", settings: { dark: false } });
-user.settings.dark = true; // вложенный объект не заморожен
-console.log(Reflect.set(user, "name", "Иван")); // false
-```
+  ```javascript
+  const user = Object.freeze({ name: "Анна", settings: { dark: false } });
+  user.settings.dark = true; // вложенный объект не заморожен
+  console.log(Reflect.set(user, "name", "Иван")); // false
+  ```
 
 - `Object.seal()` запрещает добавление и удаление собственных свойств и делает их неконфигурируемыми. Значения свойств данных можно менять, только если writable: true.
 
-```javascript
-const user = Object.seal({ name: "Анна" });
-user.name = "Иван";
-console.log(Reflect.deleteProperty(user, "name")); // false
-console.log(Reflect.set(user, "age", 25)); // false
-```
+  ```javascript
+  const user = Object.seal({ name: "Анна" });
+  user.name = "Иван";
+  console.log(Reflect.deleteProperty(user, "name")); // false
+  console.log(Reflect.set(user, "age", 25)); // false
+  ```
 
 - `Object.getPrototypeOf()` возвращает внутренний прототип [[Prototype]]. Устаревший аксессор `Object.prototype.__proto__` доступен не у всех объектов; используйте стандартные методы работы с прототипом.
 
-```javascript
-const user = Object.create(null);
-console.log(Object.getPrototypeOf(user)); // null
-```
+  ```javascript
+  const user = Object.create(null);
+  console.log(Object.getPrototypeOf(user)); // null
+  ```
 
 ### Флаги и дескрипторы свойств: `Object.defineProperty()`
 
@@ -80,14 +80,14 @@ console.log(Object.getPrototypeOf(user)); // null
   - `descriptor` - применяемый дескриптор.
 - Как задать свойства?
 
-```javascript
-const user = { name: "Анна" };
-Object.defineProperty(user, "name", {
-  writable: false,
-});
-```
+  ```javascript
+  const user = { name: "Анна" };
+  Object.defineProperty(user, "name", {
+    writable: false,
+  });
+  ```
 
-- В дескрипторе можно отдельно настроить writable, enumerable и configurable; свойства-аксессоры используют get/set вместо value/writable.
+  - В дескрипторе можно отдельно настроить writable, enumerable и configurable; свойства-аксессоры используют get/set вместо value/writable.
 
 Документация: [дескрипторы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty).
 
@@ -95,12 +95,15 @@ Object.defineProperty(user, "name", {
 
 ```javascript
 const user = {};
+
 Object.defineProperty(user, "id", { value: 1 }); // все флаги false
+
 console.log(Object.keys(user)); // []: enumerable=false
 console.log(Reflect.set(user, "id", 2)); // false: writable=false
 console.log(Reflect.deleteProperty(user, "id")); // false: configurable=false
 console.log(Object.getOwnPropertyDescriptor(user, "id"));
 // { value: 1, writable: false, enumerable: false, configurable: false }
+
 let name = "Анна";
 Object.defineProperty(user, "name", {
   get() {
@@ -112,23 +115,23 @@ Object.defineProperty(user, "name", {
   enumerable: true,
   configurable: true,
 });
+
 user.name = " Иван ";
 console.log(user.name); // "Иван"
 ```
 
 ### Итерируемые объекты и `Symbol.iterator` (дополнительно)
 
-- Итерируемый объект имеет метод `[Symbol.iterator]()`, возвращающий итератор с next(), который возвращает { value, done }.
-
-```javascript
-const iterable = {
-  *[Symbol.iterator]() {
-    yield 1;
-    yield 2;
-  },
-};
-console.log([...iterable]); // [1, 2]
-```
+- Итерируемый объект имеет метод [Symbol.iterator](<>), возвращающий итератор с next(), который возвращает { value, done }.
+  ```javascript
+  const iterable = {
+    *[Symbol.iterator]() {
+      yield 1;
+      yield 2;
+    },
+  };
+  console.log([...iterable]); // [1, 2]
+  ```
 
 Документация: [итераторы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Iterators_and_generators).
 
@@ -137,21 +140,17 @@ console.log([...iterable]); // [1, 2]
 ### Вычисляемые свойства объекта
 
 - Пусть имя некоторого свойства хранится в переменной:
-
-```javascript
-let key = "a";
-```
-
-Давайте сделаем так, чтобы вместо имени свойства взялось значение из нашей переменной. Для этого переменную следует взять в квадратные скобки:
-
-```javascript
-const key = "a";
-let obj = {
-  [key]: 1,
-  b: 2,
-  c: 3,
-};
-```
+  ```javascript
+  let key = "a";
+  ```
+  Давайте сделаем так, чтобы вместо имени свойства взялось значение из нашей переменной. Для этого переменную следует взять в квадратные скобки:
+  ```javascript
+  let obj = {
+    [key]: 1,
+    b: 2,
+    c: 3,
+  };
+  ```
 
 ### Перебор свойств объекта
 
@@ -166,9 +165,11 @@ let obj = {
 const user = Object.assign(Object.create({ inherited: true }), {
   name: "Анна",
 });
+
 for (const key in user) {
   if (Object.hasOwn(user, key)) console.log(key, user[key]); // name, "Анна"
 }
+
 console.log(Object.keys(user)); // ["name"]
 console.log(Object.values(user)); // ["Анна"]
 console.log(Object.entries(user)); // [["name", "Анна"]]
@@ -185,10 +186,12 @@ console.log(Object.entries(user)); // [["name", "Анна"]]
 
 ```javascript
 const shared = "снаружи"; // верхний уровень модуля изолирован от других модулей
+
 function show() {
   const local = "внутри";
   console.log(shared, local);
 }
+
 show(); // "снаружи", "внутри"
 // console.log(local); // ReferenceError
 ```
@@ -279,9 +282,11 @@ console.log(number, user.name); // 1, "Иван"
 function sum(...values) {
   return values.reduce((total, n) => total + n, 0);
 }
+
 function first() {
   return arguments[0];
 }
+
 console.log(sum(1, 2, 3), first("Анна", "Иван")); // 6, "Анна"
 ```
 
@@ -300,6 +305,7 @@ function greet(name) {
   const prefix = "Привет";
   return () => `${prefix}, ${name}`; // сохраняет доступ к двум привязкам
 }
+
 console.log(greet("Анна")()); // "Привет, Анна"
 ```
 
@@ -315,6 +321,7 @@ function createCounter() {
   let count = 0;
   return () => ++count;
 }
+
 const first = createCounter();
 const second = createCounter();
 console.log(first(), first(), second()); // 1, 2, 1: разные окружения
@@ -335,6 +342,7 @@ const message = "из области видимости";
 function show() {
   return [message, this.name];
 }
+
 console.log(show.call({ name: "из this" }));
 // ["из области видимости", "из this"]: call изменяет this, но не scope
 ```
@@ -351,10 +359,12 @@ console.log(show.call({ name: "из this" }));
 
 ```javascript
 const value = "глобальное";
+
 function outer() {
   const value = "внешнее";
   return () => value; // поиск находит ближайшую внешнюю привязку
 }
+
 console.log(outer()()); // "внешнее"
 ```
 
@@ -369,8 +379,10 @@ function makeCounter() {
   let count = 0;
   return { increment: () => ++count, read: () => count };
 }
+
 const counter = makeCounter();
 counter.increment();
+
 console.log(counter.read()); // 1: оба замыкания используют одну привязку
 ```
 
@@ -384,6 +396,7 @@ console.log(counter.read()); // 1: оба замыкания использую�
 function greet(name = "Анна") {
   return `Привет, ${name}`;
 }
+
 console.log(greet(), greet(undefined), greet(null));
 // "Привет, Анна", "Привет, Анна", "Привет, null"
 ```
@@ -396,6 +409,7 @@ console.log(greet(), greet(undefined), greet(null));
 function spreadInFunc(...args) {
   console.log(...args);
 }
+
 spreadInFunc(...[1, 2, 3]); // 1, 2, 3
 ```
 
@@ -407,6 +421,7 @@ spreadInFunc(...[1, 2, 3]); // 1, 2, 3
 function restInFunc(...args) {
   console.log(args);
 }
+
 restInFunc(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ```
 
@@ -417,6 +432,7 @@ function compare(first, ...rest) {
   console.log(arguments.length, rest.length); // 3, 2
   console.log(Array.isArray(arguments), Array.isArray(rest)); // false, true
 }
+
 compare(1, 2, 3);
 ```
 
@@ -430,6 +446,7 @@ compare(1, 2, 3);
 const original = [{ count: 1 }];
 const copy = [...original];
 copy[0].count = 2;
+
 console.log(copy === original, original[0].count); // false, 2
 ```
 
@@ -470,6 +487,7 @@ console.log(b); // 20
 
 ```javascript
 for (const value of new Set([1, 2, 2])) console.log(value); // 1, затем 2
+
 for (const [key, value] of new Map([["age", 25]])) console.log(key, value); // age, 25
 ```
 
@@ -565,19 +583,19 @@ console.log(rabbit.eats); // true: поиск продолжается в про
 
 - **Пример:**
 
-```javascript
-let animal = {
-  eats: true,
-};
+  ```javascript
+  let animal = {
+    eats: true,
+  };
 
-let rabbit = {
-  jumps: true,
-};
+  let rabbit = {
+    jumps: true,
+  };
 
-rabbit.__proto__ = animal;
+  rabbit.__proto__ = animal;
 
-console.log(rabbit.eats); // true
-```
+  console.log(rabbit.eats); // true
+  ```
 
 - **Объяснение:** Здесь объект `rabbit` наследует свойство `eats` от объекта `animal`, так как `rabbit.__proto__` указывает на `animal`.
 
@@ -586,77 +604,74 @@ console.log(rabbit.eats); // true
 - **Object.create:** Этот метод используется для создания нового объекта с указанным прототипом.
 - **Пример:**
 
-```javascript
-let animal = {
-  eats: true,
-};
+  ```javascript
+  let animal = {
+    eats: true,
+  };
 
-let rabbit = Object.create(animal);
+  let rabbit = Object.create(animal);
 
-console.log(rabbit.eats); // true
-```
+  console.log(rabbit.eats); // true
+  ```
 
 - **Явное определение `__proto__`:**
+  ```javascript
+  let animal = {
+    eats: true,
+  };
 
-```javascript
-let animal = {
-  eats: true,
-};
+  let rabbit = {};
+  rabbit.__proto__ = animal;
 
-let rabbit = {};
-rabbit.__proto__ = animal;
-
-console.log(rabbit.eats); // true
-```
+  console.log(rabbit.eats); // true
+  ```
 
 ### Свойство `prototype`
 
 - **Что это такое?** Свойство `prototype` у функций-конструкторов используется для реализации наследования. При обычном вызове new, если prototype — объект, он становится прототипом создаваемого экземпляра; явный возврат другого объекта из конструктора может изменить результат.
 
 - **Пример:**
+  ```javascript
+  function Animal() {}
 
-```javascript
-function Animal() {}
+  Animal.prototype.eats = true;
 
-Animal.prototype.eats = true;
+  let rabbit = new Animal();
 
-let rabbit = new Animal();
-
-console.log(rabbit.eats); // true
-```
+  console.log(rabbit.eats); // true
+  ```
 
 ### Связь `Constructor.prototype` и прототипа экземпляра
 
 - **Пример:**
 
-```javascript
-function Animal() {}
+  ```javascript
+  function Animal() {}
 
-Animal.prototype.eats = true;
+  Animal.prototype.eats = true;
 
-let rabbit = new Animal();
+  let rabbit = new Animal();
 
-console.log(rabbit.__proto__ === Animal.prototype); // true
-```
+  console.log(rabbit.__proto__ === Animal.prototype); // true
+  ```
 
 - **Объяснение:** В этом примере Object.getPrototypeOf(rabbit) === Animal.prototype. Это отношение внутреннего [[Prototype]] экземпляра к свойству prototype конструктора; оно не требует доступа через **proto**.
 
 ### Методы в `Constructor.prototype`
 
 - **Пример:**
+  ```javascript
+  function Animal(name) {
+    this.name = name;
+  }
 
-```javascript
-function Animal(name) {
-  this.name = name;
-}
+  Animal.prototype.speak = function () {
+    console.log(`${this.name} говорит.`);
+  };
 
-Animal.prototype.speak = function () {
-  console.log(`${this.name} говорит.`);
-};
-
-let rabbit = new Animal("Кролик");
-rabbit.speak(); // Кролик говорит.
-```
+  let rabbit = new Animal("Кролик");
+  rabbit.speak(); // Кролик говорит.
+  ```
 
 ### Установка и получение прототипа объекта (дополнительно)
 
@@ -664,33 +679,32 @@ rabbit.speak(); // Кролик говорит.
 
 - **Пример:**
 
-```javascript
-let animal = {
-  eats: true,
-};
+  ```javascript
+  let animal = {
+    eats: true,
+  };
 
-let rabbit = {
-  jumps: true,
-};
+  let rabbit = {
+    jumps: true,
+  };
 
-Object.setPrototypeOf(rabbit, animal);
+  Object.setPrototypeOf(rabbit, animal);
 
-console.log(rabbit.eats); // true
-```
+  console.log(rabbit.eats); // true
+  ```
 
 - **Object.getPrototypeOf:** Возвращает прототип объекта.
 
 - **Пример:**
+  ```javascript
+  let animal = {
+    eats: true,
+  };
 
-```javascript
-let animal = {
-  eats: true,
-};
+  let rabbit = Object.create(animal);
 
-let rabbit = Object.create(animal);
-
-console.log(Object.getPrototypeOf(rabbit) === animal); // true
-```
+  console.log(Object.getPrototypeOf(rabbit) === animal); // true
+  ```
 
 ## Коллекции
 
@@ -713,42 +727,36 @@ let map = new Map();
 - `map.set(key, value)`: добавляет пару ключ/значение.
 
 ```javascript
-const map = new Map();
 map.set("name", "John");
 ```
 
 - `map.get(key)`: возвращает значение по ключу или `undefined`, если ключ отсутствует.
 
 ```javascript
-const map = new Map([["name", "John"]]);
 console.log(map.get("name")); // 'John'
 ```
 
 - `map.has(key)`: возвращает `true`, если ключ присутствует в коллекции, иначе `false`.
 
 ```javascript
-const map = new Map([["name", "John"]]);
 console.log(map.has("name")); // true
 ```
 
 - `map.delete(key)`: удаляет элемент по ключу.
 
 ```javascript
-const map = new Map([["name", "John"]]);
 map.delete("name");
 ```
 
 - `map.clear()`: очищает коллекцию от всех элементов.
 
 ```javascript
-const map = new Map([["name", "John"]]);
 map.clear();
 ```
 
 - `map.size`: возвращает текущее количество элементов.
 
 ```javascript
-const map = new Map();
 console.log(map.size); // 0
 ```
 
@@ -767,35 +775,30 @@ let set = new Set([1, 2, 3]);
 - `set.add(value)`: добавляет значение, возвращает тот же объект set.
 
 ```javascript
-const set = new Set([1, 2, 3]);
 set.add(4);
 ```
 
 - `set.delete(value)`: удаляет значение, возвращает `true`, если значение было в множестве, иначе `false`.
 
 ```javascript
-const set = new Set([1, 2, 3]);
 set.delete(3);
 ```
 
 - `set.has(value)`: возвращает `true`, если значение присутствует в множестве, иначе `false`.
 
 ```javascript
-const set = new Set([1, 2, 3]);
 console.log(set.has(2)); // true
 ```
 
 - `set.clear()`: удаляет все значения.
 
 ```javascript
-const set = new Set([1, 2, 3]);
 set.clear();
 ```
 
 - `set.size`: возвращает количество элементов в множестве.
 
 ```javascript
-const set = new Set();
 console.log(set.size); // 0
 ```
 
@@ -808,32 +811,30 @@ console.log(set.size); // 0
 - **Описание:** WeakMap хранит пары с ключами-объектами или незарегистрированными символами (не Symbol.for) и не удерживает ключи от сборки мусора. Момент сборки не гарантирован; перечисления ключей нет.
 
 - **Примеры использования:**
+  ```javascript
+  let weakMap = new WeakMap();
+  let obj = {};
 
-```javascript
-let weakMap = new WeakMap();
-let obj = {};
+  weakMap.set(obj, "value");
+  console.log(weakMap.get(obj)); // 'value'
 
-weakMap.set(obj, "value");
-console.log(weakMap.get(obj)); // 'value'
-
-obj = null; // теперь объект может быть удален сборщиком мусора
-```
+  obj = null; // теперь объект может быть удален сборщиком мусора
+  ```
 
 #### WeakSet
 
 - **Описание:** WeakSet хранит объекты и незарегистрированные символы слабо: наличие в коллекции не препятствует сборке мусора. Коллекция не перечисляется и не имеет size.
 
 - **Примеры использования:**
+  ```javascript
+  let weakSet = new WeakSet();
+  let obj = {};
 
-```javascript
-let weakSet = new WeakSet();
-let obj = {};
+  weakSet.add(obj);
+  console.log(weakSet.has(obj)); // true
 
-weakSet.add(obj);
-console.log(weakSet.has(obj)); // true
-
-obj = null; // теперь объект может быть удален сборщиком мусора
-```
+  obj = null; // теперь объект может быть удален сборщиком мусора
+  ```
 
 ## Ошибки JavaScript
 
@@ -843,29 +844,26 @@ obj = null; // теперь объект может быть удален сбо
 
 - **throw:** Инструкция `throw` генерирует исключение.
 
-```javascript
-// Отдельный пример: намеренно бросает исключение.
-throw new Error("Что-то пошло не так");
-```
+  ```javascript
+  throw new Error("Что-то пошло не так");
+  ```
 
 - **Error class:** Конструктор `Error` создаёт объект ошибки.
-
-```javascript
-let error = new Error("Ошибка");
-console.log(error.message); // 'Ошибка'
-```
+  ```javascript
+  let error = new Error("Ошибка");
+  console.log(error.message); // 'Ошибка'
+  ```
 
 ### try...catch
 
 - **try..catch:** Блок `catch` перехватывает исключения, возникшие при выполнении try. Ошибки будущих колбэков таймеров он не перехватит; отклонение промиса нужно await внутри try или обработать через catch().
-
-```javascript
-try {
-  JSON.parse("не JSON"); // SyntaxError
-} catch (e) {
-  console.log(e.message);
-}
-```
+  ```javascript
+  try {
+    JSON.parse("не JSON"); // SyntaxError
+  } catch (e) {
+    console.log(e.message);
+  }
+  ```
 
 ### Обработка ошибок
 
@@ -879,6 +877,7 @@ function parseUser(text) {
   if (typeof user.name !== "string") throw new Error("Не задано имя");
   return user;
 }
+
 try {
   parseUser('{"age":25}');
 } catch (error) {
@@ -893,11 +892,10 @@ try {
 ### Error
 
 - **Конструктор Error:** Создаёт объект ошибки.
-
-```javascript
-let error = new Error("Ошибка");
-console.log(error.message); // 'Ошибка'
-```
+  ```javascript
+  let error = new Error("Ошибка");
+  console.log(error.message); // 'Ошибка'
+  ```
 
 ### Логирование ошибок
 
@@ -923,18 +921,17 @@ console.error("Ошибка", new Error("Нет данных"));
 ### Ошибки в асинхронном коде
 
 - **Обработка ошибок в асинхронном коде:** Использование `try..catch` с `async/await`.
-
-```javascript
-async function fetchData() {
-  try {
-    let response = await fetch("/api/data");
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    let data = await response.json();
-  } catch (error) {
-    console.error("Ошибка:", error);
+  ```javascript
+  async function fetchData() {
+    try {
+      let response = await fetch("/api/data");
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      let data = await response.json();
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
   }
-}
-```
+  ```
 
 ## Асинхронный JavaScript
 
@@ -943,13 +940,12 @@ async function fetchData() {
 ### Promise
 
 - **Описание:** Promise — объект для написания и обработки асинхронного кода.
-
-```javascript
-let promise = new Promise(function (resolve, reject) {
-  // executor вызывается синхронно; resolve/reject определяют результат; resolve с thenable ждёт его исхода
-  resolve(42);
-});
-```
+  ```javascript
+  let promise = new Promise(function (resolve, reject) {
+    // executor вызывается синхронно; resolve/reject определяют результат; resolve с thenable ждёт его исхода
+    resolve(42);
+  });
+  ```
 
 ### Promise states
 
@@ -961,6 +957,7 @@ let promise = new Promise(function (resolve, reject) {
 const pending = new Promise(() => {}); // pending: не завершён
 const fulfilled = Promise.resolve(42); // fulfilled
 const rejected = Promise.reject(new Error("Сбой")); // rejected
+
 fulfilled.then((value) => console.log(value)); // 42
 rejected.catch((error) => console.log(error.message)); // "Сбой"
 // Публичного свойства state нет; состояние видно в инструментах разработчика.
@@ -975,14 +972,13 @@ rejected.catch((error) => console.log(error.message)); // "Сбой"
 ### Promise chaining
 
 - **Цепочки промисов:**
-
-```javascript
-Promise.resolve(2)
-  .then((value) => value * 3)
-  .then((value) => Promise.resolve(value + 1))
-  .then((value) => console.log(value)) // 7
-  .catch((error) => console.error(error));
-```
+  ```javascript
+  Promise.resolve(2)
+    .then((value) => value * 3)
+    .then((value) => Promise.resolve(value + 1))
+    .then((value) => console.log(value)) // 7
+    .catch((error) => console.error(error));
+  ```
 
 ### Promise static methods
 
@@ -994,14 +990,16 @@ Promise.resolve(2)
 ```javascript
 const a = Promise.resolve(1);
 const b = Promise.resolve(2);
+
 Promise.resolve(42).then(console.log); // 42
 Promise.reject(new Error("Сбой")).catch((error) => console.log(error.message)); // "Сбой"
+
 Promise.all([a, b]).then(console.log); // [1, 2]
 Promise.allSettled([a, Promise.reject("сбой")]).then(console.log);
 // [{ status: "fulfilled", value: 1 }, { status: "rejected", reason: "сбой" }]
 Promise.race([a, b]).then(console.log); // 1: первый завершившийся
 Promise.any([Promise.reject("сбой"), b]).then(console.log); // 2: первый успешный
-// withResolvers требует среды с поддержкой этого метода (например, Node.js 22+).
+
 const { promise, resolve } = Promise.withResolvers();
 promise.then(console.log); // "Готово"
 resolve("Готово");
@@ -1010,30 +1008,28 @@ resolve("Готово");
 ### Обработка ошибок в Promise
 
 - **Обработка ошибок в промисах:**
-
-```javascript
-Promise.resolve(2)
-  .then(() => {
-    throw new Error("Сбой");
-  })
-  .catch((error) => {
-    console.log(error.message); // "Сбой"
-    return 0; // восстановление после ошибки
-  })
-  .then((value) => console.log(value)); // 0
-```
+  ```javascript
+  Promise.resolve(2)
+    .then(() => {
+      throw new Error("Сбой");
+    })
+    .catch((error) => {
+      console.log(error.message); // "Сбой"
+      return 0; // восстановление после ошибки
+    })
+    .then((value) => console.log(value)); // 0
+  ```
 
 ### async/await
 
 - **Описание:** `async` и `await` используются для работы с промисами в синхронном стиле.
-
-```javascript
-async function example() {
-  const result = await Promise.resolve(42);
-  console.log(result); // 42
-}
-example();
-```
+  ```javascript
+  async function example() {
+    const result = await Promise.resolve(42);
+    console.log(result); // 42
+  }
+  example();
+  ```
 
 ### Event loop
 
@@ -1051,9 +1047,13 @@ example();
 
 ```javascript
 console.log("начало");
+
 setTimeout(() => console.log("таймер"), 0);
+
 Promise.resolve().then(() => console.log("промис"));
+
 queueMicrotask(() => console.log("микрозадача"));
+
 console.log("конец");
 // начало → конец → промис → микрозадача → таймер
 ```
@@ -1098,41 +1098,38 @@ console.log(location.search, location.hash);
 ### History API
 
 - **API истории:**
-
-```javascript
-// Каждый вызов выполняйте отдельно: он запускает навигацию по истории.
-// window.history.back();
-// window.history.forward();
-// window.history.go(-1);
-const url = new URL(location.href);
-url.searchParams.set("page", "2");
-history.pushState({ page: 2 }, "", url);
-console.log(history.state.page); // 2: URL изменился без перезагрузки
-history.replaceState({ page: 3 }, "", location.href);
-console.log(history.state.page); // 3: текущая запись заменена
-```
+  ```javascript
+  // Каждый вызов выполняйте отдельно: он запускает навигацию по истории.
+  // window.history.back();
+  // window.history.forward();
+  // window.history.go(-1);
+  const url = new URL(location.href);
+  url.searchParams.set("page", "2");
+  history.pushState({ page: 2 }, "", url);
+  console.log(history.state.page); // 2: URL изменился без перезагрузки
+  history.replaceState({ page: 3 }, "", location.href);
+  console.log(history.state.page); // 3: текущая запись заменена
+  ```
 
 Документация: [History](https://developer.mozilla.org/ru/docs/Web/API/History).
 
 ### Navigator
 
 - **Интерфейс Navigator:** Используется для получения информации о браузере и платформе.
-
-```javascript
-console.log(navigator.userAgent);
-```
+  ```javascript
+  console.log(navigator.userAgent);
+  ```
 
 Документация: [Navigator](https://developer.mozilla.org/ru/docs/Web/API/Navigator).
 
 ### Cookies
 
 - **Работа с куки:**
-
-```javascript
-document.cookie = "username=John Doe";
-let cookies = document.cookie;
-console.log(cookies);
-```
+  ```javascript
+  document.cookie = "username=John Doe";
+  let cookies = document.cookie;
+  console.log(cookies);
+  ```
 
 ## Жизненный цикл страницы
 
@@ -1229,16 +1226,15 @@ box.style.color = "red"; // изменение цвета требует paint, 
 ### Fetch API
 
 - **Использование Fetch:**
-
-```javascript
-fetch("/api/data")
-  .then((response) => {
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-  })
-  .then((data) => console.log(data))
-  .catch((error) => console.error("Ошибка:", error));
-```
+  ```javascript
+  fetch("/api/data")
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Ошибка:", error));
+  ```
 
 Документация: [Fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch).
 
@@ -1249,12 +1245,11 @@ fetch("/api/data")
 ### Cookies
 
 - **Описание Cookies:**
-
-```javascript
-document.cookie = "username=John Doe";
-let cookies = document.cookie;
-console.log(cookies);
-```
+  ```javascript
+  document.cookie = "username=John Doe";
+  let cookies = document.cookie;
+  console.log(cookies);
+  ```
 
 ### Различия localStorage, sessionStorage и cookies
 
@@ -1268,9 +1263,13 @@ console.log(cookies);
 ```javascript
 // Браузерная страница на HTTP(S); доступ к хранилищам должен быть разрешён.
 localStorage.setItem("theme", "dark");
+
 sessionStorage.setItem("draft", JSON.stringify({ text: "Черновик" }));
+
 console.log(localStorage.getItem("theme")); // "dark"
+
 console.log(JSON.parse(sessionStorage.getItem("draft")).text); // "Черновик"
+
 document.cookie = "theme=dark; Path=/; SameSite=Lax";
 // Cookie может отправляться серверу; значения Web Storage — только явно.
 localStorage.removeItem("theme");
@@ -1289,49 +1288,49 @@ sessionStorage.removeItem("draft");
 
 ### Базовые типы
 
-- `string`
+1. `string`
 
 ```typescript
 let userName: string = "Alice";
 ```
 
-- `number`
+2. `number`
 
 ```typescript
 let age: number = 30;
 ```
 
-- `bigint`
+3. `bigint`
 
 ```typescript
 let bigNumber: bigint = 1234567890123456789012345678901234567890n;
 ```
 
-- `boolean`
+4. `boolean`
 
 ```typescript
 let isStudent: boolean = true;
 ```
 
-- `undefined`
+5. `undefined`
 
 ```typescript
 let notDefined: undefined = undefined;
 ```
 
-- `null`
+6. `null`
 
 ```typescript
 let nothing: null = null;
 ```
 
-- `symbol`
+7. `symbol`
 
 ```typescript
 let uniqueKey: symbol = Symbol("key");
 ```
 
-- `object`
+8. `object`
 
 ```typescript
 let person: { name: string; age: number } = { name: "Bob", age: 25 };
@@ -1375,90 +1374,78 @@ enum Season {
 ### Различия `type` и `interface`
 
 - `type` задаёт псевдоним любого типа, включая примитивы, объединения и объекты. interface описывает форму объекта, поддерживает extends и слияние деклараций; type не переоткрывается для слияния.
-
-```typescript
-type UserName = string;
-```
-
+  ```typescript
+  type UserName = string;
+  ```
 - `interface`
   - Интерфейс описывает свойства и методы объекта без их реализации.
-
-```typescript
-interface IUser {
-  id: number;
-  name: string;
-}
-```
+    ```typescript
+    interface IUser {
+      id: number;
+      name: string;
+    }
+    ```
 
 ### Свойства и методы интерфейсов: `?` и `readonly`
 
 - необязательные свойства отмечаются `?`
-
-```typescript
-interface IUser {
-  id: number;
-  name?: string;
-}
-```
-
+  ```typescript
+  interface IUser {
+    id: number;
+    name?: string;
+  }
+  ```
 - только для чтения
-
-```typescript
-interface IUser {
-  readonly id: number;
-  name: string;
-}
-```
-
+  ```typescript
+  interface IUser {
+    readonly id: number;
+    name: string;
+  }
+  ```
 - определение методов
-
-```typescript
-interface IUser {
-  id: number;
-  name: string;
-  sayWords(words: string): void;
-}
-```
+  ```typescript
+  interface IUser {
+    id: number;
+    name: string;
+    sayWords(words: string): void;
+  }
+  ```
 
 ### Типы функций
 
 - Тип функции записывают как `(параметры) => типРезультата`.
-
-```typescript
-let greet: (name: string) => string = (name) => `Hello, ${name}`;
-```
+  ```typescript
+  let greet: (name: string) => string = (name) => `Hello, ${name}`;
+  ```
 
 ### Utility Types (дополнительно)
 
-- Встроенный `Partial<T>` делает все свойства необязательными. Ниже его учебный аналог `MyPartial<T>`; преобразование поверхностное.
+- Встроенный Partial<T> делает все свойства необязательными. Ниже его учебный аналог MyPartial<T>; преобразование поверхностное.
+  ```typescript
+  type MyPartial<T> = {
+    [P in keyof T]?: T[P];
+  };
 
-```typescript
-type MyPartial<T> = {
-  [P in keyof T]?: T[P];
-};
+  interface IUser {
+    id: number;
+    name: string;
+    age: number;
+  }
 
-interface IUser {
-  id: number;
-  name: string;
-  age: number;
-}
-
-let partialUser: MyPartial<IUser> = { id: 1 };
-```
-
-- В прикладном коде используйте встроенный `Partial<IUser>`; переопределять имя Partial в глобальной области не нужно.
+  let partialUser: MyPartial<IUser> = { id: 1 };
+  ```
+- В прикладном коде используйте встроенный Partial<IUser>; переопределять имя Partial в глобальной области не нужно.
 
 Документация: [utility types](https://www.typescriptlang.org/docs/handbook/utility-types.html).
 
 ### Type guards (дополнительно)
 
 - Type guards — проверки, по результатам которых TypeScript сужает тип значения. Пользовательский предикат должен сам корректно проверять данные; компилятор не доказывает его истинность.
-
-```typescript
-function isString(value: unknown): value is string {
-  return typeof value === "string";
-}
-```
+  ```typescript
+  function isString(value: unknown): value is string {
+    return typeof value === "string";
+  }
+  ```
 
 Документация: [сужение типов](https://www.typescriptlang.org/docs/handbook/2/narrowing.html).
 
@@ -1475,41 +1462,38 @@ console.log(length("Привет"), length(42)); // 6, 0
 ### Пользовательские типы
 
 - `type` задаёт пользовательский тип.
-
-```typescript
-type UserName = string;
-type User = {
-  id: number;
-  name: UserName;
-};
-```
+  ```typescript
+  type UserName = string;
+  type User = {
+    id: number;
+    name: UserName;
+  };
+  ```
 
 ### Generics
 
 - Параметры типа записывают в угловых скобках: `<T>` или `<T, U>`. Они связывают типы входных и выходных значений.
+  ```typescript
+  function identity<T>(value: T): T {
+    return value;
+  }
 
-```typescript
-function identity<T>(value: T): T {
-  return value;
-}
-
-let number = identity<number>(42);
-let word = identity<string>("Hello");
-```
+  let number = identity<number>(42);
+  let word = identity<string>("Hello");
+  ```
 
 ### Модули TypeScript
 
 - TypeScript поддерживает синтаксис ES-модулей и разные среды выполнения. Разрешение путей и формат вывода зависят от module/moduleResolution и среды; ниже пример для среды со сборщиком.
+  ```typescript
+  // math.ts
+  export const add = (a: number, b: number) => a + b;
 
-```typescript
-// math.ts
-export const add = (a: number, b: number) => a + b;
+  // app.ts
+  import { add } from "./math";
 
-// app.ts
-import { add } from "./math";
-
-console.log(add(2, 3));
-```
+  console.log(add(2, 3));
+  ```
 
 Документация: [модули](https://www.typescriptlang.org/docs/handbook/modules/theory.html).
 
@@ -1522,105 +1506,102 @@ console.log(add(2, 3));
 Порождающие паттерны управляют созданием объектов и скрывают детали их инициализации.
 
 - Singleton: Обеспечивает наличие только одного экземпляра класса и предоставляет к нему глобальную точку доступа.
+  ```typescript
+  class Singleton {
+    private static instance: Singleton;
 
-```typescript
-class Singleton {
-  private static instance: Singleton;
+    private constructor() {}
 
-  private constructor() {}
-
-  public static getInstance(): Singleton {
-    if (!Singleton.instance) {
-      Singleton.instance = new Singleton();
+    public static getInstance(): Singleton {
+      if (!Singleton.instance) {
+        Singleton.instance = new Singleton();
+      }
+      return Singleton.instance;
     }
-    return Singleton.instance;
   }
-}
 
-const instance1 = Singleton.getInstance();
-const instance2 = Singleton.getInstance();
-console.log(instance1 === instance2); // true
-```
+  const instance1 = Singleton.getInstance();
+  const instance2 = Singleton.getInstance();
+  console.log(instance1 === instance2); // true
+  ```
 
 ### Структурные паттерны
 
 Структурные шаблоны описывают композицию классов и объектов в более крупные структуры; наследование — лишь один из возможных инструментов.
 
 - Adapter: Позволяет объектам с несовместимыми интерфейсами работать вместе.
-
-```typescript
-interface EuropeanPlug {
-  connect(): void;
-}
-
-class EuropeanPlugImpl implements EuropeanPlug {
-  connect() {
-    console.log("Connected with European plug");
-  }
-}
-
-interface USPlug {
-  connectUS(): void;
-}
-
-class Adapter implements USPlug {
-  private europeanPlug: EuropeanPlug;
-
-  constructor(europeanPlug: EuropeanPlug) {
-    this.europeanPlug = europeanPlug;
+  ```typescript
+  interface EuropeanPlug {
+    connect(): void;
   }
 
-  connectUS() {
-    this.europeanPlug.connect();
+  class EuropeanPlugImpl implements EuropeanPlug {
+    connect() {
+      console.log("Connected with European plug");
+    }
   }
-}
 
-const europeanPlug = new EuropeanPlugImpl();
-const adapter = new Adapter(europeanPlug);
-adapter.connectUS(); // Connected with European plug
-```
+  interface USPlug {
+    connectUS(): void;
+  }
+
+  class Adapter implements USPlug {
+    private europeanPlug: EuropeanPlug;
+
+    constructor(europeanPlug: EuropeanPlug) {
+      this.europeanPlug = europeanPlug;
+    }
+
+    connectUS() {
+      this.europeanPlug.connect();
+    }
+  }
+
+  const europeanPlug = new EuropeanPlugImpl();
+  const adapter = new Adapter(europeanPlug);
+  adapter.connectUS(); // Connected with European plug
+  ```
 
 ### Поведенческие паттерны
 
 Поведенческие шаблоны проектирования решают задачи эффективного и безопасного взаимодействия между объектами программы.
 
 - Observer: Создает механизм подписки, позволяющий одним объектам следить и реагировать на события, происходящие в других объектах.
-
-```typescript
-interface Observer {
-  update(message: string): void;
-}
-
-class ConcreteObserver implements Observer {
-  update(message: string) {
-    console.log(`Observer received message: ${message}`);
-  }
-}
-
-class Subject {
-  private observers: Observer[] = [];
-
-  addObserver(observer: Observer) {
-    this.observers.push(observer);
+  ```typescript
+  interface Observer {
+    update(message: string): void;
   }
 
-  removeObserver(observer: Observer) {
-    this.observers = this.observers.filter((obs) => obs !== observer);
+  class ConcreteObserver implements Observer {
+    update(message: string) {
+      console.log(`Observer received message: ${message}`);
+    }
   }
 
-  notifyObservers(message: string) {
-    this.observers.forEach((observer) => observer.update(message));
-  }
-}
+  class Subject {
+    private observers: Observer[] = [];
 
-const observer1 = new ConcreteObserver();
-const observer2 = new ConcreteObserver();
-const subject = new Subject();
-subject.addObserver(observer1);
-subject.addObserver(observer2);
-subject.notifyObservers("Обновление");
-subject.removeObserver(observer1);
-```
+    addObserver(observer: Observer) {
+      this.observers.push(observer);
+    }
+
+    removeObserver(observer: Observer) {
+      this.observers = this.observers.filter((obs) => obs !== observer);
+    }
+
+    notifyObservers(message: string) {
+      this.observers.forEach((observer) => observer.update(message));
+    }
+  }
+
+  const observer1 = new ConcreteObserver();
+  const observer2 = new ConcreteObserver();
+  const subject = new Subject();
+  subject.addObserver(observer1);
+  subject.addObserver(observer2);
+  subject.notifyObservers("Обновление");
+  subject.removeObserver(observer1);
+  ```
 
 ## Задачи на программирование
 
@@ -1628,200 +1609,200 @@ subject.removeObserver(observer1);
 
 - `Function.prototype.bind`: привязать this и начальные аргументы для обычного вызова.
 
-```javascript
-function myBind(func, context, ...args) {
-  if (typeof func !== "function") throw new TypeError("Expected function");
-  return (...rest) => Reflect.apply(func, context, [...args, ...rest]);
-}
-console.log(
-  myBind(
-    function (x) {
-      return this.n + x;
-    },
-    { n: 2 },
-    3,
-  )(),
-); // 5
-```
+  ```javascript
+  function myBind(func, context, ...args) {
+    if (typeof func !== "function") throw new TypeError("Expected function");
+    return (...rest) => Reflect.apply(func, context, [...args, ...rest]);
+  }
+  console.log(
+    myBind(
+      function (x) {
+        return this.n + x;
+      },
+      { n: 2 },
+      3,
+    )(),
+  ); // 5
+  ```
 
-Встроенный bind также поддерживает new для конструируемой функции, корректирует name/length и имеет особую семантику instanceof. Эта версия поддерживает только обычный вызов.
-[MDN: bind](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
+  Встроенный bind также поддерживает new для конструируемой функции, корректирует name/length и имеет особую семантику instanceof. Эта версия поддерживает только обычный вызов.
+  [MDN: bind](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
 
 - `Object.create`: создать объект с указанным прототипом. Для null нельзя использовать трюк с конструктором — он даст Object.prototype. Встроенный метод также принимает дескрипторы свойств.
 
-```javascript
-const animal = { eats: true };
-const rabbit = Object.create(animal, {
-  jumps: {
-    value: true,
-    writable: true,
-    enumerable: true,
-    configurable: true,
-  },
-});
-console.log(Object.getPrototypeOf(rabbit) === animal); // true
-```
+  ```javascript
+  const animal = { eats: true };
+  const rabbit = Object.create(animal, {
+    jumps: {
+      value: true,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    },
+  });
+  console.log(Object.getPrototypeOf(rabbit) === animal); // true
+  ```
 
-[MDN: Object.create](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
+  [MDN: Object.create](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
 
 - `Array.prototype.flat`: версия для обычных массивов с глубиной по умолчанию 1 и пропуском пустых слотов.
 
-```javascript
-function myFlat(array, depth = 1) {
-  if (!Array.isArray(array)) throw new TypeError("Expected array");
-  const numericDepth = +depth;
-  const level = Number.isNaN(numericDepth)
-    ? 0
-    : Math.max(0, Math.trunc(numericDepth));
-  const result = [];
-  function flatten(input, remaining) {
-    const length = input.length;
-    for (let i = 0; i < length; i++) {
-      if (!(i in input)) continue;
-      const value = input[i];
-      if (Array.isArray(value) && remaining > 0) flatten(value, remaining - 1);
-      else result.push(value);
+  ```javascript
+  function myFlat(array, depth = 1) {
+    if (!Array.isArray(array)) throw new TypeError("Expected array");
+    const numericDepth = +depth;
+    const level = Number.isNaN(numericDepth)
+      ? 0
+      : Math.max(0, Math.trunc(numericDepth));
+    const result = [];
+    function flatten(input, remaining) {
+      const length = input.length;
+      for (let i = 0; i < length; i++) {
+        if (!(i in input)) continue;
+        const value = input[i];
+        if (Array.isArray(value) && remaining > 0)
+          flatten(value, remaining - 1);
+        else result.push(value);
+      }
     }
+    flatten(array, level);
+    return result;
   }
-  flatten(array, level);
-  return result;
-}
-console.log(myFlat([1, , [2, [3]]])); // [1, 2, [3]]
-console.log(myFlat([1, [2, [3]]], Infinity)); // [1, 2, 3]
-```
+  console.log(myFlat([1, , [2, [3]]])); // [1, 2, [3]]
+  console.log(myFlat([1, [2, [3]]], Infinity)); // [1, 2, 3]
+  ```
 
-В отличие от встроенного flat эта версия не поддерживает array-like receiver и Array species; чрезмерная вложенность может переполнить стек.
-[MDN: flat](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/flat).
+  В отличие от встроенного flat эта версия не поддерживает array-like receiver и Array species; чрезмерная вложенность может переполнить стек.
+  [MDN: flat](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/flat).
 
 - `Array.prototype.reduce`: версия для обычных массивов; отсутствие initialValue отличается от явно переданного undefined.
 
-```javascript
-function myReduce(array, callback, ...initial) {
-  if (!Array.isArray(array)) throw new TypeError("Expected array");
-  if (typeof callback !== "function") throw new TypeError("Expected function");
-  const length = array.length;
-  let index = 0;
-  let accumulator;
-  if (initial.length) accumulator = initial[0];
-  else {
-    while (index < length && !(index in array)) index++;
-    if (index === length)
-      throw new TypeError("Empty array without initial value");
-    accumulator = array[index++];
+  ```javascript
+  function myReduce(array, callback, ...initial) {
+    if (!Array.isArray(array)) throw new TypeError("Expected array");
+    if (typeof callback !== "function")
+      throw new TypeError("Expected function");
+    const length = array.length;
+    let index = 0;
+    let accumulator;
+    if (initial.length) accumulator = initial[0];
+    else {
+      while (index < length && !(index in array)) index++;
+      if (index === length)
+        throw new TypeError("Empty array without initial value");
+      accumulator = array[index++];
+    }
+    for (; index < length; index++) {
+      if (index in array)
+        accumulator = callback(accumulator, array[index], index, array);
+    }
+    return accumulator;
   }
-  for (; index < length; index++) {
-    if (index in array)
-      accumulator = callback(accumulator, array[index], index, array);
-  }
-  return accumulator;
-}
-console.log(myReduce([1, 2, 3], (sum, n) => sum + n, 0)); // 6
-console.log(myReduce([], () => 1, undefined)); // undefined
-```
+  console.log(myReduce([1, 2, 3], (sum, n) => sum + n, 0)); // 6
+  console.log(myReduce([], () => 1, undefined)); // undefined
+  ```
 
-[MDN: reduce](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
+  [MDN: reduce](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
 
 - Повторить 'hello world' три раза через пробел:
 
-```javascript
-function repeating(text, count) {
-  if (!Number.isInteger(count) || count < 0)
-    throw new RangeError("Invalid count");
-  return Array(count).fill(text).join(" ");
-}
-console.log(repeating("hello world", 3)); // hello world hello world hello world
-```
+  ```javascript
+  function repeating(text, count) {
+    if (!Number.isInteger(count) || count < 0)
+      throw new RangeError("Invalid count");
+    return Array(count).fill(text).join(" ");
+  }
+  console.log(repeating("hello world", 3)); // hello world hello world hello world
+  ```
 
-Метод repeating не встроен в String; repeat повторяет строку без автоматического разделителя.
+  Метод repeating не встроен в String; repeat повторяет строку без автоматического разделителя.
 
 - `myFunc('!', 4, -10, 34, 0)` → '4!-10!34!0':
 
-```javascript
-function myFunc(separator, ...values) {
-  return values.join(separator);
-}
-console.log(myFunc("!", 4, -10, 34, 0)); // 4!-10!34!0
-```
+  ```javascript
+  function myFunc(separator, ...values) {
+    return values.join(separator);
+  }
+  console.log(myFunc("!", 4, -10, 34, 0)); // 4!-10!34!0
+  ```
 
 - `five(plus(seven(minus(three()))))` → 9:
 
-```javascript
-function calc(num, operation) {
-  return operation === undefined ? num : operation(num);
-}
-function three(operation) {
-  return calc(3, operation);
-}
-function five(operation) {
-  return calc(5, operation);
-}
-function seven(operation) {
-  return calc(7, operation);
-}
-function plus(right) {
-  return (left) => left + right;
-}
-function minus(right) {
-  return (left) => left - right;
-}
-console.log(five(plus(seven(minus(three()))))); // 9
-```
+  ```javascript
+  function calc(num, operation) {
+    return operation === undefined ? num : operation(num);
+  }
+  function three(operation) {
+    return calc(3, operation);
+  }
+  function five(operation) {
+    return calc(5, operation);
+  }
+  function seven(operation) {
+    return calc(7, operation);
+  }
+  function plus(right) {
+    return (left) => left + right;
+  }
+  function minus(right) {
+    return (left) => left - right;
+  }
+  console.log(five(plus(seven(minus(three()))))); // 9
+  ```
 
 - `add(5)(9)(-4)(1)`: цепочка возвращает функцию; получить число можно явным приведением.
 
-```javascript
-function add(total) {
-  function next(value) {
-    total += value;
+  ```javascript
+  function add(total) {
+    function next(value) {
+      total += value;
+      return next;
+    }
+    next[Symbol.toPrimitive] = (hint) =>
+      hint === "string" ? String(total) : total;
     return next;
   }
-  next[Symbol.toPrimitive] = (hint) =>
-    hint === "string" ? String(total) : total;
-  return next;
-}
-console.log(+add(5)(9)(-4)(1)); // 11
-```
+  console.log(+add(5)(9)(-4)(1)); // 11
+  ```
 
 - `periodOutput(period)` выводит фактически прошедшее время примерно каждые period мс. Задержка таймера не гарантирует точный интервал.
 
-```javascript
-function periodOutput(period) {
-  if (!Number.isFinite(period) || period <= 0)
-    throw new RangeError("Invalid period");
-  const start = performance.now();
-  const timer = setInterval(
-    () => console.log(Math.round(performance.now() - start)),
-    period,
-  );
-  return () => clearInterval(timer);
-}
-// const stop = periodOutput(100);
-// stop(); // остановка
-```
+  ```javascript
+  function periodOutput(period) {
+    if (!Number.isFinite(period) || period <= 0)
+      throw new RangeError("Invalid period");
+    const start = performance.now();
+    const timer = setInterval(
+      () => console.log(Math.round(performance.now() - start)),
+      period,
+    );
+    return () => clearInterval(timer);
+  }
+  // const stop = periodOutput(100);
+  // stop(); // остановка
+  ```
 
 - `extendedPeriodOutput(period)` увеличивает задержку: period, 2 × period, 3 × period. При period = 100 номинальное суммарное время — 100, 300, 600 мс, а не 100, 200, 300 мс.
-
-```javascript
-function extendedPeriodOutput(period) {
-  if (!Number.isFinite(period) || period <= 0)
-    throw new RangeError("Invalid period");
-  const start = performance.now();
-  let step = 1;
-  let timer;
-  let stopped = false;
-  function schedule() {
-    timer = setTimeout(() => {
-      console.log(Math.round(performance.now() - start));
-      step++;
-      if (!stopped) schedule();
-    }, period * step);
+  ```javascript
+  function extendedPeriodOutput(period) {
+    if (!Number.isFinite(period) || period <= 0)
+      throw new RangeError("Invalid period");
+    const start = performance.now();
+    let step = 1;
+    let timer;
+    let stopped = false;
+    function schedule() {
+      timer = setTimeout(() => {
+        console.log(Math.round(performance.now() - start));
+        step++;
+        if (!stopped) schedule();
+      }, period * step);
+    }
+    schedule();
+    return () => {
+      stopped = true;
+      clearTimeout(timer);
+    };
   }
-  schedule();
-  return () => {
-    stopped = true;
-    clearTimeout(timer);
-  };
-}
-```
-
-[MDN: setTimeout](https://developer.mozilla.org/ru/docs/Web/API/Window/setTimeout).
+  ```
+  [MDN: setTimeout](https://developer.mozilla.org/ru/docs/Web/API/Window/setTimeout).
