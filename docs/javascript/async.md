@@ -5,13 +5,17 @@ format: md
 
 # Promise, async/await и Event Loop
 
+Promise представляет будущий результат операции. Начните с состояний и цепочек, затем перейдите к обработке ошибок и порядку выполнения.
+
 ## Промисы
 
-- `Promise` представляет будущий результат операции: значение или причину ошибки.
-- Состояния промисов
-  - `pending` — промис ещё не выполнен и не отклонён
-  - `fulfilled` — выполнено успешно
-  - `rejected` — выполнено с ошибкой
+Результат промиса — значение или причина ошибки.
+
+| Состояние | Значение |
+| --- | --- |
+| `pending` | Операция ещё не завершена. |
+| `fulfilled` | Операция завершена успешно. |
+| `rejected` | Операция завершена с ошибкой. |
 
 ```js
 var promise = new Promise(function (resolve, reject) {
@@ -27,9 +31,15 @@ var promise = new Promise(function (resolve, reject) {
 - Executor может запустить асинхронную операцию. По её завершении вызывают `resolve` или `reject`, чтобы определить результат промиса.
   - `resolve(value)` разрешает промис значением или принимает итоговое состояние thenable; это не всегда немедленный переход в fulfilled.
   - `reject(reason)` отклоняет промис с любым значением; обычно передают объект Error.
-- Промис не может передумать, например, вызвать reject ПОСЛЕ вызова resolve
-- Цепочки промисов:
-  - Каждый `then()` возвращает новый промис, поэтому вызовы можно объединять в цепочку. Несколько вызовов `then()` на одном промисе создают независимые ветки.
+:::note[Результат определяется один раз]
+
+После первого вызова `resolve` или `reject` последующие вызовы не меняют результат.
+
+:::
+
+### Цепочки промисов
+
+Каждый `then()` возвращает новый промис, поэтому вызовы можно объединять в цепочку. Несколько вызовов `then()` на одном промисе создают независимые ветки.
 
 ```js
 fetch("/api/user")
@@ -41,18 +51,20 @@ fetch("/api/user")
   .catch((error) => console.error(error));
 ```
 
-- В каждом then мы получаем текущий результат работы.
-  Можно его обработать синхронно и вернуть результат (например, применить JSON.parse). Или же, если нужна асинхронная обработка – инициировать её и вернуть промис.
-- ![промисы чейнинг](../../img/telegram-cloud-photo-size-2-5467426521393258195-y.jpg)
-- Схема показывает успешную цепочку: каждый `then()` возвращает новый промис. Возвращённый обработчиком промис передаёт своё итоговое состояние следующему звену. Песочные часы обозначают возможное ожидание операции, а не отложенный запуск executor: он вызывается синхронно.
+Обработчик `then()` получает результат предыдущего шага. Он может вернуть обычное значение или промис, завершения которого дождётся следующее звено.
 
-- Методы промисов:
-  - `then()`
-    - также перехватывает ошибки, если задан второй аргумент (который является обработчиком ошибок).
-  - `catch()`
-    - выполняется при ошибке
-    - можно пробросить ошибку дальше
-  - `finally()` выполняется при завершении конкретного промиса независимо от успеха; возврат обычного значения не заменяет результат, а throw или отклонённый промис меняет его на отклонение
+![Цепочка промисов](../../img/telegram-cloud-photo-size-2-5467426521393258195-y.jpg)
+
+Схема показывает успешную цепочку: каждый `then()` возвращает новый промис. Возвращённый обработчиком промис передаёт своё итоговое состояние следующему звену. Песочные часы обозначают возможное ожидание операции, а не отложенный запуск executor: он вызывается синхронно.
+
+### Обработка результата и ошибок
+
+Методы экземпляра промиса:
+
+- `then(onFulfilled, onRejected)` обрабатывает успех или отклонение предыдущего промиса.
+- `catch(onRejected)` обрабатывает отклонение. Возврат значения восстанавливает цепочку; `throw` передаёт ошибку дальше.
+- `finally(callback)` выполняется независимо от исхода. Обычное возвращаемое значение не заменяет результат; `throw` или отклонённый промис меняет его на отклонение.
+
 - При возникновении ошибки – она отправляется в ближайший обработчик onRejected.
   - если ошибка не критическая можно перейти в ближайший (следующий) .then вернув значение при помощи return
   - Необработанное отклонение вызывает `unhandledrejection` в браузере и обычно сообщение в консоли; реакция среды может отличаться. Обычный синхронный try/catch не ловит позднее отклонение без await.
@@ -60,136 +72,15 @@ fetch("/api/user")
   - `[[PromiseState]]` (внутреннее состояние, не публичное свойство state) — вначале "`pending`" («ожидание»), потом меняется на "`fulfilled`" («выполнено успешно») после разрешения обычным значением (при resolve с thenable ожидается его результат) или на "`rejected`" («выполнено с ошибкой») при вызове `reject`.
   - `[[PromiseResult]]` хранит итоговое значение или причину отклонения после завершения промиса; при resolve с thenable принимается его итоговый результат. Публичного свойства result нет.
 
-- Статические методы промисов
-  - `Promise.all(iterable)` - ожидает выполнения всех промисов и возвращает массив с результатами. Если хотя бы один промис из переданного массива завершится с ошибкой, то `Promise.all()` тоже завершится с этой ошибкой.
-  - `Promise.race(iterable)` принимает состояние первого завершившегося промиса (успех или ошибка); остальные операции не отменяются.
-  - `Promise.any(iterable)` ждёт первый успех; если все отклонены (или iterable пуст), отклоняется с AggregateError.
-  - `Promise.resolve(value)` разрешает value: обычное значение даёт fulfilled-промис, thenable принимается с его итоговым состоянием; подходящий Promise возвращается без создания нового
-  - `Promise.reject(reason)` создаёт отклонённый промис с причиной reason.
+### Статические методы
 
-- **ASYNC / AWAIT**
-  - У слова `async` один простой смысл: эта функция всегда возвращает промис. Значения других типов оборачиваются в завершившийся успешно промис автоматически
-  - `await` приостанавливает текущую async-функцию (или модуль), а не поток JavaScript. Продолжение выполняется асинхронно: возвращает значение fulfilled-промиса или бросает причину rejected-промиса.
-    - Пока промис не выполнится, JS-движок может заниматься другими задачами: выполнять прочие скрипты, обрабатывать события и т. п.
-    - В обычной функции await требует async; также разрешён на верхнем уровне модуля
-  - ошибки можно ловить, используя `try..catch`
+- `Promise.all(iterable)` - ожидает выполнения всех промисов и возвращает массив с результатами. Если хотя бы один промис из переданного массива завершится с ошибкой, то `Promise.all()` тоже завершится с этой ошибкой.
+- `Promise.race(iterable)` принимает состояние первого завершившегося промиса (успех или ошибка); остальные операции не отменяются.
+- `Promise.any(iterable)` ждёт первый успех; если все отклонены (или iterable пуст), отклоняется с AggregateError.
+- `Promise.resolve(value)` разрешает value: обычное значение даёт fulfilled-промис, thenable принимается с его итоговым состоянием; подходящий Promise возвращается без создания нового
+- `Promise.reject(reason)` создаёт отклонённый промис с причиной reason.
 
-Документация: [MDN — Promise](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-
-Пример:
-
-```javascript
-const pending = new Promise(() => {}); // pending
-const success = Promise.resolve(2); // fulfilled
-const failure = Promise.reject(new Error("Сбой")); // rejected
-failure.catch((error) => console.log(error.message)); // "Сбой"
-success.then((value) => value * 3).then(console.log); // 6: Promise chaining
-Promise.resolve(1)
-  .then(() => {
-    throw new Error("Ошибка шага");
-  })
-  .catch((error) => {
-    console.log(error.message);
-    return 0;
-  })
-  .finally(() => console.log("Очистка"))
-  .then(console.log); // 0: catch восстановил цепочку
-Promise.resolve()
-  .then(
-    () => {
-      throw new Error("Сбой");
-    },
-    () => console.log("Не вызовется"),
-  )
-  .catch((error) => console.log(error.message)); // "Сбой": второй аргумент then не ловит ошибку своего onFulfilled
-Promise.all([Promise.resolve(1), Promise.resolve(2)]).then(console.log); // [1, 2]
-Promise.race([Promise.resolve("первый"), Promise.resolve("второй")]).then(
-  console.log,
-); // "первый"
-Promise.any([Promise.reject("сбой"), Promise.resolve(2)]).then(console.log); // 2
-async function read() {
-  try {
-    return await Promise.resolve(42);
-  } catch (error) {
-    console.error(error);
-    return 0;
-  }
-}
-read().then(console.log); // 42
-// Внутренние [[PromiseState]] и [[PromiseResult]] не доступны как свойства:
-console.log(success.state, success.result); // undefined, undefined
-```
-
-## Event Loop
-
-- В браузере после выполнения задачи и освобождения стека выполняется контрольная точка микрозадач (Promise.then, queueMicrotask); очередь микрозадач опустошается, включая добавленные ими микрозадачи. Затем браузер может обновить отображение и перейти к следующей задаче. setTimeout задаёт минимальную задержку, а не точное время выполнения.
-
-Источник: [MDN — цикл событий](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model).
-
-Пример:
-
-```javascript
-console.log("начало");
-setTimeout(() => console.log("таймер"), 0);
-Promise.resolve().then(() => console.log("промис"));
-queueMicrotask(() => console.log("микрозадача"));
-console.log("конец");
-// начало → конец → промис → микрозадача → таймер
-```
-
-## Асинхронный JavaScript
-
-Документация: [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-
-### Promise
-
-- **Описание:** Promise — объект для написания и обработки асинхронного кода.
-  ```javascript
-  let promise = new Promise(function (resolve, reject) {
-    // executor вызывается синхронно; resolve/reject определяют результат; resolve с thenable ждёт его исхода
-    resolve(42);
-  });
-  ```
-
-### Promise states
-
-- **Состояния Promise:**
-
-Пример:
-
-```javascript
-const pending = new Promise(() => {}); // pending: не завершён
-const fulfilled = Promise.resolve(42); // fulfilled
-const rejected = Promise.reject(new Error("Сбой")); // rejected
-
-fulfilled.then((value) => console.log(value)); // 42
-rejected.catch((error) => console.log(error.message)); // "Сбой"
-// Публичного свойства state нет; состояние видно в инструментах разработчика.
-```
-
-- `pending` — начальное состояние: промис ещё не fulfilled и не rejected
-
-- `fulfilled` — операция завершилась успешно
-
-- `rejected` — произошла ошибка
-
-### Promise chaining
-
-- **Цепочки промисов:**
-  ```javascript
-  Promise.resolve(2)
-    .then((value) => value * 3)
-    .then((value) => Promise.resolve(value + 1))
-    .then((value) => console.log(value)) // 7
-    .catch((error) => console.error(error));
-  ```
-
-### Promise static methods
-
-- **Статические методы:** Promise.resolve(), Promise.reject(), Promise.all(), Promise.allSettled(), Promise.race(), Promise.any(), Promise.withResolvers().
-- then(), catch() и finally() — методы экземпляра промиса, а не статические.
-
-Пример:
+Пример сравнения методов (включая `allSettled()` и `withResolvers()`):
 
 ```javascript
 const a = Promise.resolve(1);
@@ -209,35 +100,73 @@ promise.then(console.log); // "Готово"
 resolve("Готово");
 ```
 
-### Обработка ошибок в Promise
+## async/await
 
-- **Обработка ошибок в промисах:**
-  ```javascript
-  Promise.resolve(2)
-    .then(() => {
+- У слова `async` один простой смысл: эта функция всегда возвращает промис. Значения других типов оборачиваются в завершившийся успешно промис автоматически
+- `await` приостанавливает текущую async-функцию (или модуль), а не поток JavaScript. Продолжение выполняется асинхронно: возвращает значение fulfilled-промиса или бросает причину rejected-промиса.
+  - Пока промис не выполнится, JS-движок может заниматься другими задачами: выполнять прочие скрипты, обрабатывать события и т. п.
+  - В обычной функции await требует async; также разрешён на верхнем уровне модуля
+- ошибки можно ловить, используя `try..catch`
+
+Документация: [MDN — Promise](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+### Пример: результат и восстановление после ошибки
+
+```javascript
+const pending = new Promise(() => {}); // pending
+const success = Promise.resolve(2); // fulfilled
+const failure = Promise.reject(new Error("Сбой")); // rejected
+failure.catch((error) => console.log(error.message)); // "Сбой"
+success.then((value) => value * 3).then(console.log); // 6
+```
+
+Возврат значения из `catch()` восстанавливает цепочку:
+
+```javascript
+Promise.resolve(1)
+  .then(() => {
+    throw new Error("Ошибка шага");
+  })
+  .catch((error) => {
+    console.log(error.message);
+    return 0;
+  })
+  .finally(() => console.log("Очистка"))
+  .then(console.log); // 0: catch восстановил цепочку
+```
+
+:::warning[Где перехватывается ошибка]
+
+Второй аргумент `then()` не ловит ошибку своего `onFulfilled`:
+
+:::
+
+```javascript
+Promise.resolve()
+  .then(
+    () => {
       throw new Error("Сбой");
-    })
-    .catch((error) => {
-      console.log(error.message); // "Сбой"
-      return 0; // восстановление после ошибки
-    })
-    .then((value) => console.log(value)); // 0
-  ```
+    },
+    () => console.log("Не вызовется"),
+  )
+  .catch((error) => console.log(error.message)); // "Сбой": второй аргумент then не ловит ошибку своего onFulfilled
+```
 
-### async/await
+Обработка ошибки через `try/catch` и `await`:
 
-- **Описание:** `async` и `await` используются для работы с промисами в синхронном стиле.
-  ```javascript
-  async function example() {
-    const result = await Promise.resolve(42);
-    console.log(result); // 42
+```javascript
+async function read() {
+  try {
+    return await Promise.resolve(42);
+  } catch (error) {
+    console.error(error);
+    return 0;
   }
-  example();
-  ```
+}
+read().then(console.log); // 42
+```
 
-### Event loop
-
-- **Описание:** Event Loop — механизм, который позволяет JavaScript выполнять асинхронный код. Ниже будет приведен более подробный разбор:
+## Event Loop
 
 1. **Стек вызовов** хранит активные вызовы. Последний вызов завершается первым (LIFO); текущая задача выполняется до завершения.
 2. **Web APIs** выполняют операции платформы, например таймеры и сеть. Обычный вызов async-функции начинается синхронно и приостанавливается на await; функция не «передаётся в Web API» целиком.

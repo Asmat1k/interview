@@ -1,0 +1,73 @@
+/* Use Docusaurus's stable theme classes so upgrades preserve these rules. */
+.theme-doc-markdown {
+  --ifm-line-height-base: 1.75;
+  --ifm-heading-line-height: 1.35;
+  --ifm-list-item-margin: 0.65rem;
+  max-width: 75ch;
+  line-height: var(--ifm-line-height-base);
+  margin-inline: auto;
+  overflow-wrap: anywhere;
+}
+
+.theme-doc-markdown > h1 {
+  font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 3rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.theme-doc-markdown h3 {
+  margin-top: 2rem;
+}
+
+.theme-doc-markdown :is(h1, h2, h3, h4) {
+  text-wrap: balance;
+}
+
+.theme-doc-markdown :is(p, ul, ol, pre, table, blockquote) {
+  margin-bottom: 1.25rem;
+}
+
+.theme-doc-markdown li > :is(ul, ol) {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Inline code may wrap; executable examples retain indentation and scrolling. */
+.theme-doc-markdown :not(pre) > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.theme-doc-markdown pre {
+  --ifm-pre-line-height: 1.6;
+  overflow-wrap: normal;
+}
+
+.theme-doc-markdown table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.theme-doc-markdown :is(th, td) {
+  min-width: 8rem;
+}
+
+.theme-doc-sidebar .menu__link,
+.theme-doc-toc-desktop .table-of-contents__link {
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 576px) {
+  .theme-doc-markdown :is(ul, ol) {
+    padding-left: 1.25rem;
+  }
+
+  .theme-doc-markdown h2 {
+    margin-top: 2.25rem;
+  }
+}

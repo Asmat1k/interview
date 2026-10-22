@@ -22,6 +22,7 @@ const config = {
         editUrl: 'https://github.com/Asmat1k/interview/edit/main/',
       },
       blog: false,
+      theme: { customCss: require.resolve('./src/css/custom.css') },
     }],
   ],
   themeConfig: {
