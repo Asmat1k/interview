@@ -1,11 +1,11 @@
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'InterviewJS',
+  title: 'interview',
   tagline: 'Подготовка к собеседованиям по frontend-разработке',
   url: 'https://asmat1k.github.io',
-  baseUrl: '/InterviewJS/',
+  baseUrl: '/interview/',
   organizationName: 'Asmat1k',
-  projectName: 'InterviewJS',
+  projectName: 'interview',
   deploymentBranch: 'gh-pages',
   trailingSlash: true,
   onBrokenLinks: 'throw',
@@ -19,17 +19,17 @@ const config = {
       docs: {
         routeBasePath: '/',
         sidebarPath: require.resolve('./sidebars.js'),
-        editUrl: 'https://github.com/Asmat1k/InterviewJS/edit/main/',
+        editUrl: 'https://github.com/Asmat1k/interview/edit/main/',
       },
       blog: false,
     }],
   ],
   themeConfig: {
     navbar: {
-      title: 'InterviewJS',
+      title: 'interview',
       items: [
         { type: 'docSidebar', sidebarId: 'interviewSidebar', label: 'Темы', position: 'left' },
-        { href: 'https://github.com/Asmat1k/InterviewJS', label: 'GitHub', position: 'right' },
+        { href: 'https://github.com/Asmat1k/interview', label: 'GitHub', position: 'right' },
       ],
     },
     prism: { additionalLanguages: ['typescript', 'bash', 'json', 'http'] },

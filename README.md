@@ -1,4 +1,4 @@
-# InterviewJS
+# interview
 
 Материалы для подготовки к собеседованиям по frontend-разработке. Содержание организовано по предметам, а не по исходным спискам вопросов.
 
@@ -77,7 +77,7 @@ npm run serve
 
 ## GitHub Pages
 
-Сайт: [InterviewJS](https://asmat1k.github.io/InterviewJS/).
+Сайт: [interview](https://asmat1k.github.io/interview/).
 
 Workflow `.github/workflows/deploy.yml` проверяет сборку pull request в `main`. Push в `main` или ручной запуск workflow из `main` собирает сайт, обновляет ветку `gh-pages` и публикует тот же результат через GitHub Pages. Публикация выполняется последовательно; pull request не получает доступ к заданию деплоя.
 
@@ -85,4 +85,4 @@ Workflow `.github/workflows/deploy.yml` проверяет сборку pull req
 
 После отправки изменений в `main` следите за workflow **Build and deploy Docusaurus** на вкладке **Actions**. Пока изменения находятся только локально, сайт не обновляется.
 
-В `docusaurus.config.js` заданы `url` и `baseUrl` для `Asmat1k/InterviewJS`. При переименовании репозитория или подключении своего домена обновите эти значения.
+В `docusaurus.config.js` заданы `url` и `baseUrl` для `Asmat1k/interview`. При переименовании репозитория или подключении своего домена обновите эти значения.
