@@ -4,18 +4,18 @@
 
   - Know static Object methods
     - `Object.create()` используется для создания новых объектов и их привязки к прототипу существующего объекта.
-    - `Object.keys()` создает массив, содержащий ключи объекта.
-    - `Object.values()` создает массив, содержащий значения объекта.
-    - `Object.entries()` создает вложенный массив пар ключ-значение для объекта.
-    - `Object.assign()` используется для копирования значений одного объекта в другой объект.
-    - `Object.freeze()` предотвращает изменение свойств и значений объекта, а также добавление или удаление свойств объекта.
-    - `Object.seal()` предотвращает добавление новых свойств к объекту, но допускает изменение существующих свойств.
-    - `Object.getPrototypeOf()` используется для получения внутреннего скрытого свойства [[Prototype]] объекта, которое также доступно через свойство `__proto__`.
+    - `Object.keys()` возвращает массив собственных перечисляемых строковых ключей объекта.
+    - `Object.values()` возвращает значения собственных перечисляемых свойств со строковыми ключами.
+    - `Object.entries()` возвращает массив пар [ключ, значение] для собственных перечисляемых свойств со строковыми ключами.
+    - `Object.assign(target, ...sources)` поверхностно копирует собственные перечисляемые строковые и символьные свойства источников в target и возвращает target.
+    - `Object.freeze()` запрещает добавление и удаление собственных свойств, делает их неконфигурируемыми, а свойства данных — незаписываемыми. Заморозка поверхностная: вложенные объекты и поведение сеттеров автоматически не замораживаются.
+    - `Object.seal()` запрещает добавление и удаление собственных свойств и делает их неконфигурируемыми. Значения свойств данных можно менять, только если writable: true.
+    - `Object.getPrototypeOf()` возвращает внутренний прототип [[Prototype]]. Устаревший аксессор `Object.prototype.__proto__` доступен не у всех объектов; используйте стандартные методы работы с прототипом.
   - Property flags & descriptors (student is able to set property via `Object.defineProperty`)
-    - Помимо значения, свойства объекта имеют три специальных атрибута (так называемые «флаги», которые по умолчанию всегда true).
+    - У свойств данных есть атрибуты value, writable, enumerable и configurable. У свойств-аксессоров вместо value/writable — get/set. При обычном присваивании новые свойства получают флаги true; у нового свойства через Object.defineProperty пропущенные флаги равны false.
       - **writable** – если true, свойство можно изменить, иначе оно только для чтения.
-      - **enumerable** – если true, свойство перечисляется в циклах, в противном случае циклы его игнорируют.
-      - **configurable** – если true, свойство можно удалить, а эти атрибуты можно изменять, иначе этого делать нельзя.
+      - **enumerable** – управляет перечислением в for...in и Object.keys/values/entries; не влияет на прямой доступ, Reflect.ownKeys или Object.getOwnPropertyNames.
+      - **configurable** – разрешает удаление и изменение дескриптора. При false запрещены большинство изменений, но у свойства данных writable можно переключить с true на false, а value менять, пока writable: true.
     - Метод **`Object.getOwnPropertyDescriptor`** позволяет получить полную информацию о свойстве. (obj - объект, из которого мы получаем информацию. propertyName - имя свойства.)
     - Чтобы изменить флаги, мы можем использовать метод `Object.defineProperty`.
       - `Object.defineProperty(obj, propertyName, descriptor)`
@@ -23,12 +23,20 @@
       - `descriptor` - применяемый дескриптор.
     - Как задать свойства?
       - ```javascript
+          const user = { name: "Анна" };
           Object.defineProperty(user, "name", {
               writable: false
           });
           ```
-      - `writable` можно заменить на любое другое.
-  - Know how to create iterable objects, Symbol.iterator usage `(optional)` TODO
+      - В дескрипторе можно отдельно настроить writable, enumerable и configurable; свойства-аксессоры используют get/set вместо value/writable.
+  - Know how to create iterable objects, Symbol.iterator usage `(optional)`
+    - Итерируемый объект имеет метод [Symbol.iterator](), возвращающий итератор с next(), который возвращает { value, done }.
+      ```javascript
+      const iterable = {
+        *[Symbol.iterator]() { yield 1; yield 2; }
+      };
+      console.log([...iterable]); // [1, 2]
+      ```
 
 ### ECMAScript Data Types & Expressions
 
@@ -46,7 +54,7 @@
         };
         ```
   - Be able to loop through Object keys
-    - Using a `for...in` loop
+    - `for...in` перечисляет перечисляемые строковые свойства, включая унаследованные; для собственных используйте Object.hasOwn(obj, key).
     - `Object.keys` method
     - `Object.values` method
     - `Object.entries` method
@@ -54,11 +62,11 @@
 ### Functional Scope
 
   - Know global scope and functional scope
-    - Если переменная объявлена вне всех функций или фигурных скобок ({}), то считается, что она определена в глобальной области видимости.
+    - В обычном скрипте объявления верхнего уровня относятся к глобальной области. В ES-модуле верхний уровень имеет область модуля. Глобальные let/const не становятся свойствами window.
     - Переменные, которые используются только в определенной части кода, считаются помещенными в локальную область видимости. Такие переменные называются локальными.
   - Know variables visibility areas
     - `VAR`
-       - Объявления могут обладать функциональную область видимости.
+       - `var` имеет область функции либо верхнего уровня скрипта/модуля и не ограничивается обычным блоком.
     - `LET` 
       - `let` имеет блочную область видимости.
     - `CONST`
@@ -73,34 +81,34 @@
     function hello(param1, param2) {}
     ```
   - Know difference between parameters passing by value and by reference
-    - Строки, числа, логические значения передаются в функцию по значению. Иными словами, при передаче значения в функцию, эта функция получает копию данного значения.
-    - Объекты и массивы передаются по ссылке. То есть функция получает сам объект или массив, а не их копию. Если что-то меняем в функции, то меняем в самом объекте.
+    - Все аргументы JavaScript передаются по значению. Для примитивов копируется примитивное значение.
+    - Для объектов и массивов копируется значение ссылки: изменение объекта видно вызывающему коду, а переназначение параметра другому объекту не меняет переменную вызывающего кода (передача с совместным доступом, не по ссылке).
   - Know how to handle dynamic amount of Function parameters
     - Доступ к ним осуществляется через «псевдо-массив» `arguments`.
     - Он содержит список аргументов по номерам: `arguments[0]`, `arguments[1]`…, а также свойство `length`.
-    - `arguments` – это не массив.
+    - `arguments` – это не массив; у стрелочных функций нет собственного arguments. Для переменного числа аргументов обычно используют rest-параметр ...args — настоящий массив.
    
 ### Closures Advanced
 
   - Context (lexical environment)
-    - Словарь, который содержит в себе все переменные и ссылку на другое лексическое окружение (внешнее).
+    - Лексическое окружение — модель хранения привязок имён и ссылки на внешнее окружение; это не значение this и не обычный JS-объект.
   - Understand function creation context (lexical environment)
     - Когда функция вызывается, у неё создаётся своё окружение со скоупом (ссылкой на внешнее окружение).
     - Если она вызывается несколько раз, то это разные лексические окружения.
   - Be able to explain difference between scope and context
-    - **Область видимости** (scope) - ссылка на другое лексическое окружение (родительское).
-    - **Контекст** описывает окружение, в котором выполняется код (любой код имеет контекст выполнения). В каждый момент времени только один контекст выполнения выполняет код.
+    - **Область видимости** (scope) определяет, где доступны имена переменных; поиск идёт по цепочке лексических окружений.
+    - **Контекст** описывает окружение, в котором выполняется код (любой код имеет контекст выполнения). В пределах одного агента в каждый момент выполняется один контекст; воркеры могут работать параллельно.
     - Несколько популярных видов контекста:
       - Global контекст
       - Function контекст и т.п.
-  - Inner/outer lexical environment ([link](https://learn.javascript.ru/closure#leksicheskoe-okruzhenie))
-    - В процессе вызова функции у нас есть два лексических окружения: внутреннее (для вызываемой функции) и внешнее (глобальное).
+  - Inner/outer lexical environment ([link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Closures))
+    - При вызове функции создаётся локальное окружение, связанное с окружением, в котором функция была определена. В цепочке может быть несколько окружений функций, блоков и модулей.
     - Внутреннее лексическое окружение соответствует текущему выполнению функции.
-    - Внешнее лексическое окружение – это глобальное лексическое окружение. В нём находятся внешние переменные.
+    - Внешнее окружение не обязательно глобальное: это может быть окружение другой функции, блока или модуля.
     - У внутреннего лексического окружения есть ссылка на внешнее (outer).
     - Когда код хочет получить доступ к переменной – сначала происходит поиск во внутреннем лексическом окружении, затем во внешнем, затем в следующем и так далее, до глобального.
   - Understand connection between function and lexical environment
-    - В процессе выполнения функции значения переменных могут меняться, что сразу же отражается в лексическом окружении. После выполнения функции её лексическое окружение уничтожается, а занятая им память освобождается. Из этого поведения есть исключение — возврат функции.
+    - В процессе выполнения функции значения переменных могут меняться, что сразу же отражается в лексическом окружении. После выполнения функции недостижимые данные могут быть собраны сборщиком мусора; немедленное освобождение не гарантируется. Доступное замыкание сохраняет доступ к захваченным переменным, даже если его передали обработчику или сохранили без return.
    
 ### ECMAScript Intermediate
   
@@ -109,7 +117,7 @@
       function hello(param1 = 10, param2 = 'Tim') {}
       ```
   - Know how to use spread operator for Function arguments
-    - Оператор `spread` — это конструкция в JavaScript, которая позволяет передавать элементы массива или свойства объекта в виде отдельных аргументов.
+    - Синтаксис `spread` — это конструкция в JavaScript, которая распаковывает итерируемый объект в аргументы вызова или элементы массива; отдельная форма {...obj} копирует собственные перечисляемые свойства объекта. Обычный объект не обязательно итерируемый.
     - ```javascript
       function spredInFunc(...args) {
         console.log(...args);
@@ -124,7 +132,7 @@
       restInFunc(1, 2, 3, 4, 5); /// [1, 2, 3, 4, 5]
       ```
   - Spread operator for Array
-    - Можно скопировать массив **`const newArr = [...oldArr]`**
+    - Можно поверхностно скопировать массив **`const newArr = [...oldArr]`**; вложенные объекты остаются общими.
   - Understand and able to use spread operator for Array concatenation
     - ```javascript
       const a = [1, 2];
@@ -137,7 +145,7 @@
         console.log(firstName); // Илья
         console.log(lastName); // Кантор
       ```
-    - [link](https://learn.javascript.ru/destructuring)
+    - [link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring)
   - Be able to discover destructuring assignment concept
     - ```javascript
       let a, b;
@@ -146,9 +154,9 @@
       console.log(b); // 20
       ```
   - Know how `for..of` loop works
-    - Перебор элементов в массиве/строке.
+    - `for...of` перебирает значения любого итерируемого объекта, например массива, строки, Map или Set; обычный объект без Symbol.iterator не подходит.
 
-  **Операторы легко отличить. Когда синтаксис ... используется для «распаковки» элементов массива или объекта в отдельные аргументы — это spread. А если три точки используются для сбора оставшихся аргументов в массив или объект — это оператор rest.**
+  **Spread распаковывает итерируемые значения в вызовах и массивах либо свойства в объектных литералах. Rest собирает оставшиеся аргументы в массив; в деструктуризации массивов/объектов собирает оставшиеся элементы/свойства. Это синтаксис, а не отдельные операторы.**
 
 ### Modules in JavaScript*
 
@@ -160,11 +168,15 @@
     - Для импорта `const foo = require('foo');`
     - Для экспорта `module.exports = { myFunc, myVar };`
   - `ES6`
-    - Для импорта `import myFunc from './myFunc.js';`
+    - Для именованного экспорта ниже: `import { myFunc } from './myFunc.js';`. Импорт без фигурных скобок требует export default.
     - Для экспорта `export { myFunc, myVar };`
   - Know how to import / export module members
     - ```javascript
+      // app.js
       import { myFunc } from './myFunc.js';
+      ```
+    - ```javascript
+      // myFunc.js (отдельный файл)
       export const myFunc = () => { console.log('Hello'); };
       ```
       
@@ -173,7 +185,7 @@
 Прототипное наследование — это механизм, с помощью которого объекты могут наследовать свойства и методы друг от друга. Рассмотрим основные аспекты прототипного наследования.
 
 #### Свойство `__proto__`
-  - **Что это такое?** `__proto__` — это внутреннее свойство объекта, которое указывает на его прототип (другой объект, от которого он наследует свойства и методы).
+  - **Что это такое?** `__proto__` — устаревший аксессор Object.prototype для внутреннего [[Prototype]], а не само внутреннее свойство. Он может отсутствовать или быть перекрыт; предпочтительны Object.getPrototypeOf, Object.setPrototypeOf и Object.create.
 
   - **Как работает?** Когда вы пытаетесь получить доступ к свойству объекта, и это свойство не найдено у самого объекта, JavaScript ищет его в прототипе, указанном в `__proto__`.
 
@@ -221,7 +233,7 @@
     ```
 
 #### Свойство `prototype`
-  - **Что это такое?** Свойство `prototype` у функций-конструкторов используется для реализации наследования. Это свойство указывает на объект, который будет прототипом для всех объектов, созданных этой функцией.
+  - **Что это такое?** Свойство `prototype` у функций-конструкторов используется для реализации наследования. При обычном вызове new, если prototype — объект, он становится прототипом создаваемого экземпляра; явный возврат другого объекта из конструктора может изменить результат.
 
   - **Пример:**
     ```javascript
@@ -246,7 +258,7 @@
     console.log(rabbit.__proto__ === Animal.prototype); // true
     ```
 
-  - **Объяснение:** У каждого экземпляра, созданного с помощью конструктора `Animal`, свойство `__proto__` указывает на `Animal.prototype`.
+  - **Объяснение:** В этом примере Object.getPrototypeOf(rabbit) === Animal.prototype. Это отношение внутреннего [[Prototype]] экземпляра к свойству prototype конструктора; оно не требует доступа через __proto__.
 
 #### Создание методов 'class' с использованием свойства `prototype` функции
   - **Пример:**
@@ -366,7 +378,7 @@
 
 ##### **WeakMap**
 
-- **Описание:** WeakMap — это коллекция, где ключами могут быть только объекты, и автоматически удаляющая их при недоступности.
+- **Описание:** WeakMap хранит пары с ключами-объектами или незарегистрированными символами (не Symbol.for) и не удерживает ключи от сборки мусора. Момент сборки не гарантирован; перечисления ключей нет.
   
 - **Примеры использования:**
   ```javascript
@@ -381,7 +393,7 @@
 
 ##### **WeakSet**
 
-- **Описание:** WeakSet — это коллекция, которая хранит только объекты и удаляет их, когда они становятся недостижимыми.
+- **Описание:** WeakSet хранит объекты и незарегистрированные символы слабо: наличие в коллекции не препятствует сборке мусора. Коллекция не перечисляется и не имеет size.
 
 - **Примеры использования:**
   ```javascript
@@ -411,7 +423,7 @@
 
 #### try..catch statement
 
-- **try..catch:** Блок `try` выполняет код, и если возникает ошибка, она перехватывается блоком `catch`.
+- **try..catch:** Блок `catch` перехватывает исключения, возникшие при выполнении try. Ошибки будущих колбэков таймеров он не перехватит; отклонение промиса нужно await внутри try или обработать через catch().
   ```javascript
   try {
     // код, который может вызвать ошибку
@@ -448,7 +460,8 @@
   ```javascript
   async function fetchData() {
     try {
-      let response = await fetch('url');
+      let response = await fetch('/api/data');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       let data = await response.json();
     } catch (error) {
       console.error('Ошибка:', error);
@@ -463,14 +476,15 @@
 - **Описание:** Promise — объект для написания и обработки асинхронного кода.
   ```javascript
   let promise = new Promise(function(resolve, reject) {
-    // асинхронный код
+    // executor вызывается синхронно; resolve/reject завершают промис
+    resolve(42);
   });
   ```
 
 #### Promise states
 
 - **Состояния Promise:**
-  - `pending` — операция началась
+  - `pending` — начальное состояние: промис ещё не fulfilled и не rejected
   - `fulfilled` — операция завершилась успешно
   - `rejected` — произошла ошибка
 
@@ -489,10 +503,8 @@
 
 #### Promise static methods
 
-- **Методы:**
-  - `then()`
-  - `catch()`
-  - `finally()`
+- **Статические методы:** Promise.resolve(), Promise.reject(), Promise.all(), Promise.allSettled(), Promise.race(), Promise.any(), Promise.withResolvers().
+- then(), catch() и finally() — методы экземпляра промиса, а не статические.
 
 #### Handle errors in promises
 
@@ -521,59 +533,31 @@
 
 - **Описание:** Event Loop — механизм, который позволяет JavaScript выполнять асинхронный код. Ниже будет приведен более подробный разбор:
 
-1. **Call Stack (Стек вызовов)**:
-   - Это структура данных, которая отслеживает, где мы находимся в исполнении кода.
-   - Каждая функция, вызванная в JavaScript, помещается в вершину стека, и исполняется в порядке добавления.
-   - Когда функция завершает свою работу, она удаляется из стека.
+1. **Стек вызовов** хранит активные вызовы. Последний вызов завершается первым (LIFO); текущая задача выполняется до завершения.
+2. **Web APIs** выполняют операции платформы, например таймеры и сеть. Обычный вызов async-функции начинается синхронно и приостанавливается на await; функция не «передаётся в Web API» целиком.
+3. **Задачи (tasks, часто «макрозадачи»)** включают колбэки таймеров и асинхронную обработку событий. У браузера может быть несколько очередей задач. fetch запускает сетевую операцию, но его then/catch — микрозадачи.
+4. **Микрозадачи** — реакции промисов then/catch/finally, колбэки MutationObserver и queueMicrotask. Executor new Promise выполняется синхронно. На контрольной точке очередь микрозадач опустошается, включая добавленные при её обработке микрозадачи.
+5. **Event loop** выбирает готовую задачу, после её выполнения обрабатывает микрозадачи, а при возможности обновляет отображение. Перерисовка не гарантирована после каждой задачи. Таймер задаёт минимальную задержку, а не точное время вызова.
 
-2. **Web APIs (Веб-API)**:
-   - Это набор браузерных API, таких как `setTimeout`, `fetch`, `XMLHttpRequest`, которые предоставляются браузером для выполнения асинхронных операций.
-   - Когда вызывается асинхронная функция, она передается в Web API для выполнения.
-      - **Макрозадачи (Macro Tasks)**:
-        - Это задачи, которые добавляются в очередь обратных вызовов (Callback Queue) и выполняются после того, как стек вызовов станет пустым.
-        - К макрозадачам относятся:
-          - Обработка событий DOM (например, клики, загрузка ресурсов)
-          - Выполнение кода через `setTimeout`, `setInterval`
-          - Сетевые запросы (`fetch`, `XMLHttpRequest`)
-          - **мАкро - тАймаут**
-
-      - **Микрозадачи (Micro Tasks)**:
-        - Это задачи, которые выполняются после завершения текущей макрозадачи и до того, как браузер перерисует экран.
-        - Микрозадачи позволяют выполнить небольшой кусочек кода до того, как браузер начнет выполнение следующей макрозадачи.
-        - К микрозадачам относятся:
-          - Выполнение промисов (`then`, `catch`, `finally`)
-          - Обработка MutationObserver
-          - `queueMicrotask` (добавление задачи в очередь микрозадач)
-          - **мИкро - промИс**
-
-3. **Callback Queue (Очередь обратных вызовов)**:
-   - Здесь хранятся асинхронные функции и обратные вызовы, которые должны быть выполнены после завершения асинхронных операций.
-   - Когда Web API завершает выполнение асинхронной операции, связанный с ней обратный вызов помещается в очередь.
-
-4. **Event Loop (Цикл событий)**:
-   - Это механизм, который следит за стеком вызовов и очередью обратных вызовов.
-   - Когда стек вызовов становится пустым, Event Loop проверяет, есть ли что-то в очереди обратных вызовов.
-   - Если в очереди есть обратный вызов, он перемещается в стек вызовов и выполняется.
+Источник: [MDN: микрозадачи](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide).
 
 ### JavaScript in Browser:
 
 #### Global object window
 
-- **Описание:** В браузере глобальный объект называется `window`.
+- **Описание:** В контексте страницы глобальный объект представлен Window (window); в веб-воркерах window отсутствует. globalThis даёт общий способ доступа к глобальному this.
 
 #### Location
 
-- **Глобальный объект window в браузере и Node.js:**
-  - В браузере: `window`
-  - В Node.js: `global`
-  - Везде: `globalThis`
+- `window.location` — объект Location с текущим URL; присваивание location.href или вызов assign() запускает навигацию. replace() заменяет текущую запись истории.
 
 #### Know browser location structure
 
-- **Структура location:**
-  ```javascript
-  console.log(window.location);
-  ```
+```javascript
+console.log(location.href, location.origin, location.protocol);
+console.log(location.hostname, location.port, location.pathname);
+console.log(location.search, location.hash);
+```
 
 #### History API (Global object window)
 
@@ -609,7 +593,7 @@
   - Преобразование токенов в ноды
   - Создание дерева DOM
   - Парсинг CSS и создание CSSOM
-  - Объединение CSSOM и DOM в Render Tree
+  - Построение дерева отображения на основе DOM и CSSOM — следующий этап после разбора, а не HTML-парсинг
 
 #### Reflow
 
@@ -619,7 +603,7 @@
 #### Repaint
 
 - **Этап Repaint:**
-  - Определение, как будут отрисованы элементы на странице
+  - Рисование видимых частей элементов по рассчитанным стилям и геометрии; затем слои могут быть скомпонованы
 
 #### Critical rendering path (CRP) `(optional)`
 
@@ -632,8 +616,11 @@
 
 - **Использование Fetch:**
   ```javascript
-  fetch('url')
-    .then(response => response.json())
+  fetch('/api/data')
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
     .then(data => console.log(data))
     .catch(error => console.error('Ошибка:', error));
   ```
@@ -652,47 +639,45 @@
 #### Difference between localStorage, sessionStorage and cookies
 
 - **Различия:**
-  - **localStorage:** Хранит данные без срока действия.
-  - **sessionStorage:** Хранит данные в течение сессии браузера.
-  - **cookies:** Хранит данные с указанием срока действия, передаются на сервер с каждым запросом.
+  - **localStorage:** Хранилище строк по origin без встроенного срока истечения; данные могут быть удалены пользователем или браузером.
+  - **sessionStorage:** Изолировано по origin и вкладке (контексту верхнего уровня); переживает перезагрузку и обычно очищается при закрытии вкладки.
+  - **cookies:** Бывают сеансовыми и постоянными (Expires/Max-Age). Отправляются только с подходящими запросами с учётом домена, пути, Secure, SameSite и credentials; HttpOnly недоступны через document.cookie. Web Storage автоматически с запросами не отправляется.
  
-Я отвечу как всемирно извест
+### TypeScript (TS):
 
-I'll answer as a world-famous expert in TypeScript and design patterns.
-
-### Typescript (TS):
+Примеры ниже — отдельные фрагменты: повторяющиеся объявления IUser и Season не следует объединять в один файл без переименования. readonly проверяется компилятором и не замораживает объект во время выполнения.
 
 - #### Ability to write concise TypeScript code using its constructs
   - basic types
-    1. `String` 
+    1. `string`
       ```typescript
-      let name: string = "Alice";
+      let userName: string = "Alice";
       ```
-    2. `Number`
+    2. `number`
       ```typescript
       let age: number = 30;
       ```
-    3. `Bigint`
+    3. `bigint`
       ```typescript
       let bigNumber: bigint = 1234567890123456789012345678901234567890n;
       ```
-    4. `Boolean`
+    4. `boolean`
       ```typescript
       let isStudent: boolean = true;
       ```
-    5. `Undefined`
+    5. `undefined`
       ```typescript
       let notDefined: undefined = undefined;
       ```
-    6. `Null`
+    6. `null`
       ```typescript
       let nothing: null = null;
       ```
-    7. `Symbol`
+    7. `symbol`
       ```typescript
       let uniqueKey: symbol = Symbol("key");
       ```
-    8. `Object`
+    8. `object`
       ```typescript
       let person: { name: string; age: number } = { name: "Bob", age: 25 };
       ```
@@ -710,7 +695,7 @@ I'll answer as a world-famous expert in TypeScript and design patterns.
       ```
 
   - `type` / `interface`, differences between them
-    - `type` - кастомные типы
+    - `type` задаёт псевдоним любого типа, включая примитивы, объединения и объекты. interface описывает форму объекта, поддерживает extends и слияние деклараций; type не переоткрывается для слияния.
       ```typescript
       type UserName = string;
       ```
@@ -753,9 +738,9 @@ I'll answer as a world-famous expert in TypeScript and design patterns.
       ```
 
   - utility types `(optional)`
-    - Утилитные типы предоставляют встроенные преобразования типов, которые можно использовать для манипулирования типами.
+    - Встроенный Partial<T> делает все свойства необязательными. Ниже его учебный аналог MyPartial<T>; преобразование поверхностное.
       ```typescript
-      type Partial<T> = {
+      type MyPartial<T> = {
         [P in keyof T]?: T[P];
       };
 
@@ -765,13 +750,14 @@ I'll answer as a world-famous expert in TypeScript and design patterns.
         age: number;
       }
 
-      let partialUser: Partial<IUser> = { id: 1 };
+      let partialUser: MyPartial<IUser> = { id: 1 };
       ```
+    - В прикладном коде используйте встроенный Partial<IUser>; переопределять имя Partial в глобальной области не нужно.
 
   - typeguards `(optional)`
-    - Типовые охранники (type guards) позволяют выполнять проверки типов во время выполнения, чтобы убедиться, что объект соответствует определенному типу.
+    - Типовые охранники (type guards) позволяют выполнять проверки типов во время выполнения, и сужают статический тип по результатам проверки. Пользовательский предикат должен сам корректно проверять данные; компилятор не доказывает его истинность.
       ```typescript
-      function isString(value: any): value is string {
+      function isString(value: unknown): value is string {
         return typeof value === 'string';
       }
       ```
@@ -798,7 +784,7 @@ I'll answer as a world-famous expert in TypeScript and design patterns.
       ```
 
   - understanding TS (ES6) module system
-    - Система модулей TypeScript основана на модулях ES6. Модули помогают организовывать код, разбивая его на файлы и компоненты.
+    - TypeScript поддерживает синтаксис ES-модулей и разные среды выполнения. Разрешение путей и формат вывода зависят от module/moduleResolution и среды; ниже пример для среды со сборщиком.
       ```typescript
       // math.ts
       export const add = (a: number, b: number) => a + b;
@@ -834,7 +820,7 @@ I'll answer as a world-famous expert in TypeScript and design patterns.
       ```
 
 - Structural Design Patterns
-  - Структурные шаблоны проектирования отвечают за построение удобных в поддержке иерархий классов.
+  - Структурные шаблоны описывают композицию классов и объектов в более крупные структуры; наследование — лишь один из возможных инструментов.
     - Adapter: Позволяет объектам с несовместимыми интерфейсами работать вместе.
       ```typescript
       interface EuropeanPlug {
@@ -899,124 +885,166 @@ I'll answer as a world-famous expert in TypeScript and design patterns.
       }
 
       const observer1 = new ConcreteObserver();
-      const observer2 = new Concrete
+      const observer2 = new ConcreteObserver();
+      const subject = new Subject();
+      subject.addObserver(observer1);
+      subject.addObserver(observer2);
+      subject.notifyObservers("Обновление");
+      subject.removeObserver(observer1);
+      ```
 
 ### Coding tasks:
 
-  - `Function.prototype.bind` implement polyfill
-    ```javascript
-    Function.prototype.myBind = function (obj, ...args) {
-      let func = this;
-      return function (...newArgs) {
-        func.apply(obj, [...args, ...newArgs]);
-      };
-    };
-    ```
-  - `Object.create` implement polyfill
-  - `Array.flat` implement polyfill
-    ```javascript
-    Array.prototype.myFlat = function(){
-    const output = []
-    function flattenArray(arr){
-            for (let i = 0; i < arr.length; i++) {
-                if (Array.isArray(arr[i])){
-                    flattenArray(arr[i]);
-                } else{
-                    output.push(arr[i]);
-                }
-            }
-            return output;
-        }
-       return flattenArray(this);
-    }
-    // const inputArray = [0, 1, 2, [3, 4, [5,6]], 7];
-    // console.log(inputArray.myFlat());
-    ```
-  - `Array.reduce` implement polyfill
-    ```javascript
-    Array.prototype.myReduce = function(fn, initial) {
-        let values = this;
-    
-        values.forEach(item => {
-            initial = initial !== undefined ? fn(initial, item) : item
-        })
-    
-        return initial;
-    }
-    ```
-  - `'hello world'.repeating(3)` -> 'hello world hello world hello world'. How to implement?
-    ```javascript
-    'hello world'+' '.repeat(3)
-    ```
-  - `myFunc('!', 4, -10, 34, 0)` -> '4!-10!34!0`. How to implement?
-    ```javascript
-    function myFunc() {
-      let result = '';
-      const sym = arguments[0];
-      for(let i = 1; i < arguments.length; i++) {
-          result += arguments[i] + sym;
-        }
-        return result.slice(0, result.length -1);
+Ниже учебные реализации с явно ограниченной областью применимости, а не полные полифилы встроенных методов. Они не изменяют встроенные прототипы.
+
+- `Function.prototype.bind`: привязать this и начальные аргументы для обычного вызова.
+  ```javascript
+  function myBind(func, context, ...args) {
+    if (typeof func !== 'function') throw new TypeError('Expected function');
+    return (...rest) => Reflect.apply(func, context, [...args, ...rest]);
+  }
+  console.log(myBind(function (x) { return this.n + x; }, { n: 2 }, 3)()); // 5
+  ```
+  Встроенный bind также поддерживает new для конструируемой функции, корректирует name/length и имеет особую семантику instanceof. Эта версия поддерживает только обычный вызов.
+  [MDN: bind](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
+
+- `Object.create`: создать объект с указанным прототипом. Для null нельзя использовать трюк с конструктором — он даст Object.prototype. Встроенный метод также принимает дескрипторы свойств.
+  ```javascript
+  const animal = { eats: true };
+  const rabbit = Object.create(animal, {
+    jumps: { value: true, writable: true, enumerable: true, configurable: true }
+  });
+  console.log(Object.getPrototypeOf(rabbit) === animal); // true
+  ```
+  [MDN: Object.create](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/create).
+
+- `Array.prototype.flat`: версия для обычных массивов с глубиной по умолчанию 1 и пропуском пустых слотов.
+  ```javascript
+  function myFlat(array, depth = 1) {
+    if (!Array.isArray(array)) throw new TypeError('Expected array');
+    const numericDepth = +depth;
+    const level = Number.isNaN(numericDepth) ? 0 : Math.max(0, Math.trunc(numericDepth));
+    const result = [];
+    function flatten(input, remaining) {
+      const length = input.length;
+      for (let i = 0; i < length; i++) {
+        if (!(i in input)) continue;
+        const value = input[i];
+        if (Array.isArray(value) && remaining > 0) flatten(value, remaining - 1);
+        else result.push(value);
       }
-    
-    // console.log(myFunc('!', 4, -10, 34, 0));
-    ```
-  - `five(plus(seven(minus(three()))))` -> 9. How to implement?
-    ```javascript
-    function calc(num, func) {
-      if (func === undefined) {
-    		return num;
-    	} else {
-    		return func(num);
-    	}
     }
-    
-    function three(func) {
-    	return calc(3,func);
+    flatten(array, level);
+    return result;
+  }
+  console.log(myFlat([1, , [2, [3]]])); // [1, 2, [3]]
+  console.log(myFlat([1, [2, [3]]], Infinity)); // [1, 2, 3]
+  ```
+  В отличие от встроенного flat эта версия не поддерживает array-like receiver и Array species; чрезмерная вложенность может переполнить стек.
+  [MDN: flat](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/flat).
+
+- `Array.prototype.reduce`: версия для обычных массивов; отсутствие initialValue отличается от явно переданного undefined.
+  ```javascript
+  function myReduce(array, callback, ...initial) {
+    if (!Array.isArray(array)) throw new TypeError('Expected array');
+    if (typeof callback !== 'function') throw new TypeError('Expected function');
+    const length = array.length;
+    let index = 0;
+    let accumulator;
+    if (initial.length) accumulator = initial[0];
+    else {
+      while (index < length && !(index in array)) index++;
+      if (index === length) throw new TypeError('Empty array without initial value');
+      accumulator = array[index++];
     }
-    function five(func) {
-    	return calc(5,func);
+    for (; index < length; index++) {
+      if (index in array) accumulator = callback(accumulator, array[index], index, array);
     }
-    function seven(func) {
-    	return calc(7,func);
+    return accumulator;
+  }
+  console.log(myReduce([1, 2, 3], (sum, n) => sum + n, 0)); // 6
+  console.log(myReduce([], () => 1, undefined)); // undefined
+  ```
+  [MDN: reduce](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
+
+- Повторить 'hello world' три раза через пробел:
+  ```javascript
+  function repeating(text, count) {
+    if (!Number.isInteger(count) || count < 0) throw new RangeError('Invalid count');
+    return Array(count).fill(text).join(' ');
+  }
+  console.log(repeating('hello world', 3)); // hello world hello world hello world
+  ```
+  Метод repeating не встроен в String; repeat повторяет строку без автоматического разделителя.
+
+- `myFunc('!', 4, -10, 34, 0)` → '4!-10!34!0':
+  ```javascript
+  function myFunc(separator, ...values) {
+    return values.join(separator);
+  }
+  console.log(myFunc('!', 4, -10, 34, 0)); // 4!-10!34!0
+  ```
+
+- `five(plus(seven(minus(three()))))` → 9:
+  ```javascript
+  function calc(num, operation) { return operation === undefined ? num : operation(num); }
+  function three(operation) { return calc(3, operation); }
+  function five(operation) { return calc(5, operation); }
+  function seven(operation) { return calc(7, operation); }
+  function plus(right) { return left => left + right; }
+  function minus(right) { return left => left - right; }
+  console.log(five(plus(seven(minus(three()))))); // 9
+  ```
+
+- `add(5)(9)(-4)(1)`: цепочка возвращает функцию; получить число можно явным приведением.
+  ```javascript
+  function add(total) {
+    function next(value) { total += value; return next; }
+    next[Symbol.toPrimitive] = hint => hint === 'string' ? String(total) : total;
+    return next;
+  }
+  console.log(+add(5)(9)(-4)(1)); // 11
+  ```
+
+- `periodOutput(period)` выводит фактически прошедшее время примерно каждые period мс. Задержка таймера не гарантирует точный интервал.
+  ```javascript
+  function periodOutput(period) {
+    if (!Number.isFinite(period) || period <= 0) throw new RangeError('Invalid period');
+    const start = performance.now();
+    const timer = setInterval(() => console.log(Math.round(performance.now() - start)), period);
+    return () => clearInterval(timer);
+  }
+  // const stop = periodOutput(100);
+  // stop(); // остановка
+  ```
+
+- `extendedPeriodOutput(period)` увеличивает задержку: period, 2 × period, 3 × period. При period = 100 номинальное суммарное время — 100, 300, 600 мс, а не 100, 200, 300 мс.
+  ```javascript
+  function extendedPeriodOutput(period) {
+    if (!Number.isFinite(period) || period <= 0) throw new RangeError('Invalid period');
+    const start = performance.now();
+    let step = 1;
+    let timer;
+    let stopped = false;
+    function schedule() {
+      timer = setTimeout(() => {
+        console.log(Math.round(performance.now() - start));
+        step++;
+        if (!stopped) schedule();
+      }, period * step);
     }
-    
-    function plus(right) {
-      return function(left) { return left + right; };
-    }
-    function minus(right) {
-      return function(left) {
-    		return left - right;
-    	};
-    }
-    
-    console.log(five(plus(seven(minus(three())))));
-    ```
-  - add(5)(9)(-4)(1) -> 11. How to implement?
-    ```javascript
-    function add(x) {
-      function insideFunc(y) {
-        x += y;
-        return insideFunc;
-      }
-      insideFunc.toString = function() {
-        return x;
-      };
-      return insideFunc;
-    }
-    
-    console.log( add(1)(2)(3).toString() ); 
-    ```
-  - `periodOutput(period)` method should output in the console once per every period how mach time has passed since the first function call.
-    Example:
-    `periodOutput(100) -> 100(after 100 ms), 200(after 100 ms), 300(after 100 ms), ...`
-    ```javascript
-    function periodOutput(period) {
-      let sum = 0;
-      setInterval(() => {
-          console.log(`${sum += period}(after ${period}ms)`);
-        }, period);
-    }
-    periodOutput(1000);
-    ```
-  - `extendedPeriodOutput(period)` method should output in the console once per period how mach time has passed since the first function call and then increase the period. Example: `// extendedPeriodOutput(100) -> 100(after 100 ms), 200(after 200 ms), 300(after 300 ms)`
+    schedule();
+    return () => { stopped = true; clearTimeout(timer); };
+  }
+  ```
+  [MDN: setTimeout](https://developer.mozilla.org/ru/docs/Web/API/Window/setTimeout).
+
+### Источники проверки
+
+- [MDN: Object и статические методы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object), [дескрипторы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty), [прототипы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Inheritance_and_the_prototype_chain).
+- [MDN: функции и аргументы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Functions), [замыкания](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Closures), [spread](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_syntax), [итераторы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Iterators_and_generators), [модули](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Modules).
+- [MDN: коллекции](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections), [WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap), [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), [обработка ошибок](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Control_flow_and_error_handling).
+- [MDN: Location](https://developer.mozilla.org/ru/docs/Web/API/Location), [History](https://developer.mozilla.org/ru/docs/Web/API/History), [Navigator](https://developer.mozilla.org/ru/docs/Web/API/Navigator), [Fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch).
+- [MDN: критический путь отрисовки](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path), [localStorage](https://developer.mozilla.org/ru/docs/Web/API/Window/localStorage), [sessionStorage](https://developer.mozilla.org/ru/docs/Web/API/Window/sessionStorage), [cookie](https://developer.mozilla.org/ru/docs/Web/HTTP/Guides/Cookies).
+- [Дока: статическая типизация](https://doka.guide/tools/static-types/). Для деталей TypeScript: [официальный Handbook — типы](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html), [enums](https://www.typescriptlang.org/docs/handbook/enums.html), [utility types](https://www.typescriptlang.org/docs/handbook/utility-types.html), [сужение типов](https://www.typescriptlang.org/docs/handbook/2/narrowing.html), [модули](https://www.typescriptlang.org/docs/handbook/modules/theory.html).
+- [Дока: Observer и реактивность](https://doka.guide/tools/reactivity/). Singleton и Adapter выше — учебные примеры организации объектов, а не требования стандарта JavaScript.
