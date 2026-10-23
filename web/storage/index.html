@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Хранение данных в браузере | interview</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://asmat1k.github.io/interview/web/storage/"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Хранение данных в браузере | interview"><meta data-rh="true" name="description" content="Хранение данных в браузере"><meta data-rh="true" property="og:description" content="Хранение данных в браузере"><link data-rh="true" rel="canonical" href="https://asmat1k.github.io/interview/web/storage/"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/web/storage/" hreflang="ru"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/web/storage/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Веб-платформа","item":"https://asmat1k.github.io/interview/category/веб-платформа"},{"@type":"ListItem","position":2,"name":"Хранение данных в браузере","item":"https://asmat1k.github.io/interview/web/storage"}]}</script><link rel="stylesheet" href="/interview/assets/css/styles.70f4614b.css">
-<script src="/interview/assets/js/runtime~main.6c071386.js" defer="defer"></script>
+<script src="/interview/assets/js/runtime~main.349bc55f.js" defer="defer"></script>
 <script src="/interview/assets/js/main.d2b7f28c.js" defer="defer"></script>
 </head>
 <body>
@@ -17,7 +17,7 @@
 <ul>
 <li class="">Ключи и значения Web Storage сохраняются как строки; переданные другие типы преобразуются к строке.</li>
 <li class="">Web Storage обычно ограничено 5 MiB для localStorage и 5 MiB для sessionStorage на источник; доступ может быть запрещён, а превышение квоты вызывает QuotaExceededError.</li>
-<li class="">Хранилище привязано к источнику (домен/протокол/порт). Это значит, что разные протоколы или поддомены определяют разные объекты хранилища, и они не могут получить доступ к данным друг друга.</li>
+<li class="">Хранилище привязано к источнику (домен/протокол/порт). Это значит, что разные протоколы или поддомены определяют разные <a class="" href="/interview/javascript/objects-arrays/">объекты</a> хранилища, и они не могут получить доступ к данным друг друга.</li>
 <li class="">Имеют одинаковые методы:
 <ul>
 <li class=""><code>setItem(key, value)</code> – сохранить пару ключ/значение.</li>
@@ -73,7 +73,7 @@
 <ul>
 <li class="">Expires/Max-Age: Определяют время жизни куки.</li>
 <li class="">Secure: ограничивает отправку защищённым соединением (браузеры делают исключение для localhost).</li>
-<li class="">HttpOnly: запрещает чтение/изменение cookie через document.cookie; браузер продолжает отправлять её с подходящими запросами, включая fetch.</li>
+<li class="">HttpOnly: запрещает чтение/изменение cookie через document.cookie; браузер продолжает отправлять её с подходящими запросами, включая <a class="" href="/interview/web/network/">fetch</a>.</li>
 <li class="">SameSite: ограничивает отправку в межсайтовом контексте (site отличается от origin); SameSite=None требует Secure. Это один из механизмов снижения риска CSRF.</li>
 </ul>
 </li>

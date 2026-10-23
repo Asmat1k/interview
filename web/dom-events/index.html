@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">DOM и события | interview</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://asmat1k.github.io/interview/web/dom-events/"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="DOM и события | interview"><meta data-rh="true" name="description" content="DOM: события, навигация и изменение дерева"><meta data-rh="true" property="og:description" content="DOM: события, навигация и изменение дерева"><link data-rh="true" rel="canonical" href="https://asmat1k.github.io/interview/web/dom-events/"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/web/dom-events/" hreflang="ru"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/web/dom-events/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Веб-платформа","item":"https://asmat1k.github.io/interview/category/веб-платформа"},{"@type":"ListItem","position":2,"name":"DOM и события","item":"https://asmat1k.github.io/interview/web/dom-events"}]}</script><link rel="stylesheet" href="/interview/assets/css/styles.70f4614b.css">
-<script src="/interview/assets/js/runtime~main.6c071386.js" defer="defer"></script>
+<script src="/interview/assets/js/runtime~main.349bc55f.js" defer="defer"></script>
 <script src="/interview/assets/js/main.d2b7f28c.js" defer="defer"></script>
 </head>
 <body>
@@ -101,10 +101,10 @@
 <li class=""><code>document.getElementById(&#x27;id&#x27;)</code>: Возвращает элемент по его id.</li>
 <li class=""><code>document.getElementsByClassName(&#x27;class&#x27;)</code>: Возвращает список элементов по их классу.</li>
 <li class=""><code>document.getElementsByTagName(&#x27;tag&#x27;)</code>: Возвращает список элементов по их тегу.</li>
-<li class=""><code>document.querySelector(&#x27;selector&#x27;)</code>: Возвращает первый элемент, соответствующий CSS-селектору.</li>
+<li class=""><code>document.querySelector(&#x27;selector&#x27;)</code>: Возвращает первый элемент, соответствующий <a class="" href="/interview/web/css/">CSS-селектору</a>.</li>
 <li class=""><code>document.querySelectorAll(&#x27;selector&#x27;)</code>: Возвращает <code>NodeList</code> (коллекцию, а это псевдомассив) элементов, соответствующие CSS-селектору.
 <ul>
-<li class="">querySelectorAll возвращает статический NodeList. Цепочка наследования: <code>myNodeList --&gt; NodeList.prototype --&gt; Object.prototype --&gt; null</code>, поэтому у <code>NodeList</code> нет большинства методов массива, но есть <code>forEach</code> и итератор; можно использовать <code>Array.from(nodeList)</code></li>
+<li class="">querySelectorAll возвращает статический NodeList. Цепочка наследования: <code>myNodeList --&gt; NodeList.prototype --&gt; Object.prototype --&gt; null</code>, поэтому у <code>NodeList</code> нет большинства <a class="" href="/interview/javascript/objects-arrays/">методов массива</a>, но есть <code>forEach</code> и итератор; можно использовать <code>Array.from(nodeList)</code></li>
 </ul>
 </li>
 </ul>
@@ -184,7 +184,7 @@
 <li class="">
 <p>События документа:</p>
 <ul>
-<li class=""><code>DOMContentLoaded</code> — HTML разобран, DOM построен и отложенные (<code>defer</code> и обычные модульные) скрипты выполнены; загрузки изображений событие не ждёт.</li>
+<li class=""><code>DOMContentLoaded</code> — <a class="" href="/interview/web/html/">HTML</a> разобран, DOM построен и отложенные (<code>defer</code> и обычные модульные) скрипты выполнены; загрузки изображений событие не ждёт.</li>
 </ul>
 </li>
 <li class="">

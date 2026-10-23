@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">JSX и TSX | interview</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://asmat1k.github.io/interview/react/jsx/"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="JSX и TSX | interview"><meta data-rh="true" name="description" content="JSX и TSX"><meta data-rh="true" property="og:description" content="JSX и TSX"><link data-rh="true" rel="canonical" href="https://asmat1k.github.io/interview/react/jsx/"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/react/jsx/" hreflang="ru"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/react/jsx/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"React","item":"https://asmat1k.github.io/interview/category/react"},{"@type":"ListItem","position":2,"name":"JSX и TSX","item":"https://asmat1k.github.io/interview/react/jsx"}]}</script><link rel="stylesheet" href="/interview/assets/css/styles.70f4614b.css">
-<script src="/interview/assets/js/runtime~main.6c071386.js" defer="defer"></script>
+<script src="/interview/assets/js/runtime~main.349bc55f.js" defer="defer"></script>
 <script src="/interview/assets/js/main.d2b7f28c.js" defer="defer"></script>
 </head>
 <body>
@@ -15,11 +15,11 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="jsx-и-tsx-1">JSX и TSX<a href="#jsx-и-tsx-1" class="hash-link" aria-label="Прямая ссылка на JSX и TSX" title="Прямая ссылка на JSX и TSX" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="jsx-javascript-xml">JSX (JavaScript XML)<a href="#jsx-javascript-xml" class="hash-link" aria-label="Прямая ссылка на JSX (JavaScript XML)" title="Прямая ссылка на JSX (JavaScript XML)" translate="no">​</a></h3>
 <ul>
-<li class="">Расширение синтаксиса JavaScript для описания разметки; JSX похож на HTML, но имеет собственные правила</li>
+<li class="">Расширение синтаксиса JavaScript для описания разметки; JSX похож на <a class="" href="/interview/web/html/">HTML</a>, но имеет собственные правила</li>
 <li class="">После компиляции каждое JSX-выражение становится обычным вызовом JavaScript-функции, результат которого — объект JavaScript (см картинку ниже)
 <img decoding="async" loading="lazy" alt="итог компиляции js" src="/interview/assets/images/telegram-cloud-photo-size-2-5471919284818139555-y-16f7644f17cc2a136d8496b33a6e62b7.jpg" width="1280" height="238" class="img_ev3q"></li>
 <li class="">Классическое преобразование использует React.createElement; автоматический JSX runtime использует функции jsx/jsxs</li>
-<li class="">Есть ограничения, например: для CSS-класса DOM-элемента используется className; это соглашение React DOM, а не запрет зарезервированного слова в объекте</li>
+<li class="">Есть ограничения, например: для CSS-класса DOM-элемента используется className; это соглашение <a class="" href="/interview/react/rendering/">React DOM</a>, а не запрет зарезервированного слова в объекте</li>
 <li class="">Соседние JSX-теги в одном выражении оборачивают контейнером или фрагментом. Компонент также может вернуть массив элементов, строку, число или null
 <ul>
 <li class="">есть искусственный тег <code>&lt;React.Fragment&gt;&lt;/React.Fragment&gt;</code>, либо более привычный синтаксис <code>&lt;&gt;&lt;/&gt;</code> (если мы хотим задать какой-то атрибут, например, key, то нужно указывать <code>&lt;React.Fragment&gt;&lt;/React.Fragment&gt;</code>, а не пустой тег)</li>
@@ -31,9 +31,9 @@
 <p>Документация: <a href="https://react.dev/learn/writing-markup-with-jsx" target="_blank" rel="noopener noreferrer" class="">JSX</a>.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="tsx">TSX<a href="#tsx" class="hash-link" aria-label="Прямая ссылка на TSX" title="Прямая ссылка на TSX" translate="no">​</a></h3>
 <ul>
-<li class="">является расширением JSX, предназначенным специально для TypeScript</li>
+<li class="">является расширением JSX, предназначенным специально для <a class="" href="/interview/typescript/fundamentals/">TypeScript</a></li>
 <li class="">Добавляет статическую типизацию</li>
-<li class="">Добавляет все возможности TypeScript (дженерики, утилити типы и т. п.)</li>
+<li class="">Добавляет все возможности TypeScript (<a class="" href="/interview/typescript/advanced/">дженерики</a>, утилити типы и т. п.)</li>
 <li class="">Типизация помогает находить ошибки до запуска программы.</li>
 </ul>
 <p>Пример:</p>

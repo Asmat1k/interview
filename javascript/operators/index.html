@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Операторы, сравнение и преобразование типов | interview</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://asmat1k.github.io/interview/javascript/operators/"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Операторы, сравнение и преобразование типов | interview"><meta data-rh="true" name="description" content="Тернарный оператор"><meta data-rh="true" property="og:description" content="Тернарный оператор"><link data-rh="true" rel="canonical" href="https://asmat1k.github.io/interview/javascript/operators/"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/javascript/operators/" hreflang="ru"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/javascript/operators/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"JavaScript","item":"https://asmat1k.github.io/interview/category/javascript"},{"@type":"ListItem","position":2,"name":"Операторы, сравнение и преобразование типов","item":"https://asmat1k.github.io/interview/javascript/operators"}]}</script><link rel="stylesheet" href="/interview/assets/css/styles.70f4614b.css">
-<script src="/interview/assets/js/runtime~main.6c071386.js" defer="defer"></script>
+<script src="/interview/assets/js/runtime~main.349bc55f.js" defer="defer"></script>
 <script src="/interview/assets/js/main.d2b7f28c.js" defer="defer"></script>
 </head>
 <body>
@@ -29,7 +29,7 @@
 <ul>
 <li class=""><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> сравнивают две строки лексикографически; в других случаях применяются правила числового сравнения, включая <code>BigInt</code>.</li>
 <li class="">Арифметические <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>**</code> и побитовые операторы работают с <code>Number</code> или <code>BigInt</code>; смешивание этих двух типов обычно вызывает <code>TypeError</code>.</li>
-<li class="">Бинарный <code>+</code> после преобразования объектов в примитивы выполняет конкатенацию, если один из них — строка; иначе выполняет числовое сложение.</li>
+<li class="">Бинарный <code>+</code> после преобразования <a class="" href="/interview/javascript/objects-arrays/">объектов</a> в примитивы выполняет конкатенацию, если один из них — строка; иначе выполняет числовое сложение.</li>
 <li class="">Унарный <code>+</code> преобразует в <code>Number</code>, но для <code>BigInt</code> и <code>Symbol</code> вызывает <code>TypeError</code>.</li>
 <li class=""><code>==</code> и <code>!=</code> используют отдельные правила абстрактного равенства; это не безусловное преобразование в число. Например, <code>null == undefined</code> равно <code>true</code>, а <code>null == 0</code> — <code>false</code>.</li>
 </ul>

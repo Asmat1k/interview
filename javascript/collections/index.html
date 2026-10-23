@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Map, Set и слабые коллекции | interview</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://asmat1k.github.io/interview/javascript/collections/"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Map, Set и слабые коллекции | interview"><meta data-rh="true" name="description" content="Map и Set, отличия от объектов и массивов"><meta data-rh="true" property="og:description" content="Map и Set, отличия от объектов и массивов"><link data-rh="true" rel="canonical" href="https://asmat1k.github.io/interview/javascript/collections/"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/javascript/collections/" hreflang="ru"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/javascript/collections/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"JavaScript","item":"https://asmat1k.github.io/interview/category/javascript"},{"@type":"ListItem","position":2,"name":"Map, Set и слабые коллекции","item":"https://asmat1k.github.io/interview/javascript/collections"}]}</script><link rel="stylesheet" href="/interview/assets/css/styles.70f4614b.css">
-<script src="/interview/assets/js/runtime~main.6c071386.js" defer="defer"></script>
+<script src="/interview/assets/js/runtime~main.349bc55f.js" defer="defer"></script>
 <script src="/interview/assets/js/main.d2b7f28c.js" defer="defer"></script>
 </head>
 <body>
@@ -49,7 +49,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="немного-про-weakmap-и-weakset">Немного про WeakMap и WeakSet<a href="#немного-про-weakmap-и-weakset" class="hash-link" aria-label="Прямая ссылка на Немного про WeakMap и WeakSet" title="Прямая ссылка на Немного про WeakMap и WeakSet" translate="no">​</a></h3>
 <ul>
 <li class="">WeakMap хранит ключи-объекты и незарегистрированные символы без сильной ссылки на них; сборка мусора возможна при их недостижимости</li>
-<li class="">WeakSet хранит объекты и незарегистрированные символы слабо; перечислить его содержимое нельзя</li>
+<li class="">WeakSet хранит <a class="" href="/interview/javascript/objects-arrays/">объекты</a> и незарегистрированные символы слабо; перечислить его содержимое нельзя</li>
 <li class=""><strong>То есть их преимущество в очистке от мусора при недостижимости данных</strong></li>
 </ul>
 <p>Пример:</p>

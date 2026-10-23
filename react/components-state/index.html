@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Компоненты, состояние и жизненный цикл | interview</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://asmat1k.github.io/interview/react/components-state/"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Компоненты, состояние и жизненный цикл | interview"><meta data-rh="true" name="description" content="Функциональные и классовые компоненты"><meta data-rh="true" property="og:description" content="Функциональные и классовые компоненты"><link data-rh="true" rel="canonical" href="https://asmat1k.github.io/interview/react/components-state/"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/react/components-state/" hreflang="ru"><link data-rh="true" rel="alternate" href="https://asmat1k.github.io/interview/react/components-state/" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"React","item":"https://asmat1k.github.io/interview/category/react"},{"@type":"ListItem","position":2,"name":"Компоненты, состояние и жизненный цикл","item":"https://asmat1k.github.io/interview/react/components-state"}]}</script><link rel="stylesheet" href="/interview/assets/css/styles.70f4614b.css">
-<script src="/interview/assets/js/runtime~main.6c071386.js" defer="defer"></script>
+<script src="/interview/assets/js/runtime~main.349bc55f.js" defer="defer"></script>
 <script src="/interview/assets/js/main.d2b7f28c.js" defer="defer"></script>
 </head>
 <body>
@@ -25,7 +25,7 @@
 <p>Функциональные компоненты основаны на функциях; хуки добавили им состояние и эффекты. Для нового кода React рекомендует функции</p>
 <ul>
 <li class="">для управления состоянием используются хуки</li>
-<li class="">функция возвращает описание интерфейса через <code>return</code> или неявный возврат стрелочной функции</li>
+<li class="">функция возвращает описание интерфейса через <code>return</code> или неявный возврат <a class="" href="/interview/javascript/functions/">стрелочной функции</a></li>
 </ul>
 </li>
 <li class="">
@@ -49,7 +49,7 @@
 <li class="">Кратко:
 <ol>
 <li class="">Создание компонента</li>
-<li class="">Монтирование в DOM</li>
+<li class="">Монтирование в <a class="" href="/interview/web/dom-events/">DOM</a></li>
 <li class="">Обновление</li>
 <li class="">Размонтирование</li>
 </ol>
@@ -68,7 +68,7 @@
 <li class="">Обновление (Updating):</li>
 </ol>
 <ul>
-<li class="">static getDerivedStateFromProps(): Вызывается при обновлении компонента, перед рендерингом. Позволяет обновлять состояние на основе новых свойств.</li>
+<li class="">static getDerivedStateFromProps(): Вызывается при обновлении компонента, перед <a class="" href="/interview/react/rendering/">рендерингом</a>. Позволяет обновлять состояние на основе новых свойств.</li>
 <li class="">shouldComponentUpdate(): Определяет, нужно ли компоненту перерисовываться. Позволяет оптимизировать производительность.</li>
 <li class="">render(): Вызывается для вычисления следующего интерфейса; вызов не означает обязательного изменения DOM.</li>
 <li class="">getSnapshotBeforeUpdate(): Читает данные DOM перед его обновлением, возвращённый снимок передаётся в componentDidUpdate.</li>
@@ -81,7 +81,7 @@
 <li class="">componentWillUnmount(): Вызывается перед тем, как компонент будет удален из DOM. Здесь можно очищать ресурсы, отписываться от событий и т. д.</li>
 </ul>
 <ol>
-<li class="">Обработка ошибок (Error Handling):</li>
+<li class=""><a class="" href="/interview/javascript/errors/">Обработка ошибок</a> (Error Handling):</li>
 </ol>
 <ul>
 <li class="">static getDerivedStateFromError(): Вызывается при возникновении ошибки в методах жизненного цикла ниже в дереве компонентов. Позволяет обновить состояние компонента в ответ на ошибку.</li>
@@ -109,7 +109,7 @@
 <li class="">Выполняется после фиксации изменений DOM; обычно браузер сначала рисует экран, но для эффектов, вызванных взаимодействием, это не гарантируется. Долгий синхронный код эффекта занимает основной поток.</li>
 </ul>
 </li>
-<li class=""><code>useLayoutEffect(cb, [dep])</code> имеет такой же функционал и синтаксис, но выполняется после обновления DOM, до следующей отрисовки экрана; это не привязка к внутреннему этапу Layout браузера
+<li class=""><code>useLayoutEffect(cb, [dep])</code> имеет такой же функционал и синтаксис, но выполняется после обновления DOM, до следующей отрисовки экрана; это не привязка к внутреннему этапу <a class="" href="/interview/web/rendering/">Layout</a> браузера
 <ul>
 <li class="">сначала отрабатывает, а потом отображает страницу</li>
 </ul>
@@ -169,13 +169,13 @@
 <li class="">Работа со ссылками:</li>
 </ol>
 <ul>
-<li class="">Классовые компоненты: Работа со ссылками выполняется через React.createRef() и ref атрибуты.</li>
+<li class="">Классовые компоненты: Работа со ссылками выполняется через React.createRef() и <a class="" href="/interview/react/refs/">ref</a> атрибуты.</li>
 </ul>
 <ol>
 <li class="">Контекст:</li>
 </ol>
 <ul>
-<li class="">Классовые компоненты: Контекст читают через static contextType или Context.Consumer; createContext создаёт объект контекста.</li>
+<li class="">Классовые компоненты: Контекст читают через static contextType или <a class="" href="/interview/react/communication/">Context.Consumer</a>; createContext создаёт объект контекста.</li>
 </ul>
 </li>
 <li class="">
