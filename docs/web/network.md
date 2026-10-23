@@ -165,16 +165,21 @@ loadUser();
 
 ### Fetch API
 
-- **Использование Fetch:**
-  ```javascript
-  fetch("/api/data")
-    .then((response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+`fetch(url, options)` отправляет HTTP-запрос и возвращает Promise с объектом `Response`. Метод, заголовки и тело задают в `options`; для JSON-ответа отдельно вызывают и ожидают `response.json()`.
 
-      return response.json();
-    })
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Ошибка:", error));
-  ```
+Ответы 404 и 500 сами по себе не отклоняют Promise: проверяйте `response.ok` или `status`. Сетевые ошибки и отмена запроса приводят к отклонению. Для отмены передают `signal` из `AbortController`; междоменные запросы подчиняются CORS.
+
+Документация: [MDN — Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+
+```javascript
+fetch("/api/data")
+  .then((response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    return response.json();
+  })
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Ошибка:", error));
+```
 
 Документация: [Fetch](https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch).

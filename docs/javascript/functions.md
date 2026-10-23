@@ -146,6 +146,10 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
 
 ### Объявление параметров функции
 
+Параметры — имена в объявлении функции, а аргументы — значения, переданные при вызове. Соответствие определяется позицией. Если аргумент не передан, параметр получает `undefined`, если для него не задано значение по умолчанию.
+
+Документация: [MDN — Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions).
+
 ```javascript
 function greet(name, greeting) {
   return `${greeting}, ${name}`;
@@ -200,6 +204,10 @@ console.log(sum(1, 2, 3), first("Анна", "Иван")); // 6, "Анна"
 Документация: [spread](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_syntax).
 
 ### Параметры по умолчанию
+
+Запись `name = "Анна"` подставляет значение, если аргумент отсутствует или равен `undefined`. Явные `null`, `0` и пустая строка сохраняются. Выражение по умолчанию вычисляется при вызове функции, когда оно требуется.
+
+Документация: [MDN — Default parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters).
 
 ```javascript
 function greet(name = "Анна") {
@@ -262,6 +270,10 @@ console.log(copy === original, original[0].count); // false, 2
 
 ### Объединение массивов через spread
 
+`[...a, ...b]` создаёт новый массив: сначала значения из `a`, затем из `b`. Исходные массивы не меняются, дубликаты сохраняются. Копирование поверхностное: объекты внутри результата остаются теми же объектами.
+
+Документация: [MDN — Spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax).
+
 ```javascript
 const a = [1, 2];
 const b = [3, 4];
@@ -269,6 +281,8 @@ const c = [...a, ...b]; // [1, 2, 3, 4]
 ```
 
 ### Destructuring assignment
+
+Деструктуризация извлекает значения из массива по позиции, а из объекта — по имени свойства. Например, `const { name } = user` создаёт переменную `name`. Можно пропускать элементы, переименовывать поля и задавать значения по умолчанию; исходная структура при этом не меняется.
 
 ```javascript
 let [firstName, lastName] = ["Илья", "Кантор"];
@@ -280,6 +294,10 @@ console.log(lastName); // Кантор
 - [MDN: деструктуризация](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring)
 
 ### Деструктуризация с присваиванием существующим переменным
+
+Деструктуризация может обновлять уже объявленные переменные без `let` или `const`. Для объекта выражение оборачивают в скобки: `({ name } = user)`, чтобы фигурные скобки не считались блоком. Значение по умолчанию используется при `undefined`, но не при `null`.
+
+Документация: [MDN — Destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring).
 
 ```javascript
 let a, b;

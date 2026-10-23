@@ -9,6 +9,10 @@ format: md
 
 ### Чем ref отличается от state?
 
+`useRef(initialValue)` возвращает стабильный объект с полем `current`. Например, в ref удобно хранить ID таймера, а в state — счётчик, видимый пользователю. Изменение ref само по себе не обновит текст на странице, даже если прочитать `current` в JSX.
+
+Документация: [React — Referencing Values with Refs](https://react.dev/learn/referencing-values-with-refs).
+
 Оба сохраняют значения между рендерами. Изменение `ref.current` не запрашивает [рендер](rendering.md); setter состояния запрашивает обновление. Данные для отображения храните в [state](components-state.md).
 
 ```jsx

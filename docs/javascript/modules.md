@@ -26,6 +26,10 @@ export const increment = () => ++count;
 
 ### CommonJS
 
+CommonJS — система модулей, используемая в Node.js. Каждый файл имеет собственную область видимости; `require()` получает экспорт через `module.exports`. Загруженные модули кешируются. Файл `.cjs` явно обозначает CommonJS; браузер не предоставляет `require()` без дополнительных инструментов.
+
+Документация: [Node.js — CommonJS](https://nodejs.org/api/modules.html).
+
 - Для импорта `const foo = require('foo');`
 - Для экспорта `module.exports = { myFunc, myVar };`
 
@@ -42,6 +46,8 @@ module.exports = { add };
 ```
 
 ### ES modules
+
+ES-модули — стандартная система модулей JavaScript с `import` и `export`. В браузере точку входа подключают через `<script type="module">`; модуль работает в строгом режиме. Именованный импорт соответствует имени экспорта, а default-импорту можно дать собственное локальное имя.
 
 - Для именованного экспорта ниже: `import { myFunc } from './myFunc.js';`. Импорт без фигурных скобок требует export default.
 - Для экспорта `export { myFunc, myVar };`
@@ -61,6 +67,10 @@ export default function double(value) {
 ```
 
 ### Импорт и экспорт
+
+`export` делает выбранное объявление доступным другим модулям; остальные имена остаются локальными. `import { myFunc }` связывает локальное имя с именованным экспортом, а `import { myFunc as run }` позволяет переименовать его. Для загрузки модуля по условию используют `import()`, который возвращает Promise.
+
+Документация: [MDN — Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
 ```javascript
 // app.js

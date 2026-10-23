@@ -51,6 +51,15 @@
 - [Паттерны проектирования](docs/engineering/patterns.md)
 - [Сборка и проверка кода](docs/engineering/tooling.md)
 
+## AI в разработке
+
+- [Основы AI и языковых моделей](docs/ai/fundamentals.md)
+- [Работа с AI в повседневной разработке](docs/ai/development-workflow.md)
+- [Агенты, инструменты и MCP](docs/ai/agents.md)
+- [Безопасность и проверка AI](docs/ai/safety-and-evaluation.md)
+- [Разработка AI-функций](docs/ai/ai-features.md)
+- [AI на собеседовании: вопросы и практика](docs/ai/interviews.md)
+
 ## Практика
 
 - [Учебные реализации встроенных методов](docs/practice/implementations.md)

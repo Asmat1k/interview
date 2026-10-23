@@ -49,6 +49,10 @@ function App() {
 
 ### Что такое Virtual DOM?
 
+Во время render компоненты возвращают описания следующего интерфейса. React сопоставляет их с предыдущим результатом, а затем применяет необходимые изменения при commit. Сам вызов компонента ещё не означает изменение браузерного DOM.
+
+Документация: [React — Render and Commit](https://react.dev/learn/render-and-commit).
+
 Virtual DOM — представление интерфейса в памяти. React-элемент описывает тип элемента, [props](communication.md) и дочерние элементы; он не является DOM-узлом.
 
 ```javascript
@@ -97,6 +101,8 @@ console.log(shadow.querySelector("p").textContent); // "Внутри Shadow DOM"
 Документация: [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
 
 ### Чем React-элемент отличается от DOM-узла?
+
+Например, `<button>OK</button>` создаёт описание кнопки. Реальный узел появляется после commit; у него есть методы вроде `focus()` и свойства вроде `textContent`. Получить его из компонента можно через DOM-ref; у React-элемента таких браузерных методов нет.
 
 React-элемент — описание интерфейса, а DOM-узел предоставляет браузерные методы и свойства для работы с документом.
 

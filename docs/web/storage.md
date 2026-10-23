@@ -77,10 +77,6 @@ alert(document.cookie);
 
 Документация: [MDN — cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies).
 
-### IndexedDB
-
-IndexedDB — асинхронное хранилище структурированных данных.
-
 Пример:
 
 ```javascript
@@ -107,6 +103,14 @@ console.log(document.cookie); // доступные JavaScript cookie
 // На HTTPS можно добавить Secure; HttpOnly задаётся только сервером.
 document.cookie = "interviewTheme=; Max-Age=0; Path=/"; // удаление
 ```
+
+### IndexedDB
+
+IndexedDB — асинхронная база данных в браузере. В отличие от Web Storage, она сохраняет объекты без ручного преобразования в JSON, поддерживает индексы для поиска и транзакции для согласованных изменений. Подходит для офлайн-данных и больших локальных наборов, например заметок или каталога.
+
+База ограничена origin. Структуру хранилищ создают или меняют при обновлении версии в `onupgradeneeded`, а чтение и запись выполняют внутри транзакций. Асинхронные результаты приходят через события запросов; завершение отдельного запроса ещё не означает успешное завершение всей транзакции.
+
+Документация: [MDN — IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
 
 Пример IndexedDB:
 
@@ -138,14 +142,19 @@ request.onerror = () => console.error(request.error);
 
 ### Cookies
 
-- **Описание Cookies:**
-  ```javascript
-  document.cookie = "username=John Doe";
+Cookie хранит пару «имя — значение»: например, идентификатор сеанса или выбранный язык. Браузер прикладывает подходящие cookie к HTTP-запросам, поэтому сервер может узнавать пользователя между обращениями.
 
-  let cookies = document.cookie;
+`document.cookie` возвращает строку доступных странице пар через `; `, без атрибутов и HttpOnly-cookie. Присваивание устанавливает одну cookie; для удаления задают `Max-Age=0` с теми же Domain и Path. Подробнее об атрибутах — [выше](#куки-documentcookie).
 
-  console.log(cookies);
-  ```
+Документация: [MDN — Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies).
+
+```javascript
+document.cookie = "username=John Doe";
+
+let cookies = document.cookie;
+
+console.log(cookies);
+```
 
 ### Различия localStorage, sessionStorage и cookies
 

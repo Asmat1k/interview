@@ -15,6 +15,7 @@ format: md
 - [TypeScript](typescript/fundamentals.md) — типы и дженерики.
 - [React](react/jsx.md) — компоненты, рендеринг и состояние.
 - [Проектирование](engineering/principles.md) — принципы, паттерны и инструменты.
+- [AI в разработке](ai/fundamentals.md) — основы моделей, ассистенты, агенты, безопасность, AI-функции и собеседования.
 - [Практика](practice/implementations.md) — учебные реализации встроенных методов.
 
 :::tip[Быстрая навигация]

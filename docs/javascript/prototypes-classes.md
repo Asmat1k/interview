@@ -230,6 +230,10 @@ console.log(rabbit.eats); // true: поиск продолжается в про
 
 ### Методы в `Constructor.prototype`
 
+Метод в `Constructor.prototype` доступен всем экземплярам, созданным через `new Constructor()`. Он хранится в общем прототипе: при отсутствии собственного свойства поиск продолжается по цепочке прототипов. При вызове `instance.method()` значение `this` указывает на экземпляр, поэтому общий метод может работать с его собственными данными.
+
+Документация: [MDN — Prototype chain](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain).
+
 - **Пример:**
   ```javascript
   function Animal(name) {

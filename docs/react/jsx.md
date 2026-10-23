@@ -81,7 +81,9 @@ const element = createElement("button", { className: "primary" }, "Нажмит�
 
 ### Можно ли использовать React без JSX?
 
-Да. `createElement()` создаёт React-элементы без JSX.
+У `createElement(type, props, ...children)` первый аргумент — имя HTML-тега или функция компонента, второй — props либо `null`, остальные — дочернее содержимое. JSX делает вложенную разметку короче; созданное любым способом дерево затем передают React для отображения.
+
+Документация: [React — createElement](https://react.dev/reference/react/createElement).
 
 ```javascript
 import { createElement } from "react";
