@@ -4,5 +4,6 @@
   "link": {
     "type": "generated-index",
     "description": "Проектирование и инструменты"
-  }
+  },
+  "className": "topic-nav topic-nav--engineering"
 }

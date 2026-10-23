@@ -4,5 +4,6 @@
   "link": {
     "type": "generated-index",
     "description": "TypeScript"
-  }
+  },
+  "className": "topic-nav topic-nav--typescript"
 }

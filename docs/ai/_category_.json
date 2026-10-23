@@ -4,5 +4,6 @@
   "link": {
     "type": "generated-index",
     "description": "Основы AI и LLM, работа с ассистентами и агентами, безопасность, AI-функции и подготовка к собеседованиям."
-  }
+  },
+  "className": "topic-nav topic-nav--ai"
 }

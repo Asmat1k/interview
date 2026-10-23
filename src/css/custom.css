@@ -99,6 +99,40 @@
   overflow-wrap: anywhere;
 }
 
+/* Direct-child selectors keep section icons off nested article links.
+   Empty alternative text makes these decorative icons silent to screen readers. */
+.topic-nav > .menu__list-item-collapsible > .menu__link::before {
+  content: '';
+  content: var(--topic-emoji, '') / '';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-inline-end: 0.6rem;
+  font-size: 1.125rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.topic-nav--javascript > .menu__list-item-collapsible > .menu__link::before {
+  background: url('../../static/img/topics/javascript.svg') center / contain no-repeat;
+}
+
+.topic-nav--typescript > .menu__list-item-collapsible > .menu__link::before {
+  background: url('../../static/img/topics/typescript.svg') center / contain no-repeat;
+}
+
+.topic-nav--react > .menu__list-item-collapsible > .menu__link::before {
+  background: url('../../static/img/topics/react.svg') center / contain no-repeat;
+}
+
+.topic-nav--web { --topic-emoji: '🌐'; }
+.topic-nav--engineering { --topic-emoji: '🛠️'; }
+.topic-nav--ai { --topic-emoji: '🤖'; }
+.topic-nav--practice { --topic-emoji: '💻'; }
+
 @media (max-width: 576px) {
   .theme-doc-markdown :is(ul, ol) {
     padding-left: 1.25rem;

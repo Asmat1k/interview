@@ -4,5 +4,6 @@
   "link": {
     "type": "generated-index",
     "description": "Практика"
-  }
+  },
+  "className": "topic-nav topic-nav--practice"
 }

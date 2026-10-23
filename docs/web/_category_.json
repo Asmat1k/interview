@@ -4,5 +4,6 @@
   "link": {
     "type": "generated-index",
     "description": "Веб-платформа"
-  }
+  },
+  "className": "topic-nav topic-nav--web"
 }
