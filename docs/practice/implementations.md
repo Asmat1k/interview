@@ -7,9 +7,9 @@ format: md
 
 ## Задачи на программирование
 
-Ниже учебные реализации с явно ограниченной областью применимости, а не полные полифилы встроенных методов. Они не изменяют встроенные прототипы.
+Ниже учебные реализации с явно ограниченной областью применимости, а не полные [полифилы](../javascript/polyfills.md) встроенных методов. Они не изменяют встроенные [прототипы](../javascript/prototypes-classes.md).
 
-- `Function.prototype.bind`: привязать this и начальные аргументы для обычного вызова.
+- [`Function.prototype.bind`](../javascript/this.md): привязать this и начальные аргументы для обычного вызова.
 
   ```javascript
   function myBind(func, context, ...args) {
@@ -32,7 +32,7 @@ format: md
   Встроенный bind также поддерживает new для конструируемой функции, корректирует name/length и имеет особую семантику instanceof. Эта версия поддерживает только обычный вызов.
   [MDN: bind](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
 
-- `Object.create`: создать объект с указанным прототипом. Для null нельзя использовать трюк с конструктором — он даст Object.prototype. Встроенный метод также принимает дескрипторы свойств.
+- `Object.create`: создать объект с указанным прототипом. Для null нельзя использовать трюк с конструктором — он даст Object.prototype. Встроенный метод также принимает [дескрипторы свойств](../javascript/objects-arrays.md).
 
   ```javascript
   const animal = { eats: true };

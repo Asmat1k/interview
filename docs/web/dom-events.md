@@ -67,9 +67,9 @@ elem.addEventListener("click", handler, true);
 - `document.getElementById('id')`: Возвращает элемент по его id.
 - `document.getElementsByClassName('class')`: Возвращает список элементов по их классу.
 - `document.getElementsByTagName('tag')`: Возвращает список элементов по их тегу.
-- `document.querySelector('selector')`: Возвращает первый элемент, соответствующий CSS-селектору.
+- `document.querySelector('selector')`: Возвращает первый элемент, соответствующий [CSS-селектору](css.md).
 - `document.querySelectorAll('selector')`: Возвращает `NodeList` (коллекцию, а это псевдомассив) элементов, соответствующие CSS-селектору.
-  - querySelectorAll возвращает статический NodeList. Цепочка наследования: `myNodeList --> NodeList.prototype --> Object.prototype --> null`, поэтому у `NodeList` нет большинства методов массива, но есть `forEach` и итератор; можно использовать `Array.from(nodeList)`
+  - querySelectorAll возвращает статический NodeList. Цепочка наследования: `myNodeList --> NodeList.prototype --> Object.prototype --> null`, поэтому у `NodeList` нет большинства [методов массива](../javascript/objects-arrays.md), но есть `forEach` и итератор; можно использовать `Array.from(nodeList)`
 
 1. Навигация по узлам:
 
@@ -203,7 +203,7 @@ window.addEventListener("load", () => console.log("Ресурсы загруже
   - `keydown` / `keyup` - когда пользователь нажимает / отпускает клавишу.
 
 - События документа:
-  - `DOMContentLoaded` — HTML разобран, DOM построен и отложенные (`defer` и обычные модульные) скрипты выполнены; загрузки изображений событие не ждёт.
+  - `DOMContentLoaded` — [HTML](html.md) разобран, DOM построен и отложенные (`defer` и обычные модульные) скрипты выполнены; загрузки изображений событие не ждёт.
 
 - CSS-события:
   - `transitionend` — завершён CSS-переход (`transition`); завершение CSS-анимации (`animation`) обозначает `animationend`. При отмене перехода `transitionend` не возникает.

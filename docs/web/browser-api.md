@@ -72,7 +72,7 @@ console.log(location.search, location.hash);
 
 ### Cookies
 
-- **Работа с куки:**
+- **Работа с [куки](storage.md):**
   ```javascript
   document.cookie = "username=John Doe";
 

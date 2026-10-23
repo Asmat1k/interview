@@ -9,7 +9,7 @@ format: md
 
 ### Каковы основные принципы Redux?
 
-Общее состояние Redux хранится в одном store. Внешний код описывает изменения через actions и `dispatch()`. Чистые reducers вычисляют следующее состояние. Локальное состояние компонентов можно оставлять в React. Redux Toolkit использует Immer, поэтому запись в draft не мутирует предыдущее состояние.
+Общее состояние Redux хранится в одном store. Внешний код описывает изменения через actions и `dispatch()`. Чистые reducers вычисляют следующее состояние. Локальное [состояние компонентов](components-state.md) можно оставлять в React. Redux Toolkit использует Immer, поэтому запись в draft не мутирует предыдущее состояние.
 
 ```javascript
 import { configureStore, createSlice } from "@reduxjs/toolkit";
@@ -33,7 +33,7 @@ console.log(previous.value, store.getState().value); // 0, 1
 
 ### Как данные проходят через React и Redux?
 
-Компонент вызывает `dispatch(action)`. Middleware передают action дальше, reducer вычисляет состояние, store уведомляет подписчиков. `useSelector()` запрашивает рендер, если выбранный результат изменился (по умолчанию сравнение `===`).
+Компонент вызывает `dispatch(action)`. Middleware передают action дальше, reducer вычисляет состояние, store уведомляет подписчиков. `useSelector()` запрашивает [рендер](rendering.md), если выбранный результат изменился (по умолчанию сравнение `===`).
 
 ```jsx
 import { configureStore, createSlice } from "@reduxjs/toolkit";
