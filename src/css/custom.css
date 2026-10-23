@@ -1,3 +1,23 @@
+.header-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.header-github-link::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  mask: url('../../static/img/github.svg') center / contain no-repeat;
+}
+
+.header-github-link svg {
+  display: none;
+}
+
 /* Use Docusaurus's stable theme classes so upgrades preserve these rules. */
 .theme-doc-markdown {
   --ifm-line-height-base: 1.75;

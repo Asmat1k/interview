@@ -75,6 +75,8 @@ npm run build
 npm run serve
 ```
 
+Поиск работает в production-сборке (`npm run build` → `npm run serve`), а не в dev-сервере. Локальный индекс создаётся при каждой сборке из документации; поддерживаются русский и английский языки. Поле поиска в шапке доступно по Ctrl+K (⌘K на macOS).
+
 ## GitHub Pages
 
 Сайт: [interview](https://asmat1k.github.io/interview/).

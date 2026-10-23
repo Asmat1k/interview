@@ -14,6 +14,15 @@ const config = {
     hooks: { onBrokenMarkdownLinks: 'throw' },
   },
   i18n: { defaultLocale: 'ru', locales: ['ru'] },
+  themes: [
+    [require.resolve('@easyops-cn/docusaurus-search-local'), {
+      hashed: 'filename',
+      language: ['ru', 'en'],
+      docsRouteBasePath: '/',
+      indexBlog: false,
+      highlightSearchTermsOnTargetPage: true,
+    }],
+  ],
   presets: [
     ['classic', {
       docs: {
@@ -30,7 +39,12 @@ const config = {
       title: 'interview',
       items: [
         { type: 'docSidebar', sidebarId: 'interviewSidebar', label: 'Темы', position: 'left' },
-        { href: 'https://github.com/Asmat1k/interview', label: 'GitHub', position: 'right' },
+        {
+          href: 'https://github.com/Asmat1k/interview',
+          className: 'header-github-link',
+          'aria-label': 'GitHub — репозиторий проекта',
+          position: 'right',
+        },
       ],
     },
     prism: { additionalLanguages: ['typescript', 'bash', 'json', 'http'] },
