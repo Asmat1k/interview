@@ -51,6 +51,7 @@ console.log(location.search, location.hash);
   // window.history.forward();
   // window.history.go(-1);
   const url = new URL(location.href);
+
   url.searchParams.set("page", "2");
   history.pushState({ page: 2 }, "", url);
   console.log(history.state.page); // 2: URL изменился без перезагрузки
@@ -74,6 +75,8 @@ console.log(location.search, location.hash);
 - **Работа с куки:**
   ```javascript
   document.cookie = "username=John Doe";
+
   let cookies = document.cookie;
+
   console.log(cookies);
   ```

@@ -21,6 +21,7 @@ format: md
 
 ```javascript
 let a;
+
 console.log(a);
 // undefined
 ```
@@ -43,9 +44,11 @@ console.log(a);
 ```javascript
 console.log(sum(2, 3)); // 5: Function Declaration доступна заранее
 console.log(value); // undefined
+
 function sum(a, b) {
   return a + b;
 }
+
 var value = 10;
 ```
 
@@ -60,9 +63,11 @@ var value = 10;
 
 ```js
 console.log(value); // undefined
+
 if (true) {
   var value = 1;
 } // var не ограничена блоком if
+
 // console.log(later); // ReferenceError: TDZ
 let later = 2;
 ```
@@ -72,21 +77,29 @@ let later = 2;
 ```javascript
 function demo() {
   console.log(value); // undefined: var инициализирована заранее
+
   if (true) {
     var value = 1;
   }
+
   console.log(value); // 1: var не ограничена блоком
+
   let count = 0;
+
   count++;
+
   const user = { name: "Анна" };
+
   user.name = "Иван"; // const запрещает переназначение, но не изменение свойств
   // user = {}; // TypeError
   {
     // console.log(count); // ReferenceError: локальная count находится в TDZ
     let count = 10;
+
     console.log(count); // 10
   }
 }
+
 demo();
 ```
 
@@ -117,13 +130,16 @@ function demo() {
     var visible = 1;
     let local = 2;
     const user = { name: "Анна" };
+
     local = 3;
     user.name = "Иван"; // изменение свойства разрешено
     // user = {}; // TypeError при выполнении
   }
+
   console.log(visible); // 1
   // console.log(local); // ReferenceError: переменная вне области видимости
 }
+
 demo();
 ```
 
@@ -137,10 +153,12 @@ demo();
 
 ```javascript
 const value = "внешнее значение";
+
 {
   // console.log(value); // ReferenceError: затеняющая привязка ещё в TDZ
   // console.log(typeof value); // тоже ReferenceError
   let value = "локальное значение";
+
   console.log(value); // "локальное значение"
 }
 ```
@@ -157,8 +175,11 @@ const value = "внешнее значение";
 ```javascript
 console.log(value); // undefined
 console.log(sum(2, 3)); // 5
+
 var value = 10;
+
 function sum(a, b) { return a + b; }
+
 // console.log(later); // ReferenceError
 const later = 20;
 ```
@@ -177,6 +198,7 @@ const shared = "снаружи"; // верхний уровень модуля �
 
 function show() {
   const local = "внутри";
+
   console.log(shared, local);
 }
 
@@ -201,11 +223,14 @@ function demo() {
     var a = 1;
     let b = 2;
     const c = 3;
+
     console.log(b, c); // 2, 3
   }
+
   console.log(a); // 1
   // console.log(b, c); // ReferenceError: блок завершился
 }
+
 demo();
 ```
 
@@ -218,10 +243,13 @@ demo();
 ```javascript
 function outer() {
   const name = "Анна";
+
   function inner() {
     return `Привет, ${name}`;
   }
+
   return inner();
 }
+
 console.log(outer()); // "Привет, Анна"
 ```

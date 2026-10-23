@@ -17,6 +17,7 @@ format: md
 const age = 20;
 const access = age >= 18 ? "Разрешён" : "Запрещён";
 const category = age < 18 ? "Ребёнок" : age < 65 ? "Взрослый" : "Пенсионер";
+
 console.log(access, category); // "Разрешён", "Взрослый"
 ```
 
@@ -77,7 +78,9 @@ console.log(Boolean("false"), Boolean([]), Boolean({})); // true, true, true
 console.log(1 === "1"); // false
 console.log(NaN === NaN); // false
 console.log(+0 === -0); // true
+
 const user = {};
+
 console.log(user === user, user === {}); // true, false
 ```
 
@@ -106,7 +109,9 @@ console.log(user === user, user === {}); // true, false
 console.log(Object.is(NaN, NaN)); // true
 console.log(Object.is(+0, -0)); // false
 console.log(Object.is(1, "1")); // false
+
 const id = Symbol("id");
+
 console.log(Object.is(id, id), Object.is(1n, 1n)); // true, true
 ```
 
@@ -134,6 +139,7 @@ console.log(Object.is(id, id), Object.is(1n, 1n)); // true, true
 
 ```javascript
 const values = [1, 1n, "текст", Symbol("id"), true, undefined, null, {}];
+
 console.log(values.map((value) => typeof value));
 // ["number", "bigint", "string", "symbol", "boolean", "undefined", "object", "object"]
 ```
@@ -204,6 +210,7 @@ console.log(Object.is(-0, 0));
 
 ```javascript
 const values = [42, 42n, "текст", Symbol("id"), true, undefined, null, {}];
+
 console.log(values.map((value) => typeof value));
 // ["number", "bigint", "string", "symbol", "boolean", "undefined", "object", "object"]
 console.log("10" < "2", "10" < 2); // true, false

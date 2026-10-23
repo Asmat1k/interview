@@ -24,6 +24,7 @@ format: md
 ```javascript
 const key = {};
 const map = new Map([[key, "значение"]]);
+
 console.log(map.get(key), map.has(key), map.size); // "значение", true, 1
 map.set("name", "Анна");
 console.log(map.delete(key)); // true
@@ -46,6 +47,7 @@ console.log(map.size); // 0
 
 ```javascript
 const set = new Set([1, 1, 2]);
+
 set.add(3);
 console.log(set.size, set.has(2)); // 3, true
 console.log(set.delete(2)); // true
@@ -94,6 +96,7 @@ map.clear();
 console.log(map.size); // 0
 
 const set = new Set([1, 1, 2]);
+
 set.add(3);
 console.log(set.has(2), set.size); // true, 3
 console.log(set.delete(2)); // true
@@ -104,10 +107,13 @@ console.log(set.size); // 0
 let object = {};
 const weakMap = new WeakMap([[object, "метаданные"]]);
 const weakSet = new WeakSet([object]);
+
 console.log(weakMap.get(object), weakSet.has(object)); // "метаданные", true
 
 object = null; // ключ теперь может быть собран; момент сборки не гарантирован
+
 const record = { 2: "б", 1: "а", name: "Анна" };
+
 console.log(Object.keys(record)); // ["1", "2", "name"]
 console.log([
   ...new Map([

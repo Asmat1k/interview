@@ -86,9 +86,11 @@ const element = createElement("button", { className: "primary" }, "Нажмит�
 ```javascript
 import { createElement } from "react";
 import { createRoot } from "react-dom/client";
+
 function Hello({ name }) {
   return createElement("p", null, `Привет, ${name}`);
 }
+
 createRoot(document.getElementById("root")).render(
   createElement(Hello, { name: "Анна" }),
 );

@@ -19,16 +19,20 @@ format: md
 
 ```jsx
 import { useState } from "react";
+
 function Counter({ name }) {
   const [count, setCount] = useState(0);
+
   return (
     <button onClick={() => setCount((c) => c + 1)}>
       {name}: {count}
     </button>
   );
 }
+
 function App() {
   const [name, setName] = useState("Анна");
+
   return (
     <>
       <button onClick={() => setName((n) => (n === "Анна" ? "Иван" : "Анна"))}>
@@ -50,6 +54,7 @@ Virtual DOM — представление интерфейса в памяти.
 ```javascript
 import { createElement } from "react";
 const element = createElement("p", { className: "note" }, "Привет");
+
 console.log(element.type, element.props.children); // "p", "Привет"
 console.log(element instanceof Node); // false в браузере
 ```
@@ -62,8 +67,10 @@ console.log(element instanceof Node); // false в браузере
 
 ```jsx
 import { useState } from "react";
+
 function Counter() {
   const [count, setCount] = useState(0);
+
   return <button onClick={() => setCount((c) => c + 1)}>Счёт: {count}</button>;
 }
 // После клика React вычисляет новый результат и обновляет текст кнопки.
@@ -77,8 +84,11 @@ Virtual DOM описывает интерфейс в памяти. Shadow DOM �
 
 ```javascript
 const host = document.createElement("div");
+
 document.body.append(host);
+
 const shadow = host.attachShadow({ mode: "open" });
+
 shadow.innerHTML = "<style>p { color: red; }</style><p>Внутри Shadow DOM</p>";
 console.log(host.querySelector("p")); // null
 console.log(shadow.querySelector("p").textContent); // "Внутри Shadow DOM"
@@ -94,6 +104,7 @@ React-элемент — описание интерфейса, а DOM-узел 
 import { createElement } from "react";
 const description = createElement("p", null, "Привет");
 const node = document.createElement("p");
+
 node.textContent = description.props.children;
 document.body.append(node); // На странице появляется абзац.
 console.log(typeof node.focus, typeof description.focus); // "function", "undefined"
@@ -109,8 +120,10 @@ console.log(typeof node.focus, typeof description.focus); // "function", "undefi
 
 ```jsx
 import { useState } from "react";
+
 function Parent() {
   const [count, setCount] = useState(0);
+
   return (
     <>
       <button onClick={() => setCount((c) => c + 1)}>{count}</button>
@@ -118,8 +131,10 @@ function Parent() {
     </>
   );
 }
+
 function Child() {
   console.log("Child render");
+
   return <p>Дочерний компонент</p>;
 }
 // Клик обновляет Parent и обычно вызывает Child снова, хотя текст Child тот же.
@@ -140,8 +155,10 @@ import { memo, useState } from "react";
 const Greeting = memo(function Greeting({ name }) {
   return <p>Привет, {name}</p>;
 });
+
 function App() {
   const [count, setCount] = useState(0);
+
   return (
     <>
       <button onClick={() => setCount((c) => c + 1)}>{count}</button>

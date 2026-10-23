@@ -23,6 +23,7 @@ format: md
 
 ```javascript
 const values = ["текст", 42, 42n, true, undefined, null, Symbol("id"), {}];
+
 console.log(values.map(value => typeof value));
 // ["string", "number", "bigint", "boolean", "undefined", "object", "symbol", "object"]
 console.log(null === null); // true: null — отдельный примитивный тип
@@ -44,6 +45,7 @@ console.log(null === null); // true: null — отдельный примити�
 
 ```javascript
 const value = 12.345;
+
 console.log(value.toString(), (255).toString(16)); // "12.345", "ff"
 console.log(value.toExponential(2)); // "1.23e+1"
 console.log(value.toFixed(2)); // "12.35"
@@ -100,5 +102,6 @@ console.log("  а  ".trim(), "  а  ".trimStart(), "  а  ".trimEnd()); // "а",
 ```javascript
 const name = "Анна";
 const count = 2;
+
 console.log(`${name}: ${count + 1} сообщения`); // "Анна: 3 сообщения"
 ```

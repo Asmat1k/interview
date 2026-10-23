@@ -45,6 +45,7 @@ var promise = new Promise(function (resolve, reject) {
 fetch("/api/user")
   .then((response) => {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
     return response.json();
   })
   .then((user) => console.log(user))
@@ -96,6 +97,7 @@ Promise.race([a, b]).then(console.log); // 1: первый завершивши�
 Promise.any([Promise.reject("сбой"), b]).then(console.log); // 2: первый успешный
 
 const { promise, resolve } = Promise.withResolvers();
+
 promise.then(console.log); // "Готово"
 resolve("Готово");
 ```
@@ -116,6 +118,7 @@ resolve("Готово");
 const pending = new Promise(() => {}); // pending
 const success = Promise.resolve(2); // fulfilled
 const failure = Promise.reject(new Error("Сбой")); // rejected
+
 failure.catch((error) => console.log(error.message)); // "Сбой"
 success.then((value) => value * 3).then(console.log); // 6
 ```
@@ -129,6 +132,7 @@ Promise.resolve(1)
   })
   .catch((error) => {
     console.log(error.message);
+
     return 0;
   })
   .finally(() => console.log("Очистка"))
@@ -160,9 +164,11 @@ async function read() {
     return await Promise.resolve(42);
   } catch (error) {
     console.error(error);
+
     return 0;
   }
 }
+
 read().then(console.log); // 42
 ```
 

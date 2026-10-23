@@ -37,14 +37,31 @@
 }
 
 /* Inline code may wrap; executable examples retain indentation and scrolling. */
-.theme-doc-markdown :not(pre) > code {
+.theme-doc-markdown code:not(pre code) {
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
 .theme-doc-markdown pre {
   --ifm-pre-line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
   overflow-wrap: normal;
+  word-break: normal;
+  tab-size: 2;
+}
+
+/* Exclude every descendant of pre from inline-code whitespace rules. */
+.theme-doc-markdown pre code {
+  white-space: inherit;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+@media print {
+  .theme-doc-markdown pre {
+    white-space: pre-wrap;
+  }
 }
 
 .theme-doc-markdown table {

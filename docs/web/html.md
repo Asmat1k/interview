@@ -234,6 +234,7 @@ format: md
 
 ```javascript
 const card = document.createElement("div");
+
 card.dataset.clientName = "Анна";
 console.log(card.getAttribute("data-client-name")); // "Анна"
 card.setAttribute("data-count", "2");

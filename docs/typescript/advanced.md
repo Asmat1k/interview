@@ -17,6 +17,7 @@ function include<T>(array: T[], query: T): boolean {
       return true;
     }
   }
+
   return false;
 }
 ```
@@ -29,8 +30,10 @@ function include<T>(array: T[], query: T): boolean {
 function identity<T>(value: T): T {
   return value;
 }
+
 const number = identity(42); // number
 const text = identity("Привет"); // string
+
 console.log(number, text); // 42, "Привет"
 ```
 
@@ -74,6 +77,7 @@ const present: NonNullable<string | null | undefined> = "есть значени
 interface Animal {
   live(): void;
 }
+
 interface Dog extends Animal {
   woof(): void;
 }
@@ -95,7 +99,9 @@ const second: IsString<number> = "нет";
 
 ```ts
 export function myFunction(input: string): string;
+
 export function myFunction(input: number): number;
+
 /**
  * Overloads
  * @param input
@@ -112,10 +118,13 @@ export function myFunction(input: unknown): unknown {
 
 ```typescript
 function echo(value: string): string;
+
 function echo(value: number): number;
+
 function echo(value: string | number) {
   return value;
 }
+
 console.log(echo("Привет").toUpperCase(), echo(42).toFixed(1)); // "ПРИВЕТ", "42.0"
 // echo(true); // Ошибка: нет перегрузки для boolean
 ```
@@ -129,6 +138,7 @@ console.log(echo("Привет").toUpperCase(), echo(42).toFixed(1)); // "ПРИ
 ```typescript
 const name: string | null = null;
 const count = 0;
+
 console.log(name ?? "Гость"); // "Гость"
 console.log(count || 10, count ?? 10); // 10, 0
 console.log(true && "Готово"); // "Готово": && возвращает операнд

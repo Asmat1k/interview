@@ -77,6 +77,7 @@ CRP — последовательность действий браузера �
 
 ```javascript
 const paragraph = document.createElement("p");
+
 paragraph.style.color = "red";
 document.body.append(paragraph);
 console.log(getComputedStyle(paragraph).color); // "rgb(255, 0, 0)"
@@ -106,6 +107,7 @@ console.log(getComputedStyle(paragraph).color); // "rgb(255, 0, 0)"
 
 ```javascript
 const box = document.createElement("div");
+
 box.style.width = "200px";
 document.body.append(box);
 console.log(box.getBoundingClientRect().width); // 200 CSS-пикселей
@@ -120,6 +122,7 @@ console.log(box.getBoundingClientRect().width); // 200 CSS-пикселей
 
 ```javascript
 const text = document.createElement("p");
+
 text.textContent = "Цвет изменится";
 document.body.append(text);
 setTimeout(() => {
@@ -184,6 +187,7 @@ const doc = new DOMParser().parseFromString(
   '<p class="note">Привет</p>',
   "text/html",
 );
+
 console.log(doc.querySelector(".note").textContent); // "Привет"
 // Этот разбор создаёт отдельный DOM; он не отображает документ на экране.
 ```
@@ -206,6 +210,7 @@ console.log(doc.querySelector(".note").textContent); // "Привет"
 
 ```javascript
 const box = document.createElement("div");
+
 box.style.width = "100px";
 document.body.append(box);
 box.style.width = "200px"; // меняется геометрия
@@ -223,6 +228,7 @@ box.remove();
 
 ```javascript
 const box = document.createElement("div");
+
 box.textContent = "Пример";
 document.body.append(box);
 box.style.color = "red"; // изменение цвета требует paint, но не меняет геометрию

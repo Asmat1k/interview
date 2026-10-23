@@ -66,6 +66,7 @@ Content-Type: application/json
 
 ```javascript
 const url = new URL("https://example.com/users/42");
+
 console.log(url.protocol); // "https:"
 // Браузер устанавливает TLS-соединение и передаёт HTTP-запрос внутри него.
 // Содержимое запроса шифруется в пути; сервер получает его после расшифровки.
@@ -144,15 +145,19 @@ TRACE /diagnostics HTTP/1.1
 async function loadUser() {
   try {
     const response = await fetch("/api/user");
+
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
     const user = await response.json();
     const output = document.createElement("p");
+
     output.textContent = user.name;
     document.body.append(output); // интерфейс обновляется без перезагрузки
   } catch (error) {
     console.error(error);
   }
 }
+
 loadUser();
 ```
 
@@ -165,6 +170,7 @@ loadUser();
   fetch("/api/data")
     .then((response) => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
       return response.json();
     })
     .then((data) => console.log(data))

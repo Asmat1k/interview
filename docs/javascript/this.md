@@ -87,25 +87,31 @@ obj.foo(); // 2
 ```javascript
 function greet(prefix, suffix) {
   "use strict";
+
   return `${prefix}${this.name}${suffix}`;
 }
 
 const user = { name: "Анна", greet };
+
 console.log(user.greet("Привет, ", "!")); // "Привет, Анна!": неявная привязка
 console.log(greet.call(user, "Привет, ", "!")); // тот же результат
 console.log(greet.apply(user, ["Привет, ", "!"])); // аргументы в массиве
 
 const bound = greet.bind(user, "Привет, ");
+
 console.log(bound("!")); // "Привет, Анна!"
 
 function getThis() {
   "use strict";
+
   return this;
 }
+
 console.log(getThis()); // undefined: обычный вызов в строгом режиме
 
 function User(name) {
   this.name = name;
 }
+
 console.log(new User("Иван").name); // "Иван": this — новый экземпляр
 ```

@@ -49,6 +49,7 @@ format: md
 ```javascript
 const elem = document.createElement("button");
 const handler = () => console.log("click");
+
 elem.addEventListener("click", handler, { capture: true });
 // или просто "true", как сокращение для {capture: true}
 elem.addEventListener("click", handler, true);
@@ -81,6 +82,7 @@ elem.addEventListener("click", handler, true);
 
 ```javascript
 const list = document.createElement("ul");
+
 list.innerHTML = "<li>А</li><li>Б</li>";
 console.log(list.querySelectorAll("li").length); // 2
 console.log(list.firstChild.nextSibling.textContent); // "Б"
@@ -109,12 +111,15 @@ console.log(list.lastChild.parentNode === list); // true
 ```javascript
 // Выполните в браузере после создания document.body.
 const panel = document.createElement("section");
+
 panel.id = "example";
 panel.className = "panel";
 panel.innerHTML =
   '<button type="button">Нажмите</button><input aria-label="Текст"><form><button>Отправить</button></form>';
 document.body.appendChild(panel);
+
 const button = panel.querySelector("button");
+
 for (const type of [
   "click",
   "dblclick",
@@ -125,6 +130,7 @@ for (const type of [
 ]) {
   button.addEventListener(type, (event) => console.log(type, event.target));
 }
+
 panel
   .querySelector("input")
   .addEventListener("input", (e) => console.log(e.target.value));
@@ -142,11 +148,13 @@ button.addEventListener("click", () => console.log("target"));
 panel.addEventListener("click", (event) =>
   console.log("bubble", event.currentTarget),
 );
+
 // event.stopPropagation() останавливает продвижение к другим узлам;
 // event.stopImmediatePropagation() — также остальные обработчики этого узла.
 function handler() {
   console.log("временный обработчик");
 }
+
 button.addEventListener("click", handler, true);
 button.removeEventListener("click", handler, true); // capture должен совпадать
 console.log(document.getElementById("example") === panel); // true
@@ -158,16 +166,21 @@ console.log(
 console.log(button.parentNode === panel, panel.firstChild === button); // true, true
 console.log(panel.childNodes.length, panel.lastChild.nodeName); // 3, "FORM"
 console.log(button.nextSibling.nodeName, button.previousSibling); // "INPUT", null
+
 const text = document.createTextNode("Подсказка");
+
 panel.insertBefore(text, button);
 button.setAttribute("title", "Действие");
 console.log(button.getAttribute("title")); // "Действие"
 button.removeAttribute("title");
 panel.removeChild(text);
+
 const ready = () => console.log("DOM готов");
+
 if (document.readyState === "loading")
   document.addEventListener("DOMContentLoaded", ready, { once: true });
 else ready();
+
 window.addEventListener("load", () => console.log("Ресурсы загружены"), {
   once: true,
 });
@@ -202,6 +215,7 @@ window.addEventListener("load", () => console.log("Ресурсы загруже
 ```javascript
 // Выполните в браузере после разбора HTML.
 const button = document.createElement("button");
+
 button.type = "button";
 button.textContent = "Нажмите";
 document.body.append(button);
@@ -211,6 +225,7 @@ for (const type of ["click", "contextmenu", "mouseover", "mouseout", "mousedown"
 }
 
 const form = document.createElement("form");
+
 form.innerHTML = '<button type="submit">Отправить</button>';
 form.addEventListener("submit", event => {
   event.preventDefault();
@@ -218,7 +233,9 @@ form.addEventListener("submit", event => {
 });
 
 document.body.append(form);
+
 const onReady = () => console.log("DOM готов");
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", onReady, { once: true });
 } else {

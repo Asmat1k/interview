@@ -88,10 +88,13 @@ IndexedDB — асинхронное хранилище структуриров
 localStorage.setItem("interview:theme", "dark");
 console.log(localStorage.getItem("interview:theme")); // "dark"
 console.log(localStorage.length, localStorage.key(0)); // число записей и первый ключ
+
 for (let i = 0; i < localStorage.length; i++) {
   const key = localStorage.key(i);
+
   console.log(key, localStorage.getItem(key));
 }
+
 localStorage.removeItem("interview:theme");
 sessionStorage.setItem("interview:draft", JSON.stringify({ text: "Черновик" }));
 console.log(JSON.parse(sessionStorage.getItem("interview:draft")).text); // "Черновик"
@@ -109,14 +112,17 @@ document.cookie = "interviewTheme=; Max-Age=0; Path=/"; // удаление
 
 ```javascript
 const request = indexedDB.open("interview-example", 1);
+
 request.onupgradeneeded = () =>
   request.result.createObjectStore("notes", { keyPath: "id" });
 request.onsuccess = () => {
   const db = request.result;
   const write = db.transaction("notes", "readwrite");
+
   write.objectStore("notes").put({ id: 1, text: "Заметка" });
   write.oncomplete = () => {
     const read = db.transaction("notes").objectStore("notes").get(1);
+
     read.onsuccess = () => {
       console.log(read.result.text);
       db.close();
@@ -135,7 +141,9 @@ request.onerror = () => console.error(request.error);
 - **Описание Cookies:**
   ```javascript
   document.cookie = "username=John Doe";
+
   let cookies = document.cookie;
+
   console.log(cookies);
   ```
 

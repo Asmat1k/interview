@@ -22,27 +22,34 @@ class Shape {
     throw new Error("Реализуйте area");
   }
 } // абстракция
+
 class Square extends Shape {
   // наследование
   #side; // инкапсуляция
+
   constructor(side) {
     super();
     this.#side = side;
   }
+
   area() {
     return this.#side ** 2;
   }
 }
+
 class Circle extends Shape {
   constructor(radius) {
     super();
     this.radius = radius;
   }
+
   area() {
     return Math.PI * this.radius ** 2;
   }
 }
+
 const areas = [new Square(2), new Circle(1)].map((shape) => shape.area()); // полиморфизм
+
 console.log(areas); // [4, 3.141592653589793]
 ```
 
@@ -68,43 +75,54 @@ console.log(areas); // [4, 3.141592653589793]
 // S: расчёт суммы и вывод отчёта имеют разные причины для изменения.
 const total = (prices: number[]) => prices.reduce((sum, n) => sum + n, 0);
 const printReport = (value: number) => console.log(`Итого: ${value}`);
+
 // O: добавляем новые расчёты площади, не меняя sumAreas.
 interface Shape {
   area(): number;
 }
+
 const sumAreas = (shapes: Shape[]) =>
   shapes.reduce((sum, shape) => sum + shape.area(), 0);
+
 // L: обе реализации соблюдают контракт Shape (неотрицательная площадь).
 class Square implements Shape {
   constructor(private side: number) {
     if (side < 0) throw new RangeError("side");
   }
+
   area() {
     return this.side ** 2;
   }
 }
+
 class Circle implements Shape {
   constructor(private radius: number) {
     if (radius < 0) throw new RangeError("radius");
   }
+
   area() {
     return Math.PI * this.radius ** 2;
   }
 }
+
 // I: узкие интерфейсы — потребителю чтения не нужна запись.
 interface Reader {
   read(): string;
 }
+
 interface Writer {
   write(text: string): void;
 }
+
 // D: сервис зависит от абстракции Reader, реализация передаётся снаружи.
 class ReportService {
   constructor(private source: Reader) {}
+
   build() {
     return this.source.read();
   }
 }
+
 console.log(new ReportService({ read: () => "Отчёт" }).build()); // "Отчёт"
 console.log(sumAreas([new Square(2), new Circle(1)])); // 7.141592653589793
 // DRY: формула суммы хранится в одном месте; KISS: достаточно обычных функций.
@@ -123,8 +141,11 @@ printReport(total([10, 20])); // "Итого: 30"
 ```javascript
 // KISS: простое вычисление вместо лишней иерархии классов.
 const total = prices => prices.reduce((sum, price) => sum + price, 0);
+
 console.log(total([10, 20])); // 30
+
 // YAGNI: реализуем нужный формат отчёта; другие добавим при появлении задачи.
 const report = rows => rows.join("\n");
+
 console.log(report(["Продажи: 30", "Расходы: 10"]));
 ```

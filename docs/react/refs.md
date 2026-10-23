@@ -13,9 +13,11 @@ format: md
 
 ```jsx
 import { useRef, useState } from "react";
+
 function Counter() {
   const clicks = useRef(0);
   const [visible, setVisible] = useState(0);
+
   return (
     <>
       <button
@@ -42,8 +44,10 @@ function Counter() {
 
 ```jsx
 import { useRef } from "react";
+
 function Search() {
   const inputRef = useRef(null);
+
   return (
     <>
       <input ref={inputRef} aria-label="Поиск" />
@@ -62,8 +66,10 @@ function Search() {
 
 ```jsx
 import { useRef } from "react";
+
 function SaveTime() {
   const lastSaved = useRef(null);
+
   return (
     <button
       onClick={() => {

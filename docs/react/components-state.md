@@ -40,16 +40,20 @@ class Form extends Component {
 
 ```jsx
 import { Component, useState } from "react";
+
 class ClassGreeting extends Component {
   render() {
     return <p>Привет, {this.props.name}</p>;
   }
 }
+
 function Greeting({ name }) {
   return <p>Привет, {name}</p>;
 }
+
 function Form() {
   const [name, setName] = useState("");
+
   return (
     <form
       onSubmit={(event) => {
@@ -107,41 +111,53 @@ function Form() {
 
 ```jsx
 import { Component } from "react";
+
 class Status extends Component {
   constructor(props) {
     super(props);
     this.state = { previous: props.text };
   }
+
   static getDerivedStateFromProps(props, state) {
     return props.text !== state.previous ? { previous: props.text } : null;
   }
+
   shouldComponentUpdate(nextProps) {
     return nextProps.text !== this.props.text;
   }
+
   componentDidMount() {
     console.log("Монтирование");
   }
+
   getSnapshotBeforeUpdate() {
     return document.title;
   }
+
   componentDidUpdate(previousProps, previousState, snapshot) {
     console.log("Обновление", previousProps.text, snapshot);
   }
+
   componentWillUnmount() {
     console.log("Очистка");
   }
+
   render() {
     return <p>{this.props.text}</p>;
   }
 }
+
 class ErrorBoundary extends Component {
   state = { failed: false };
+
   static getDerivedStateFromError() {
     return { failed: true };
   }
+
   componentDidCatch(error, info) {
     console.error(error, info.componentStack);
   }
+
   render() {
     return this.state.failed ? <p>Ошибка</p> : this.props.children;
   }
@@ -168,6 +184,7 @@ class ErrorBoundary extends Component {
 ```ts
 useEffect(() => {
   window.addEventListener("scroll", updateSticky);
+
   return () => {
     window.removeEventListener("scroll", updateSticky);
   };
@@ -204,6 +221,7 @@ function areEqual(prevProps, nextProps) {
 
 const MyComponent = React.memo(function MyComponent({ name }) {
   console.log("Rendering MyComponent");
+
   return <div>Hello, {name}!</div>;
 }, areEqual);
 
@@ -261,20 +279,25 @@ const Theme = createContext("light");
 const AddButton = memo(function AddButton({ onAdd }) {
   return <button onClick={onAdd}>Добавить</button>;
 });
+
 function Counter() {
   const [count, setCount] = useState(0);
   const inputRef = useRef(null);
   const theme = useContext(Theme);
   const doubled = useMemo(() => count * 2, [count]);
   const increment = useCallback(() => setCount((c) => c + 1), []);
+
   useEffect(() => {
     const onResize = () => console.log(window.innerWidth);
+
     window.addEventListener("resize", onResize);
+
     return () => window.removeEventListener("resize", onResize);
   }, []); // подписка и очистка
   useLayoutEffect(() => {
     console.log(inputRef.current.getBoundingClientRect().width);
   }, []); // измерение после commit, до paint
+
   return (
     <section data-theme={theme}>
       <label>
@@ -289,6 +312,7 @@ function Counter() {
     </section>
   );
 }
+
 function App() {
   return (
     <Theme.Provider value="dark">
@@ -308,8 +332,10 @@ Props приходят от родителя. State — память экзем�
 
 ```jsx
 import { useState } from "react";
+
 function Counter({ step }) {
   const [count, setCount] = useState(0);
+
   return <button onClick={() => setCount((c) => c + step)}>{count}</button>;
 }
 // <Counter step={2} />: step — prop, count — state; клики дают 0 → 2 → 4.
@@ -323,8 +349,10 @@ function Counter({ step }) {
 
 ```jsx
 import { Component, useState } from "react";
+
 class ClassCounter extends Component {
   state = { count: 0, label: "Счёт" };
+
   render() {
     return (
       <button onClick={() => this.setState((s) => ({ count: s.count + 1 }))}>
@@ -333,8 +361,10 @@ class ClassCounter extends Component {
     );
   }
 }
+
 function FunctionCounter() {
   const [state, setState] = useState({ count: 0, label: "Счёт" });
+
   return (
     <button onClick={() => setState((s) => ({ ...s, count: s.count + 1 }))}>
       {state.label}: {state.count}
@@ -352,16 +382,20 @@ function FunctionCounter() {
 
 ```jsx
 import { Component } from "react";
+
 class Status extends Component {
   componentDidMount() {
     console.log("Смонтирован");
   }
+
   componentDidUpdate() {
     console.log("Обновлён");
   }
+
   componentWillUnmount() {
     console.log("Размонтирован");
   }
+
   render() {
     return <p>{this.props.text}</p>;
   }
@@ -378,14 +412,18 @@ class Status extends Component {
 
 ```jsx
 import { useEffect } from "react";
+
 function PageTitle({ title }) {
   useEffect(() => {
     const previous = document.title;
+
     document.title = title;
+
     return () => {
       document.title = previous;
     };
   }, [title]);
+
   return <h1>{title}</h1>;
 }
 // Новый title запускает очистку и повторный эффект; удаление возвращает прежний заголовок.

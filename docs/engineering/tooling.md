@@ -21,6 +21,7 @@ format: md
 // webpack.config.cjs; нужны webpack, webpack-cli, css-loader и style-loader.
 const path = require("node:path");
 const webpack = require("webpack");
+
 module.exports = {
   mode: "development",
   entry: "./src/index.js", // начало графа зависимостей

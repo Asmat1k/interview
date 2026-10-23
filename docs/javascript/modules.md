@@ -34,6 +34,7 @@ export const increment = () => ++count;
 ```javascript
 // math.cjs
 const add = (a, b) => a + b;
+
 module.exports = { add };
 // app.cjs — отдельный файл:
 // const { add } = require('./math.cjs');
@@ -50,6 +51,7 @@ module.exports = { add };
 ```javascript
 // math.js
 export const add = (a, b) => a + b;
+
 export default function double(value) {
   return value * 2;
 }

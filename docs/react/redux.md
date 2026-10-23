@@ -24,6 +24,7 @@ const counter = createSlice({
 });
 const store = configureStore({ reducer: counter.reducer });
 const previous = store.getState();
+
 store.dispatch(counter.actions.increment());
 console.log(previous.value, store.getState().value); // 0, 1
 ```
@@ -43,15 +44,18 @@ const counter = createSlice({
   reducers: { increment: (state) => state + 1 },
 });
 const store = configureStore({ reducer: counter.reducer });
+
 function Counter() {
   const value = useSelector((state) => state);
   const dispatch = useDispatch();
+
   return (
     <button onClick={() => dispatch(counter.actions.increment())}>
       {value}
     </button>
   );
 }
+
 function App() {
   return (
     <Provider store={store}>
@@ -80,6 +84,7 @@ const cart = createSlice({
   },
 });
 const store = configureStore({ reducer: { cart: cart.reducer } });
+
 store.dispatch(cart.actions.added({ id: 1, title: "Книга" }));
 console.log(store.getState().cart); // [{ id: 1, title: 'Книга' }]
 // В Redux DevTools можно увидеть action cart/added и изменение состояния.

@@ -19,6 +19,7 @@ function Profile({ name, age }) {
     </p>
   );
 }
+
 function App() {
   return <Profile name="Анна" age={20} />;
 }
@@ -33,11 +34,14 @@ function App() {
 
 ```jsx
 import { useState } from "react";
+
 function Child({ onChoose }) {
   return <button onClick={() => onChoose("Анна")}>Выбрать Анну</button>;
 }
+
 function Parent() {
   const [name, setName] = useState("Никто");
+
   return (
     <>
       <p>{name}</p>
@@ -58,9 +62,11 @@ function Parent() {
 function App() {
   return <Layout name="Анна" />;
 }
+
 function Layout({ name }) {
   return <Profile name={name} />;
 }
+
 function Profile({ name }) {
   return <p>{name}</p>;
 }
@@ -93,14 +99,18 @@ function Editor({ user, onChange }) {
 
 ```jsx
 import { useState } from "react";
+
 function Input({ value, onChange }) {
   return <input value={value} onChange={(e) => onChange(e.target.value)} />;
 }
+
 function Preview({ text }) {
   return <p>{text}</p>;
 }
+
 function App() {
   const [text, setText] = useState("Привет");
+
   return (
     <>
       <Input value={text} onChange={setText} />
@@ -122,14 +132,18 @@ Context передаёт данные потомкам без промежуто
 ```jsx
 import { createContext, useContext, useState } from "react";
 const Theme = createContext("light");
+
 function Label() {
   return <p>Тема: {useContext(Theme)}</p>;
 }
+
 function Layout() {
   return <Label />;
 }
+
 function App() {
   const [theme, setTheme] = useState("dark");
+
   return (
     <Theme.Provider value={theme}>
       <Layout />
@@ -154,9 +168,11 @@ function App() {
 function Layout({ children }) {
   return <main>{children}</main>;
 }
+
 function Profile({ name }) {
   return <p>{name}</p>;
 }
+
 function App() {
   return (
     <Layout>

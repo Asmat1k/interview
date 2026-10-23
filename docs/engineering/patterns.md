@@ -15,9 +15,11 @@ format: md
 // Observer: издатель уведомляет зарегистрированных наблюдателей.
 function createSubject() {
   const listeners = new Set();
+
   return {
     subscribe(fn) {
       listeners.add(fn);
+
       return () => listeners.delete(fn);
     },
     notify(value) {
@@ -25,8 +27,10 @@ function createSubject() {
     },
   };
 }
+
 const subject = createSubject();
 const unsubscribe = subject.subscribe((value) => console.log(value));
+
 subject.notify("Обновление"); // "Обновление"
 unsubscribe();
 subject.notify("Не будет выведено");
@@ -51,12 +55,14 @@ subject.notify("Не будет выведено");
       if (!Singleton.instance) {
         Singleton.instance = new Singleton();
       }
+
       return Singleton.instance;
     }
   }
 
   const instance1 = Singleton.getInstance();
   const instance2 = Singleton.getInstance();
+
   console.log(instance1 === instance2); // true
   ```
 
@@ -94,6 +100,7 @@ subject.notify("Не будет выведено");
 
   const europeanPlug = new EuropeanPlugImpl();
   const adapter = new Adapter(europeanPlug);
+
   adapter.connectUS(); // Connected with European plug
   ```
 
@@ -132,6 +139,7 @@ subject.notify("Не будет выведено");
   const observer1 = new ConcreteObserver();
   const observer2 = new ConcreteObserver();
   const subject = new Subject();
+
   subject.addObserver(observer1);
   subject.addObserver(observer2);
   subject.notifyObservers("Обновление");

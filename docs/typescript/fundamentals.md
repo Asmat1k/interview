@@ -179,8 +179,10 @@ enum Season {
 ```typescript
 function length(value: unknown): number {
   if (typeof value === "string") return value.length;
+
   return 0;
 }
+
 console.log(length("Привет"), length(42)); // 6, 0
 ```
 
@@ -235,6 +237,7 @@ type User = {
   firstName: string;
   pointsCount: number;
 };
+
 // Теперь можно удобно типизировать
 function doSomething(user: User) {
   // ...
@@ -267,16 +270,21 @@ interface IUser {
 
 ```typescript
 type Id = string | number;
+
 interface User {
   id: Id;
 }
+
 interface User {
   name: string;
 } // слияние объявлений
+
 const user: User = { id: 1, name: "Анна" };
+
 interface Named {
   name: string;
 }
+
 class Person implements Named {
   constructor(public name: string) {}
 }
@@ -307,16 +315,23 @@ enum Fruits {
 
 ```typescript
 const pair: [string, number] = ["Анна", 25];
+
 pair[1] = 26; // обычный кортеж допускает изменение
+
 const fixed: readonly [string, number] = ["Анна", 25];
 // fixed[1] = 26; // Ошибка компиляции
 const values: Array<number> = [1, 2, 3];
+
 function log(message: string): void {
   console.log(message);
 }
+
 let data: unknown = "строка";
+
 if (typeof data === "string") console.log(data.toUpperCase()); // "СТРОКА"
+
 let unchecked: any = 42;
+
 // unchecked.missing(); // компилируется, но вызовет TypeError
 function fail(message: string): never {
   throw new Error(message);

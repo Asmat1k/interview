@@ -12,6 +12,7 @@ format: md
 ```javascript
 function createCounter() {
   let count = 0;
+
   return function increment() {
     count++;
     console.log(count);
@@ -19,6 +20,7 @@ function createCounter() {
 }
 
 const counter = createCounter();
+
 counter();
 // 1
 counter();
@@ -40,6 +42,7 @@ counter();
 ```javascript
 function greet(name) {
   const prefix = "Привет";
+
   return () => `${prefix}, ${name}`; // сохраняет доступ к двум привязкам
 }
 
@@ -56,11 +59,13 @@ console.log(greet("Анна")()); // "Привет, Анна"
 ```javascript
 function createCounter() {
   let count = 0;
+
   return () => ++count;
 }
 
 const first = createCounter();
 const second = createCounter();
+
 console.log(first(), first(), second()); // 1, 2, 1: разные окружения
 ```
 
@@ -76,6 +81,7 @@ console.log(first(), first(), second()); // 1, 2, 1: разные окружен
 
 ```javascript
 const message = "из области видимости";
+
 function show() {
   return [message, this.name];
 }
@@ -99,6 +105,7 @@ const value = "глобальное";
 
 function outer() {
   const value = "внешнее";
+
   return () => value; // поиск находит ближайшую внешнюю привязку
 }
 
@@ -114,10 +121,12 @@ console.log(outer()()); // "внешнее"
 ```javascript
 function makeCounter() {
   let count = 0;
+
   return { increment: () => ++count, read: () => count };
 }
 
 const counter = makeCounter();
+
 counter.increment();
 
 console.log(counter.read()); // 1: оба замыкания используют одну привязку

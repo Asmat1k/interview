@@ -14,6 +14,7 @@ format: md
 ```jsx
 // Нужен пакет react-router; пример декларативного API.
 import { BrowserRouter, Link, Route, Routes } from "react-router";
+
 function App() {
   return (
     <BrowserRouter>

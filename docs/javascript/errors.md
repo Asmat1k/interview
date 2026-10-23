@@ -20,6 +20,7 @@ format: md
 - **Error class:** Конструктор `Error` создаёт объект ошибки.
   ```javascript
   let error = new Error("Ошибка");
+
   console.log(error.message); // 'Ошибка'
   ```
 
@@ -43,7 +44,9 @@ format: md
 ```javascript
 function parseUser(text) {
   const user = JSON.parse(text);
+
   if (typeof user.name !== "string") throw new Error("Не задано имя");
+
   return user;
 }
 
@@ -63,6 +66,7 @@ try {
 - **Конструктор Error:** Создаёт объект ошибки.
   ```javascript
   let error = new Error("Ошибка");
+
   console.log(error.message); // 'Ошибка'
   ```
 
@@ -94,7 +98,9 @@ console.error("Ошибка", new Error("Нет данных"));
   async function fetchData() {
     try {
       let response = await fetch("/api/data");
+
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
       let data = await response.json();
     } catch (error) {
       console.error("Ошибка:", error);

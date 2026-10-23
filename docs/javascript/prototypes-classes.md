@@ -22,6 +22,7 @@ class User {
 }
 
 let user = new User("Иван");
+
 user.sayHi();
 ```
 
@@ -77,11 +78,13 @@ class Counter {
 class DoubleCounter extends Counter {
   increment() {
     super.increment();
+
     return super.increment();
   } // переопределение
 }
 
 const counter = new DoubleCounter();
+
 console.log(counter.increment(), counter.read()); // 2, 2
 console.log(DoubleCounter.description); // "Счётчик": статическое свойство наследуется
 console.log(Object.keys(Counter.prototype)); // []: методы неперечислимы
@@ -91,6 +94,7 @@ console.log(Object.keys(Counter.prototype)); // []: методы непереч�
 const Named = class {
   value = 1;
 }; // class expression
+
 console.log(new Named().value); // 1
 ```
 
@@ -113,10 +117,12 @@ Animal.prototype.eat = function () {
 };
 
 const rabbit = new Animal();
+
 console.log(Object.getPrototypeOf(rabbit) === Animal.prototype); // true
 console.log(rabbit.eat()); // "Ест": метод найден в прототипе
 
 const child = Object.create(rabbit);
+
 console.log(child.eat()); // "Ест": поиск проходит по цепочке
 console.log(Object.getPrototypeOf(Object.prototype)); // null
 ```
@@ -138,6 +144,7 @@ console.log(Object.getPrototypeOf(Object.prototype)); // null
 ```javascript
 const animal = { eats: true };
 const rabbit = Object.create(animal);
+
 console.log(Object.getPrototypeOf(rabbit) === animal); // true
 console.log(rabbit.eats); // true: поиск продолжается в прототипе
 ```
@@ -184,6 +191,7 @@ console.log(rabbit.eats); // true: поиск продолжается в про
   };
 
   let rabbit = {};
+
   rabbit.__proto__ = animal;
 
   console.log(rabbit.eats); // true
@@ -233,6 +241,7 @@ console.log(rabbit.eats); // true: поиск продолжается в про
   };
 
   let rabbit = new Animal("Кролик");
+
   rabbit.speak(); // Кролик говорит.
   ```
 

@@ -19,6 +19,7 @@ let fruit = prompt("Какой фрукт купить?", "apple");
 let bag = {
   [fruit]: 5,
 };
+
 alert(bag.apple); // 5, если fruit="apple"
 ```
 
@@ -29,6 +30,7 @@ alert(bag.apple); // 5, если fruit="apple"
 
 ```js
 const object = { key: 1 };
+
 console.log("key" in object); // true
 ```
 
@@ -36,6 +38,7 @@ console.log("key" in object); // true
 
 ```js
 const obj = { name: "Анна", age: 25 };
+
 for (let key in obj) {
   console.log(key);
   console.log(obj[key]);
@@ -52,6 +55,7 @@ const dest = {};
 const src1 = { name: "Анна" };
 const src2 = { age: 25 };
 const src3 = { active: true };
+
 Object.assign(dest, src1, src2, src3);
 console.log(dest); // { name: "Анна", age: 25, active: true }
 // dest - целевой объект
@@ -66,6 +70,7 @@ console.log(dest); // { name: "Анна", age: 25, active: true }
 ```javascript
 const prototype = { active: true };
 const user = Object.create(prototype);
+
 console.log(user.active); // true: свойство найдено в прототипе
 ```
 
@@ -92,6 +97,7 @@ console.log(Object.entries({ age: 25 })); // [["age", 25]]
 ```javascript
 const source = { nested: { count: 1 } };
 const copy = Object.assign({}, source);
+
 copy.nested.count = 2;
 console.log(source.nested.count); // 2: вложенный объект общий
 ```
@@ -105,6 +111,7 @@ const source = {
   },
 };
 const target = { ...source };
+
 target.method2(); // 'method2'
 ```
 
@@ -114,6 +121,7 @@ target.method2(); // 'method2'
 
 ```javascript
 const user = Object.freeze({ name: "Анна", settings: { dark: false } });
+
 user.settings.dark = true; // вложенный объект не заморожен
 console.log(Reflect.set(user, "name", "Иван")); // false
 ```
@@ -122,6 +130,7 @@ console.log(Reflect.set(user, "name", "Иван")); // false
 
 ```javascript
 const user = Object.seal({ name: "Анна" });
+
 user.name = "Иван";
 console.log(Reflect.deleteProperty(user, "name")); // false
 console.log(Reflect.set(user, "age", 25)); // false
@@ -131,6 +140,7 @@ console.log(Reflect.set(user, "age", 25)); // false
 
 ```javascript
 const user = Object.create(null);
+
 console.log(Object.getPrototypeOf(user)); // null
 ```
 
@@ -143,6 +153,7 @@ console.log(Object.getPrototypeOf(user)); // null
 
 ```javascript
 const values = [1, 2];
+
 console.log(values.push(3)); // 3 — новая длина
 console.log(values); // [1, 2, 3]
 ```
@@ -151,6 +162,7 @@ console.log(values); // [1, 2, 3]
 
 ```javascript
 const values = [1, 2];
+
 console.log(values.pop(), values); // 2, [1]
 ```
 
@@ -158,6 +170,7 @@ console.log(values.pop(), values); // 2, [1]
 
 ```javascript
 const values = [1, 2];
+
 console.log(values.shift(), values); // 1, [2]
 ```
 
@@ -165,6 +178,7 @@ console.log(values.shift(), values); // 1, [2]
 
 ```javascript
 const values = [2];
+
 console.log(values.unshift(1), values); // 2, [1, 2]
 ```
 
@@ -172,6 +186,7 @@ console.log(values.unshift(1), values); // 2, [1, 2]
 
 ```javascript
 const values = [10, 2, 1];
+
 values.sort((a, b) => a - b);
 console.log(values); // [1, 2, 10]
 ```
@@ -180,6 +195,7 @@ console.log(values); // [1, 2, 10]
 
 ```javascript
 const values = [1, 2, 3];
+
 console.log(values.splice(1, 1, 9)); // [2] — удалённые элементы
 console.log(values); // [1, 9, 3]
 ```
@@ -188,6 +204,7 @@ console.log(values); // [1, 9, 3]
 
 ```javascript
 const values = [1, 2, 3];
+
 values.reverse();
 console.log(values); // [3, 2, 1]
 ```
@@ -197,6 +214,7 @@ console.log(values); // [3, 2, 1]
 
 ```javascript
 const values = [1, 2, 3];
+
 console.log(values.slice(1, 2)); // [2]
 console.log(values); // [1, 2, 3]
 ```
@@ -271,6 +289,7 @@ console.log([].every(Boolean)); // true
 
 ```javascript
 const values = [1, 2, 3];
+
 values.fill(0, 1, 3);
 console.log(values); // [1, 0, 0]
 ```
@@ -279,6 +298,7 @@ console.log(values); // [1, 0, 0]
 
 ```javascript
 const values = [1, 2, 3, 4];
+
 values.copyWithin(0, 2, 4);
 console.log(values); // [3, 4, 3, 4]
 ```
@@ -295,6 +315,7 @@ console.log([1, 2].flatMap((n) => [n, n * 10])); // [1, 10, 2, 20]
 
 ```javascript
 const result = [1, 2].forEach((n) => console.log(n)); // 1, затем 2
+
 console.log(result); // undefined
 ```
 
@@ -303,6 +324,7 @@ console.log(result); // undefined
 
 ```javascript
 const words = "один два".split(" ");
+
 console.log(words); // ["один", "два"]
 console.log(words.join("-")); // "один-два"
 ```
@@ -329,14 +351,21 @@ console.log(Array.isArray({ length: 0 })); // false
 ```javascript
 const original = { nested: { value: 1 } };
 const alias = original;
+
 alias.nested.value = 2;
 console.log(original.nested.value); // 2: один объект
+
 const shallow = { ...original };
+
 console.log(shallow === original, shallow.nested === original.nested); // false, true
+
 const deep = structuredClone(original);
+
 deep.nested.value = 3;
 console.log(original.nested.value); // 2: вложенный объект скопирован
+
 const user = { name: "Анна", age: 25 };
+
 console.log("age" in user); // true
 delete user.age;
 console.log("age" in user); // false
@@ -348,6 +377,7 @@ console.log("age" in user); // false
   ```javascript
   const prototype = { active: true };
   const user = Object.create(prototype);
+
   console.log(user.active); // true: свойство найдено в прототипе
   ```
 - `Object.keys()` — возвращает массив собственных перечисляемых строковых ключей объекта.
@@ -370,6 +400,7 @@ console.log("age" in user); // false
   ```javascript
   const source = { nested: { count: 1 } };
   const copy = Object.assign({}, source);
+
   copy.nested.count = 2;
   console.log(source.nested.count); // 2: вложенный объект общий
   ```
@@ -377,6 +408,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = Object.freeze({ name: "Анна", settings: { dark: false } });
+
   user.settings.dark = true; // вложенный объект не заморожен
   console.log(Reflect.set(user, "name", "Иван")); // false
   ```
@@ -384,6 +416,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = Object.seal({ name: "Анна" });
+
   user.name = "Иван";
   console.log(Reflect.deleteProperty(user, "name")); // false
   console.log(Reflect.set(user, "age", 25)); // false
@@ -392,6 +425,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = Object.create(null);
+
   console.log(Object.getPrototypeOf(user)); // null
   ```
 
@@ -403,6 +437,7 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2];
+
     console.log(values.push(3)); // 3 — новая длина
     console.log(values); // [1, 2, 3]
     ```
@@ -410,24 +445,28 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2];
+
     console.log(values.pop(), values); // 2, [1]
     ```
   - `shift()` - извлекает элемент с начала.
 
     ```javascript
     const values = [1, 2];
+
     console.log(values.shift(), values); // 1, [2]
     ```
   - `unshift(...items)` - добавляет элементы в начало.
 
     ```javascript
     const values = [2];
+
     console.log(values.unshift(1), values); // 2, [1, 2]
     ```
   - `sort(func)` - сортирует массив «на месте» и возвращает его. Без функции сравнения сортирует по строковому представлению (порядку кодовых единиц UTF-16). Чтобы сравнивать элементы как числа, то надо писать свой callback.
 
     ```javascript
     const values = [10, 2, 1];
+
     values.sort((a, b) => a - b);
     console.log(values); // [1, 2, 10]
     ```
@@ -435,6 +474,7 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2, 3];
+
     console.log(values.splice(1, 1, 9)); // [2] — удалённые элементы
     console.log(values); // [1, 9, 3]
     ```
@@ -442,6 +482,7 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2, 3];
+
     values.reverse();
     console.log(values); // [3, 2, 1]
     ```
@@ -451,6 +492,7 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2, 3];
+
     console.log(values.slice(1, 2)); // [2]
     console.log(values); // [1, 2, 3]
     ```
@@ -519,6 +561,7 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2, 3];
+
     values.fill(0, 1, 3);
     console.log(values); // [1, 0, 0]
     ```
@@ -526,6 +569,7 @@ console.log("age" in user); // false
 
     ```javascript
     const values = [1, 2, 3, 4];
+
     values.copyWithin(0, 2, 4);
     console.log(values); // [3, 4, 3, 4]
     ```
@@ -541,6 +585,7 @@ console.log("age" in user); // false
 
     ```javascript
     const result = [1, 2].forEach(n => console.log(n)); // 1, затем 2
+
     console.log(result); // undefined
     ```
 
@@ -549,6 +594,7 @@ console.log("age" in user); // false
 
     ```javascript
     const words = "один два".split(" ");
+
     console.log(words); // ["один", "два"]
     console.log(words.join("-")); // "один-два"
     ```
@@ -574,6 +620,7 @@ console.log("age" in user); // false
   ```javascript
   const prototype = { active: true };
   const user = Object.create(prototype);
+
   console.log(user.active); // true: свойство найдено в прототипе
   ```
 
@@ -600,6 +647,7 @@ console.log("age" in user); // false
   ```javascript
   const source = { nested: { count: 1 } };
   const copy = Object.assign({}, source);
+
   copy.nested.count = 2;
   console.log(source.nested.count); // 2: вложенный объект общий
   ```
@@ -608,6 +656,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = Object.freeze({ name: "Анна", settings: { dark: false } });
+
   user.settings.dark = true; // вложенный объект не заморожен
   console.log(Reflect.set(user, "name", "Иван")); // false
   ```
@@ -616,6 +665,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = Object.seal({ name: "Анна" });
+
   user.name = "Иван";
   console.log(Reflect.deleteProperty(user, "name")); // false
   console.log(Reflect.set(user, "age", 25)); // false
@@ -625,6 +675,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = Object.create(null);
+
   console.log(Object.getPrototypeOf(user)); // null
   ```
 
@@ -643,6 +694,7 @@ console.log("age" in user); // false
 
   ```javascript
   const user = { name: "Анна" };
+
   Object.defineProperty(user, "name", {
     writable: false,
   });
@@ -663,9 +715,11 @@ console.log(Object.keys(user)); // []: enumerable=false
 console.log(Reflect.set(user, "id", 2)); // false: writable=false
 console.log(Reflect.deleteProperty(user, "id")); // false: configurable=false
 console.log(Object.getOwnPropertyDescriptor(user, "id"));
+
 // { value: 1, writable: false, enumerable: false, configurable: false }
 
 let name = "Анна";
+
 Object.defineProperty(user, "name", {
   get() {
     return name;
@@ -691,6 +745,7 @@ console.log(user.name); // "Иван"
       yield 2;
     },
   };
+
   console.log([...iterable]); // [1, 2]
   ```
 

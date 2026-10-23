@@ -27,6 +27,7 @@ const funcExp = function (params) {
 ```javascript
 const funcExp = function namedFunc(n) {
   if (n <= 0) return;
+
   console.log(n);
   namedFunc(n - 1);
 };
@@ -67,6 +68,7 @@ const funcArr = (params) => {
 ```js
 (function () {
   const message = "Локальная переменная";
+
   console.log(message);
 })();
 ```
@@ -80,7 +82,9 @@ const funcArr = (params) => {
 function applyTwice(fn, value) {
   return fn(fn(value));
 } // функция высшего порядка
+
 console.log(applyTwice((n) => n + 1, 0)); // 2
+
 const user = {
   name: "Анна",
   makeGreeting() {
@@ -88,6 +92,7 @@ const user = {
   }, // this стрелки взят из вызова метода
 };
 const greet = user.makeGreeting();
+
 console.log(greet.call({ name: "Иван" })); // "Анна": call не меняет this стрелки
 ```
 
@@ -145,6 +150,7 @@ console.log(first("аргумент")); // "аргумент": arguments вне�
 function greet(name, greeting) {
   return `${greeting}, ${name}`;
 }
+
 console.log(greet("Анна", "Привет")); // "Привет, Анна"
 ```
 
@@ -161,8 +167,10 @@ function change(number, user) {
   user.name = "Иван";
   user = { name: "Пётр" }; // переназначается только локальный параметр
 }
+
 const number = 1;
 const user = { name: "Анна" };
+
 change(number, user);
 console.log(number, user.name); // 1, "Иван"
 ```
@@ -246,6 +254,7 @@ compare(1, 2, 3);
 ```javascript
 const original = [{ count: 1 }];
 const copy = [...original];
+
 copy[0].count = 2;
 
 console.log(copy === original, original[0].count); // false, 2
@@ -263,6 +272,7 @@ const c = [...a, ...b]; // [1, 2, 3, 4]
 
 ```javascript
 let [firstName, lastName] = ["Илья", "Кантор"];
+
 console.log(firstName); // Илья
 console.log(lastName); // Кантор
 ```
@@ -273,6 +283,7 @@ console.log(lastName); // Кантор
 
 ```javascript
 let a, b;
+
 [a, b] = [10, 20];
 console.log(a); // 10
 console.log(b); // 20
